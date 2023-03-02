@@ -35,7 +35,7 @@ model = Sequential()
 model.add(Dense(1, input_dim = 1))
 
 #3. COMPILE
-model.compile(loss = 'mse', optimizer = 'adam')
+model.compile(loss = 'mse', optimizer = 'adam') 
 model.fit(x_train, y_train, epochs = 100, batch_size = 1)
 
 #4. 평가, 예측
