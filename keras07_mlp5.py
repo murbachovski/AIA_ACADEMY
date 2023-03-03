@@ -33,6 +33,7 @@ model.fit(new_x, new_y, epochs = 100)
 #4. 평가, 예측
 loss = model.evaluate(new_x, new_y)
 print("loss: ", loss)
+
 #5. RESULT
 result = model.predict([[9, 30, 210]])
 print("result[[9, 30, 210]]의 예측값:", result)
