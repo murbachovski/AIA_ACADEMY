@@ -38,11 +38,11 @@ from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
     x,
     y,
-    test_size= 0.3,
-    random_state=66
+    train_size= 0.9,
+    random_state=123
 )
-model.compile(loss = 'mae', optimizer = 'adam')
-model.fit(x_train, y_train, epochs = 200, batch_size = 1)
+model.compile(loss = 'mse', optimizer = 'adam')
+model.fit(x_train, y_train, epochs = 3000, batch_size = 100)
 
 #4. EVALUATE, PREDICT
 loss = model.evaluate(x_test, y_test)
@@ -54,3 +54,4 @@ r2 = r2_score(y_test, y_predict) # GOOD, Y = wX + b, 보조지표
 print("R2_SCORE: ", r2)
 
 #r2_SCORE = 0.51
+#R2_SCORE:  0.6432587748923371

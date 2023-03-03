@@ -19,9 +19,11 @@ from tensorflow.keras.layers import Dense
 
 model = Sequential()
 model.add(Dense(10, input_dim = 8))
-model.add(Dense(20))
-model.add(Dense(30))
+model.add(Dense(10))
+model.add(Dense(10))
 model.add(Dense(40))
+model.add(Dense(10))
+model.add(Dense(10))
 model.add(Dense(1))
 
 
@@ -32,11 +34,11 @@ from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
     x,
     y,
-    train_size= 0.7,
-    random_state=15
+    train_size= 0.9,
+    random_state=475
 )
 model.compile(loss = 'mse', optimizer = 'adam')
-model.fit(x_train, y_train, epochs = 30)
+model.fit(x_train, y_train, epochs = 5000, batch_size = 860)
 
 #4. EVALUATE, PREDICT
 loss = model.evaluate(x_test, y_test)
@@ -46,3 +48,5 @@ y_predict = model.predict(x_test)
 from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_predict) # GOOD, Y = wX + b, 보조지표
 print("R2_SCORE: ", r2)
+
+# R2 = 0.58
