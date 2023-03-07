@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np 
 import tensorflow as tf  
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense  
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dense  
 from sklearn.metrics import r2_score, mean_absolute_error
 from sklearn.model_selection import train_test_split
 
@@ -51,7 +51,7 @@ model.add(Dense(1))                         # activation = 'relu'  음수를 0�
 
 #3. COMPILE
 model.compile(loss = 'mse', optimizer = 'adam')
-model.fit(x_train, y_train, epochs = 10, batch_size = 10, verbose = 1)
+model.fit(x_train, y_train, epochs = 10, batch_size = 10, verbose = 1, validation_split=0.4)
 
 #4. EVALUATE, PREDICT
 loss = model.evaluate(x_test, y_test)
