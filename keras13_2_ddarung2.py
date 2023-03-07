@@ -8,6 +8,7 @@ import pandas as pd # 전처리(CSV -> 데이터화)
 
 #1. DATA
 path = './_data/ddarung/' # path ./은 현재 위치
+path_save = './_save/ddarung/'
 # Column = Header
 
 # TRAIN
@@ -85,7 +86,7 @@ model.add(Dense(1))
 
 #3. COMPILE
 model.compile(loss = 'mse', optimizer = 'adam')
-model.fit(x_train, y_train, epochs = 2000, batch_size = 2, verbose=1)
+model.fit(x_train, y_train, epochs = 100, batch_size = 2, verbose=1)
 
 #4. EVALUATE, PREDICT
 loss = model.evaluate(x_test, y_test)
@@ -111,4 +112,4 @@ submission = pd.read_csv(path + "submission.csv",index_col=0)
 submission["count"] = y_submit
 # print(submission)
 
-submission.to_csv(path + "submit_7.csv")
+submission.to_csv(path_save + "submit_7.csv")
