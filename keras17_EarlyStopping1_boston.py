@@ -30,7 +30,15 @@ model.add(Dense(1))
 #3. COMPILE
 model.compile(loss = 'mse', optimizer='adam')
 from tensorflow.python.keras.callbacks import EarlyStopping
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min', verbose=1, restore_best_weights=True) #통상적으로 loss보다 val_loss가 낫다. # auto = accuracy/loss/val_loss 자동으로 mode설정해줍니다.
+es = EarlyStopping(
+    monitor='val_loss', 
+    patience=20, 
+    mode='aute', 
+    verbose=1, 
+    restore_best_weights=True
+    ) 
+#통상적으로 loss보다 val_loss가 낫다.
+# auto = accuracy/loss/val_loss 자동으로 mode설정해줍니다.
 hist = model.fit(x_train, y_train, epochs = 2000, batch_size = 16, validation_split=0.2, verbose = 1, callbacks=[es])
 
 #4. EVALUATE, PREDICT
@@ -46,9 +54,17 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams['font.family'] = 'Malgun Gothic'
 plt.figure(figsize=(9, 6)) 
-plt.plot(hist.history['loss'], marker = '.', c='red', label ='로쓰')
-plt.plot(hist.history['val_loss'], marker = '.', c='blue', label ='발로쓰')
-plt.title('보스턴')
+plt.plot(hist.history['loss'],
+         marker = '.',
+         c='red',
+         label ='loss'
+         )
+plt.plot(hist.history['val_loss'],
+         marker = '.',
+         c='blue',
+         label ='val_loss'
+         )
+plt.title('BOSTON')
 plt.xlabel('epochs')
 plt.ylabel('loss, val_loss')
 plt.legend()
