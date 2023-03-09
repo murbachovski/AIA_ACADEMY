@@ -58,7 +58,6 @@ from sklearn.metrics import r2_score, mean_squared_error, accuracy_score # MSE
 acc = accuracy_score(y_test, y_predict)
 print('acc: ', acc)
 print(y_test)
-print(y_predict, end= ' ')
 #acc:  0.9385964912280702
 import matplotlib.pyplot as plt  
 plt.figure(figsize=(9, 6)) 

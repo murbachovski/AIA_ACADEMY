@@ -29,17 +29,18 @@ x_train, x_test, y_train, y_test = train_test_split(
     x,
     y,
     shuffle=True,
-    random_state=11,
+    random_state=15,
     test_size=0.1
 )
 
 #3. MODEL
 model = Sequential()
-model.add(Dense(1, input_dim = x.shape[1], activation='relu')) 
-model.add(Dense(5, activation='relu'))
-model.add(Dense(5, activation='relu'))
-model.add(Dense(5, activation='relu'))
-model.add(Dense(3, activation='relu'))
+model.add(Dense(32, input_dim = x.shape[1], activation='relu')) 
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
 #4. COMPILE
@@ -47,16 +48,16 @@ model.compile(loss = 'binary_crossentropy',
               optimizer='adam',                   
               metrics=['accuracy'] 
               )    
-es = EarlyStopping(monitor='val_loss',
+es = EarlyStopping(monitor='val_accuracy',
                    patience=10,
                    mode='auto',
                    verbose=1,
                    restore_best_weights=True
-                   )  
+                   )
 model.fit(x_train,        
           y_train,
           epochs=1000,
-          batch_size=10,
+          batch_size=3,
           validation_split=0.2,
           verbose=1,
           callbacks=[es]
