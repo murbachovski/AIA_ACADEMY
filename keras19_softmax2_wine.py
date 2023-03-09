@@ -44,7 +44,7 @@ OneHotEncoder(
 )
 df = load_wine()
 x = df.data
-y = df.target.reshape(1, )
+y = df.target
 ohe = OneHotEncoder()
 transformed = ohe.fit_transform('pipeline')
 print(transformed.toarray())
