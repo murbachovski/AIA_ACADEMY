@@ -29,15 +29,15 @@ x_train, x_test, y_train, y_test = train_test_split(
     x,
     y,
     shuffle=True,
-    random_state=15,
-    test_size=0.1
+    random_state=9999,
+    test_size=0.05
 )
 
 #3. MODEL
 model = Sequential()
-model.add(Dense(32, input_dim = x.shape[1], activation='relu')) 
-model.add(Dense(16, activation='relu'))
-model.add(Dense(8, activation='relu'))
+model.add(Dense(9, input_dim = x.shape[1], activation='relu')) 
+model.add(Dense(2))
+model.add(Dense(3))
 model.add(Dense(1, activation='sigmoid'))
 
 #4. COMPILE
@@ -46,16 +46,16 @@ model.compile(loss = 'binary_crossentropy',
               metrics=['accuracy'] 
               )    
 es = EarlyStopping(monitor='val_accuracy',
-                   patience=10,
-                   mode='auto',
+                   patience=3000,
+                   mode='max',
                    verbose=1,
                    restore_best_weights=True
                    )
-model.fit(x_train,        
+hist = model.fit(x_train,        
           y_train,
-          epochs=1000,
-          batch_size=3,
-          validation_split=0.2,
+          epochs=10000,
+          batch_size=14,
+          validation_split=0.4,
           verbose=1,
           callbacks=[es]
           )
@@ -73,4 +73,8 @@ print('acc: ', acc)
 y_submit = np.round(model.predict(test_csv))
 submission = pd.read_csv(path + 'sample_submission.csv', index_col=0)
 submission['Outcome'] = y_submit
-submission.to_csv(path_save + 'diabetes_new2_submit.csv')
+submission.to_csv(path_save + 'diabetes_new_submit.csv')
+
+import matplotlib.pyplot as plt
+plt.plot(hist.history['val_accuracy'])
+plt.show()
