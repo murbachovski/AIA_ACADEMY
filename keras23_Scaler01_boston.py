@@ -17,13 +17,13 @@ y = dataset.target
 
 # #정규화 변환
 # print(np.min(x), np.max(x))     #0.0 711.0
-# scaler = MinMaxScaler()
-# scaler.fit(x)
-# x = scaler.transform(x)
+scaler = MinMaxScaler()
+scaler.fit(x)
+x = scaler.transform(x)
 # print(np.min(x), np.max(x))     #0.0 1.0
-scaler = StandardScaler()
-scaler = MaxAbsScaler()
-scaler = RobustScaler()
+# scaler = StandardScaler()
+# scaler = MaxAbsScaler()
+# scaler = RobustScaler()
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,
@@ -32,20 +32,20 @@ x_train, x_test, y_train, y_test = train_test_split(
     random_state=333
 )
 
-# scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train = scaler.transform(x_train)
-# x_test = scaler.transform(x_test)
-# print(np.min(x_test), np.max(x_test))     #-0.005578376185404939 1.1478180091225065
+scaler = MinMaxScaler()
+scaler.fit(x_train)
+x_train = scaler.transform(x_train)
+x_test = scaler.transform(x_test)
+print(np.min(x_test), np.max(x_test))     #-0.005578376185404939 1.1478180091225065
 
-# #2. MODEL
-# model = Sequential()
-# model.add(Dense(1, input_dim=x.shape[1]))
+#2. MODEL
+model = Sequential()
+model.add(Dense(1, input_dim=x.shape[1]))
 
-# #3. COMPILE
-# model.compile(loss = 'mse', optimizer='adam')
-# model.fit(x_train, y_train, epochs=10)
+#3. COMPILE
+model.compile(loss = 'mse', optimizer='adam')
+model.fit(x_train, y_train, epochs=10)
 
-# #4. PREDICT
-# loss = model.evaluate(x_test, y_test)
-# print('loss: ', loss)
+#4. PREDICT
+loss = model.evaluate(x_test, y_test)
+print('loss: ', loss)

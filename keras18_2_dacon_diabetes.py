@@ -46,7 +46,7 @@ model.compile(loss = 'binary_crossentropy',
               metrics=['accuracy'] 
               )    
 es = EarlyStopping(monitor='val_accuracy',
-                   patience=3000,
+                   patience=1000,
                    mode='max',
                    verbose=1,
                    restore_best_weights=True
@@ -54,7 +54,7 @@ es = EarlyStopping(monitor='val_accuracy',
 hist = model.fit(x_train,        
           y_train,
           epochs=10000,
-          batch_size=14,
+          batch_size=13,
           validation_split=0.4,
           verbose=1,
           callbacks=[es]
@@ -73,7 +73,7 @@ print('acc: ', acc)
 y_submit = np.round(model.predict(test_csv))
 submission = pd.read_csv(path + 'sample_submission.csv', index_col=0)
 submission['Outcome'] = y_submit
-submission.to_csv(path_save + 'diabetes_new_submit.csv')
+submission.to_csv(path_save + 'diabetes_new_last_submit.csv')
 
 import matplotlib.pyplot as plt
 plt.plot(hist.history['val_accuracy'])
