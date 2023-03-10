@@ -56,27 +56,37 @@ es = EarlyStopping(mode='auto',
                    restore_best_weights=True,
                    verbose=1
                    )
-hist = model.fit(x_train, y_train, epochs=1000, batch_size=1, validation_split=0.2, verbose=1, callbacks=[es])
+hist = model.fit(x_train, y_train, epochs=10, batch_size=1, validation_split=0.2, verbose=1, callbacks=[es])
 
 #4. EVALUATE, PREDICT
-results = model.evaluate(x_test, y_test)
-print('results: ', results)
-y_predict = np.round(model.predict(x_test))
-from sklearn.metrics import r2_score, mean_squared_error, accuracy_score # MSE
-acc = accuracy_score(y_test, y_predict)
+loss = model.evaluate(x_test, y_test)
+y_predict = model.predict(x_test)
+print(y_predict)
+y_predict = np.argmax(y_predict, axis=1)
+y_true = np.argmax(y_test, axis=1)
+print(y_true)    #[2 2 2 1 1 0 0 1 2 0 1 1 2 0 0]
+print(y_predict) #[2 2 2 1 1 0 0 1 2 0 1 1 2 0 0]
+
+acc = accuracy_score(y_true, y_predict)
 print('acc: ', acc)
 
-import matplotlib.pyplot as plt  
-plt.figure(figsize=(9, 6)) 
-plt.plot(hist.history['acc'], marker = '.', c='red', label ='acc')
-plt.plot(hist.history['val_acc'], marker = '.', c='blue', label ='val_acc')
-# print(hist.history)
-plt.title('load_breast_cancer')
-plt.xlabel('epochs')
-plt.ylabel('acc, val_acc')
-plt.legend()
-plt.grid()
-plt.show()
+# axis = 0  => 행
+
+# axis = 1  => 열
+
+
+
+# import matplotlib.pyplot as plt  
+# plt.figure(figsize=(9, 6)) 
+# plt.plot(hist.history['acc'], marker = '.', c='red', label ='acc')
+# plt.plot(hist.history['val_acc'], marker = '.', c='blue', label ='val_acc')
+# # print(hist.history)
+# plt.title('load_breast_cancer')
+# plt.xlabel('epochs')
+# plt.ylabel('acc, val_acc')
+# plt.legend()
+# plt.grid()
+# plt.show()
 
 # + 얼리스타핑
 # + 에큐러시스코어
