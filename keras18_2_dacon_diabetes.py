@@ -37,10 +37,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 model = Sequential()
 model.add(Dense(32, input_dim = x.shape[1], activation='relu')) 
 model.add(Dense(16, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='relu'))
+model.add(Dense(8, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
 #4. COMPILE

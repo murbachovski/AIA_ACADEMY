@@ -59,36 +59,30 @@ es = EarlyStopping(mode='auto',
 hist = model.fit(x_train, y_train, epochs=10, batch_size=1, validation_split=0.2, verbose=1, callbacks=[es])
 
 #4. EVALUATE, PREDICT
-loss = model.evaluate(x_test, y_test)
-y_predict = model.predict(x_test)
-print(y_predict)
-y_predict = np.argmax(y_predict, axis=1)
-y_true = np.argmax(y_test, axis=1)
-print(y_true)    #[2 2 2 1 1 0 0 1 2 0 1 1 2 0 0]
-print(y_predict) #[2 2 2 1 1 0 0 1 2 0 1 1 2 0 0]
+# loss = model.evaluate(x_test, y_test)
+# y_predict = model.predict(x_test)
+# print(y_predict)
+# y_predict = np.argmax(y_predict, axis=1)
+# y_true = np.argmax(y_test, axis=1)
+# print(y_true)    #[2 2 2 1 1 0 0 1 2 0 1 1 2 0 0]
+# print(y_predict) #[2 2 2 1 1 0 0 1 2 0 1 1 2 0 0]
 
-acc = accuracy_score(y_true, y_predict)
-print('acc: ', acc)
-
-# axis = 0  => 행
-
-# axis = 1  => 열
-
-
-
-# import matplotlib.pyplot as plt  
-# plt.figure(figsize=(9, 6)) 
-# plt.plot(hist.history['acc'], marker = '.', c='red', label ='acc')
-# plt.plot(hist.history['val_acc'], marker = '.', c='blue', label ='val_acc')
-# # print(hist.history)
-# plt.title('load_breast_cancer')
-# plt.xlabel('epochs')
-# plt.ylabel('acc, val_acc')
-# plt.legend()
-# plt.grid()
-# plt.show()
-
-# + 얼리스타핑
-# + 에큐러시스코어
+# acc = accuracy_score(y_true, y_predict)
+# print('acc: ', acc)
 
 #accuracy_score를 사용해서 스코어를 빼세요.
+
+#4. EVALUATE, PREDICT
+results = model.evaluate(x_test, y_test) # loss, acc출력이 되기에 [0.5692639946937561, 0.6666666865348816]
+print(results)
+print('loss: ', results[0])
+print('acc: ', results[1])
+y_pred = model.predict(x_test)
+# print(y_test.shape) # (15, 3)
+# print(y_pred.shape) # (15, 3)
+# print(y_test[:5])
+# print(y_pred[:5])
+y_test_acc = np.argmax(y_test, axis=1) # 각 행에 있는 열끼리 비교
+y_pred = np.argmax(y_pred, axis=1) #
+acc = accuracy_score(y_test_acc, y_pred)
+print('acc:', acc)
