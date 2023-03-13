@@ -1,4 +1,4 @@
-from sklearn.datasets import load_boston
+from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
@@ -9,30 +9,31 @@ from sklearn.preprocessing import MaxAbsScaler, RobustScaler
                                                 
 
 #1. DATA
-dataset = load_boston()
+dataset = load_breast_cancer()
 x = dataset.data
 y = dataset.target
 # print(type(x))
 # print(x)
 
 # #정규화 변환
-# print(np.min(x), np.max(x))     #0.0 711.0
-# MinMaxScaler() loss:  603.4655151367188
+# print(np.min(x), np.max(x))
+# MinMaxScaler()                # loss:  0.3437890112400055
 # scaler = MinMaxScaler()
 # scaler.fit(x)
 # x = scaler.transform(x)
-# print(np.min(x), np.max(x))     #0.0 1.0
-# StandardScaler()
-# scaler = StandardScaler() # loss:  590.4216918945312
+# print(np.min(x), np.max(x))    
+# StandardScaler()              # loss:  0.5944067239761353
+# scaler = StandardScaler()
 # scaler.fit(x)
 # x = scaler.transform(x)
-# MaxAbsScaler() # loss:  572.6917724609375
+# MaxAbsScaler()                # loss:  0.6479676365852356
 # scaler = MaxAbsScaler()
 # scaler.fit(x)
 # x = scaler.transform(x)
-# scaler = RobustScaler() #loss:  559.976806640625
-# scaler.fit(x)
-# x = scaler.transform(x)
+# RobustScaler()                # loss:  1.2768038511276245
+scaler = RobustScaler()         
+scaler.fit(x)
+x = scaler.transform(x)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,
@@ -40,12 +41,10 @@ x_train, x_test, y_train, y_test = train_test_split(
     test_size=0.2, 
     random_state=333
 )
-
-scaler = MinMaxScaler()
 scaler.fit(x_train)
 x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
-print(np.min(x_test), np.max(x_test))     #-0.005578376185404939 1.1478180091225065
+print(np.min(x_test), np.max(x_test))
 
 #2. MODEL
 model = Sequential()
