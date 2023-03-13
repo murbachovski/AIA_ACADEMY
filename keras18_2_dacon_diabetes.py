@@ -46,7 +46,7 @@ model.compile(loss = 'binary_crossentropy',
               metrics=['accuracy'] 
               )    
 es = EarlyStopping(monitor='val_accuracy',
-                   patience=1000,
+                   patience=2000,
                    mode='max',
                    verbose=1,
                    restore_best_weights=True
@@ -59,6 +59,8 @@ hist = model.fit(x_train,
           verbose=1,
           callbacks=[es]
           )
+
+model.save('./_save/keras26_dacon_daiabetes_save_model.h5')
 
 #5. EVALUATE, PREDICT
 results = model.evaluate(x_test, y_test)
