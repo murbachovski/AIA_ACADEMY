@@ -52,6 +52,7 @@ model.add(Dense(1, input_dim = 'sigmoid'))
 
 #3. COMPILE
 model.compile(loss = 'binary_crossentropy', optimizer='adam')
+print(x.shape, y.shape) #(150, 4) (150,)
 model.fit(x_train, y_train, epochs=10)
 
 #4. PREDICT
