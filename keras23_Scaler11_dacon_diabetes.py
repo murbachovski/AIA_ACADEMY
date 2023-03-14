@@ -59,6 +59,7 @@ es = EarlyStopping(monitor='val_accuracy',
                    verbose=1,
                    restore_best_weights=True
                    )
+print("###########",x_train.shape, y_train.shape)
 hist = model.fit(x_train,        
           y_train,
           epochs=10000,
