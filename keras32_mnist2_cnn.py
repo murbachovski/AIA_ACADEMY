@@ -17,7 +17,7 @@ x_test = x_test.reshape(10000, 28, 28, 1)   #구조만 바뀌는 것이다.
 #실습
 
 # ONE_HOT
-y_train = to_categorical(y_train)
+y_train = to_categorical(y_train) 
 y_test = to_categorical(y_test)
 
 # reshape #2차원으로 바꿔주기.
