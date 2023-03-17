@@ -7,7 +7,7 @@ from sklearn.metrics import r2_score, mean_squared_error, accuracy_score, f1_sco
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
 from sklearn.preprocessing import MinMaxScaler, RobustScaler, StandardScaler, MaxAbsScaler
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 import matplotlib.pyplot as plt
 import datetime #시간으로 저장해주는 고마운 녀석
 date = datetime.datetime.now()
@@ -29,7 +29,7 @@ print(train_csv, test_csv)
 train_csv = train_csv.dropna()
 
 # x, y SPLIT
-x = train_csv.drop([train_csv.columns[-1]], axis=1)
+x = train_csv.drop([train_csv.columns[-1], train_csv.columns[4]], axis=1)
 y = train_csv[train_csv.columns[-1]]
 print(x.shape, y.shape) #(30200, 12) (30200,)
 
@@ -40,8 +40,8 @@ y = to_categorical(y)
 x_train, x_test, y_train, y_test = train_test_split(
     x,
     y,
-    test_size=0.3,
-    random_state=2222,
+    test_size=0.25,
+    random_state=9999,
     stratify=y
 )
 
@@ -53,23 +53,27 @@ x_test = scaler.transform(x_test)
 print(np.unique(y_train, return_counts=True))
 
 #2. MODEL
-# model = Sequential()
-# model.add(Dense(256, input_shape=(12,)))
-# model.add(Dropout(0.3))
-# model.add(Dense(128, activation='relu'))
-# model.add(Dropout(0.2))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dropout(0.1))
-# model.add(Dense(2, activation='softmax'))
+model = Sequential()
+model.add(Dense(256, input_shape=(11,)))
+model.add(Dropout(0.3))
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.3))
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(2, activation='softmax'))
 
-model = load_model('_save\call\dacon_call0316_4343_0001_0.0875_0.9663.hdf5')
+# model = load_model('_save\call\dacon_call0316_4343_0001_0.0875_0.9663.hdf5')
 
 #3. COMPILE
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
 es = EarlyStopping(
     monitor='val_acc',
     mode='auto',
-    patience=50,
+    patience=100,
     restore_best_weights=True
 )
 mcp = ModelCheckpoint(
@@ -79,24 +83,24 @@ mcp = ModelCheckpoint(
     save_best_only=True,
     filepath="".join([filepath, 'dacon_call', date, '_', filename])
 )
-hist = model.fit(x_train, y_train, epochs=1000, validation_split=0.3, batch_size=2000, callbacks=[es])
-# model.save('./_save/call/call_model_of_best.h5')
+hist = model.fit(x_train, y_train, epochs=5000, validation_split=0.25, batch_size=1000, callbacks=[es])
+model.save('./_save/call/call_model_of_best.h5')
 # model = load_model('_save\call\call_model_best.h5')
-# es = EarlyStopping(
-#     monitor='val_acc',
-#     mode='auto',
-#     patience=50,
-#     restore_best_weights=True
-# ) 
-# mcp = ModelCheckpoint(
-#     monitor='val_acc',
-#     mode='auto',
-#     verbose=1,
-#     save_best_only=True,
-#     filepath="".join([filepath, 'dacon_call', date, '_', filename])
-# )
-# hist = model.fit(x_train, y_train, epochs=1000, validation_split=0.3, batch_size=9000, callbacks=[es, mcp])
-# model.save('./_save/call/call_model_best.h5')
+es = EarlyStopping(
+    monitor='val_acc',
+    mode='auto',
+    patience=100,
+    restore_best_weights=True
+) 
+mcp = ModelCheckpoint(
+    monitor='val_acc',
+    mode='auto',
+    verbose=1,
+    save_best_only=True,
+    filepath="".join([filepath, 'dacon_call', date, '_', filename])
+)
+# hist = model.fit(x_train, y_train, epochs=100, validation_split=0.25, batch_size=500, callbacks=[es])
+model.save('./_save/call/call_model_best.h5')
 
 #4. PREDICT
 results = model.evaluate(x_test, y_test)
@@ -111,6 +115,7 @@ f1 = f1_score(y_test_acc, y_predict_acc, average='macro')
 print('ACC: ', acc, 'f1: ', f1)
 
 #5. SUBMIT
+test_csv = test_csv.drop(test_csv[4], axis=1)
 test_csv_sc = scaler.transform(test_csv)
 y_submit = model.predict(test_csv_sc)
 y_submit = np.argmax(y_submit, axis=1)

@@ -2,7 +2,7 @@ from keras.datasets import mnist
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
 import numpy as np
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
 
 
@@ -33,6 +33,17 @@ model.add(Flatten())
 model.add(Dense(10, activation='softmax'))
 
 model.summary()
+
+#3. COMPILE
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(x_train, y_train, epochs=100, batch_size=128)
+
+
+# #4. EVALUATE
+results = model.evaluate(x_test, y_test)
+print('loss: ', results[0], 'acc: ', results[1])
+
+# loss:  1.6532992124557495 acc:  0.9839000105857849
 
 # # reshape #2차원으로 바꿔주기.
 # x_train = x_train.reshape(60000, 28*28)
