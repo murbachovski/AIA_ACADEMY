@@ -15,7 +15,7 @@ date = datetime.datetime.now()
 date = date.strftime('%m%d_%M%M')
 filepath = ('./_save/call/')
 filename = '{epoch:04d}_{val_loss:.4f}_{val_acc:.4f}.hdf5'
-
+#test
 #1. DATA
 path = ('./_data/call/')
 path_save = ('./_save/call/')
