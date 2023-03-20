@@ -101,50 +101,55 @@ filename = '{epoch:04d}-{val_loss:.2f}.hdf5'
 start_time = time.time()
 #2. 모델구성
 
-input1 = Input(shape=(75,))
-dense1 = Dense(512,activation='relu')(input1)
-drop1 = Dropout(0.5)(dense1)
-dense2 = Dense(256,activation='relu')(drop1)
-drop2 = Dropout(0.5)(dense2)
-dense3 = Dense(128,activation='relu')(drop2)
-drop3 = Dropout(0.5)(dense3)
-dense4 = Dense(64,activation='relu')(drop3)
-drop4 = Dropout(0.5)(dense4)
-dense5 = Dense(32,activation='relu')(drop4)
-drop5 = Dropout(0.5)(dense5)
-output1 = Dense(1,activation='relu')(drop5)
+# input1 = Input(shape=(75,))
+# dense1 = Dense(512,activation='relu')(input1)
+# drop1 = Dropout(0.5)(dense1)
+# dense2 = Dense(256,activation='relu')(drop1)
+# drop2 = Dropout(0.5)(dense2)
+# dense3 = Dense(128,activation='relu')(drop2)
+# drop3 = Dropout(0.5)(dense3)
+# dense4 = Dense(64,activation='relu')(drop3)
+# drop4 = Dropout(0.5)(dense4)
+# dense5 = Dense(32,activation='relu')(drop4)
+# drop5 = Dropout(0.5)(dense5)
+# output1 = Dense(1,activation='relu')(drop5)
 
-model = Model(inputs = input1, outputs=output1)
+# model = Model(inputs = input1, outputs=output1)
 
 
 
 # #3. 컴파일,훈련
 
-es = earlyStopping = EarlyStopping(monitor='val_loss',
-                              patience=100,
-                              mode='auto', 
-                              verbose=1,
-                              restore_best_weights=True)
+# es = earlyStopping = EarlyStopping(monitor='val_loss',
+#                               patience=100,
+#                               mode='auto', 
+#                               verbose=1,
+#                               restore_best_weights=True)
 
-model.compile(loss='mae', optimizer='adam', metrics=['mae'])
+# model.compile(loss='mae', optimizer='adam', metrics=['mae'])
 
-mcp = ModelCheckpoint(monitor='val_loss',
-                      mode='auto',
-                      verbose=1,
-                      filepath=''.join([filepath+'k36_1_'+date+'_'+filename])
-                      )
+# mcp = ModelCheckpoint(monitor='val_loss',
+#                       mode='auto',
+#                       verbose=1,
+#                       filepath=''.join([filepath+'kaggle_house_'+date+'_'+filename])
+#                       )
 
-hist = model.fit(x_train,y_train,
-                 epochs=5000,
-                 batch_size=32, 
-                 validation_split=0.2,
-                 callbacks = [es],
-                 verbose=1)
+# hist = model.fit(x_train,y_train,
+#                  epochs=5000,
+#                  batch_size=32, 
+#                  validation_split=0.2,
+#                  callbacks = [es],
+#                  verbose=1)
 
 
 end_time = time.time()
-
-            
+model = load_model('_save\kaggle_house\kaggle_house_model.h5')
+# model.save('./_save/kaggle_house/kaggle_house_model.h5')
+hist = model.fit(x_train,y_train,
+                 epochs=1000,
+                 batch_size=32, 
+                 validation_split=0.2,
+                 verbose=1)
 #4. 평가,예측
 loss = model.evaluate(x_test, y_test)
 print('loss :', loss)
@@ -154,4 +159,4 @@ r2 = r2_score(y_test, y_predict)
 print('r2스코어 :', r2)
 submit = model.predict(test_set)
 submission['SalePrice'] = submit
-submission.to_csv('./_save/kaggle_house/subtest3.csv')
+submission.to_csv('./_save/kaggle_house/submit.csv')
