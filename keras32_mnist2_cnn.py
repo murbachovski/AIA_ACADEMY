@@ -2,7 +2,7 @@ from keras.datasets import mnist
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, Conv2D, Flatten, Dropout
 import numpy as np
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
 
 
