@@ -45,6 +45,15 @@ for col in tqdm_notebook(cols):
 
 print(type(train_set))
 
+# print(test_set)
+# print(train_set.shape) #(1460,76)
+# print(test_set.shape) #(1459, 75)
+
+# print(train_set.columns)
+# print(train_set.info()) 
+# print(train_set.describe()) 
+
+# print(train_set.isnull().sum())
 train_set = train_set.fillna(train_set.median())
 # print(train_set.isnull().sum())
 # print(train_set.shape)
@@ -59,7 +68,6 @@ print(type(x))
 y = train_set['SalePrice']
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, train_size = 0.90, shuffle = True, random_state = 687)
-
 scaler = MinMaxScaler()
 scaler.fit(x_train)
 x_train=scaler.transform(x_train)
