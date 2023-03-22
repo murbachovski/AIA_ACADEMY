@@ -1,6 +1,6 @@
 import numpy as np
 from tensorflow.keras.models import Sequential, save_model
-from tensorflow.keras.layers import Dense, SimpleRNN, LSTM
+from tensorflow.keras.layers import Dense, SimpleRNN, LSTM, GRU
 from keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 
@@ -24,9 +24,8 @@ x_train, x_test, y_train, y_test = train_test_split(
 #2. MODEL
 model = Sequential()
 model.add(LSTM(10, input_shape=(5, 1)))
-model.add(Dense(10, activation='relu'))
-model.add(Dense(11, activation='relu'))
+model.add(Dense(7))
 model.add(Dense(1))
 model.summary()
-# (input_dim + 10) * 10 + 10 = (input_dim + 1) * output_dim + output_dim^2, where input_dim is the number of input features to the layer.
-# (1 + 10) * 10 + 10 = 120
+
+# loss:  7.076236215652898e-05 result:  [[78.20666]]
