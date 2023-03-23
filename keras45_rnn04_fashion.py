@@ -71,3 +71,5 @@ y_test = np.argmax(y_test, axis=1)
 y_predict = np.argmax(y_predict, axis=1)
 acc = accuracy_score(y_test, y_predict)
 print('loss: ', results[0], 'acc: ', results[1], 'acc: ', acc)
+
+# loss:  0.3894904851913452 acc:  0.8604999780654907 acc:  0.8605
