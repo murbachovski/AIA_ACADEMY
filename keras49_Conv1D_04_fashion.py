@@ -1,6 +1,6 @@
 from keras.datasets import fashion_mnist
 from keras.models import Sequential
-from keras.layers import Dense, Flatten, Dropout, LSTM
+from keras.layers import Dense, Flatten, Dropout, LSTM, Conv1D
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
@@ -43,7 +43,8 @@ x_test = x_test.reshape(10000, 28, 28)
 
 #2. MODEL
 model = Sequential()
-model.add(LSTM(256, input_shape=(28, 28))) # == model.add(Dense(64, input_shape=(28*28,)))
+model.add(Conv1D(256, 2, input_shape=(28, 28))) # == model.add(Dense(64, input_shape=(28*28,)))
+model.add(Flatten())
 model.add(Dropout(0.5))
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.3))
@@ -62,7 +63,7 @@ es = EarlyStopping(
     patience=50,
     restore_best_weights=True
 )
-model.fit(x_train, y_train, epochs=1000, batch_size=128, validation_split=0.025, callbacks=[es])
+model.fit(x_train, y_train, epochs=10, batch_size=128, validation_split=0.025, callbacks=[es])
 
 #4. EVALUATE
 results = model.evaluate(x_test, y_test)
@@ -73,3 +74,4 @@ acc = accuracy_score(y_test, y_predict)
 print('loss: ', results[0], 'acc: ', results[1], 'acc: ', acc)
 
 # loss:  0.3894904851913452 acc:  0.8604999780654907 acc:  0.8605
+# loss:  0.9514796137809753 acc:  0.5723999738693237 acc:  0.5724

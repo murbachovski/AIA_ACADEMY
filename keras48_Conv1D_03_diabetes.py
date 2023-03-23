@@ -1,7 +1,7 @@
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense
+from tensorflow.python.keras.layers import Dense, Flatten, Conv1D
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
                                                 #표준정보중심
@@ -49,7 +49,8 @@ x_test = x_test.reshape(89, 10, 1)
 
 #2. MODEL
 model = Sequential()
-model.add(Dense(256, input_shape=(10, 1)))
+model.add(Conv1D(256, 2, input_shape=(10, 1)))
+model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
@@ -62,3 +63,5 @@ model.fit(x_train, y_train, epochs=10)
 #4. PREDICT
 loss = model.evaluate(x_test, y_test)
 print('loss: ', loss)
+
+#loss:  3673.392578125

@@ -2,7 +2,7 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.keras.models import Sequential     
-from tensorflow.python.keras.layers import Dense, LSTM     
+from tensorflow.python.keras.layers import Dense, LSTM, Conv1D, Flatten
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error # = MSE
 import pandas as pd # 전처리(CSV -> 데이터화)
@@ -104,7 +104,8 @@ x_test = x_test.reshape(399, 9, 1)
 
 #2. MODEL
 model = Sequential()
-model.add(LSTM(526, input_shape=(9, 1)))
+model.add(Conv1D(526, 4, input_shape=(9, 1)))
+model.add(Flatten())
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='relu'))
 model.add(Dense(4))
@@ -166,3 +167,7 @@ plt.show()
 # loss: 6543.89599609375
 # r2: -0.00013379314546280163
 # rmse:  80.89434981510709
+
+# loss: 2824.964599609375
+# r2: 0.568247601001469
+# rmse:  53.15039758407108

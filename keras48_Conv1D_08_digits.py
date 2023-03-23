@@ -1,7 +1,7 @@
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.models import Sequential, Input, Model
-from tensorflow.python.keras.layers import Dense, Dropout, Flatten, Conv2D, LSTM
+from tensorflow.python.keras.layers import Dense, Dropout, Flatten, Conv2D, LSTM, Conv1D
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
                                                 #표준정보중심
@@ -36,7 +36,8 @@ x_test = x_test.reshape(360, 8, 8)
 
 #2. MODEL
 model = Sequential()
-model.add(LSTM(256, input_shape=(8, 8)))
+model.add(Conv1D(256, 2, input_shape=(8, 8)))
+model.add(Flatten())
 model.add(Dropout(0.6))
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
@@ -75,3 +76,8 @@ print('acc:', acc)
 # loss: 0.7012812495231628
 # acc: 0.75
 # acc: 0.75
+
+#Conv1D
+# loss: 0.17879271507263184
+# acc: 0.9666666388511658
+# acc: 0.9666666666666667

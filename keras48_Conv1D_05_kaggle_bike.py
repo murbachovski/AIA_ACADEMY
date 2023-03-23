@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow.python.keras.models import Sequential, load_model
-from tensorflow.python.keras.layers import Dense, Dropout, LSTM
+from tensorflow.python.keras.layers import Dense, Dropout, LSTM, Conv1D, Flatten
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_absolute_error # MSE
 from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -55,7 +55,8 @@ x_test = x_test.reshape(3266, 8, 1)
 
 #2. MODEL
 model = Sequential()
-model.add(LSTM(256, input_shape=(8, 1)))
+model.add(Conv1D(256, 4, input_shape=(8, 1)))
+model.add(Flatten())
 model.add(Dropout(0.6))
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
@@ -130,3 +131,4 @@ plt.legend()
 plt.grid()
 plt.show()
 # loss:  34283.78125
+# loss:  24652.607421875

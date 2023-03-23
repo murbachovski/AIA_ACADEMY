@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sqlalchemy import null
 from tensorflow.python.keras.models import Sequential,load_model, Model
-from tensorflow.python.keras.layers import Dense,Dropout,Conv2D,Flatten, Input, LSTM, GRU
+from tensorflow.python.keras.layers import Dense,Dropout,Conv2D,Flatten, Input, LSTM, GRU, Conv1D
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.callbacks import EarlyStopping,ModelCheckpoint
 from sklearn.preprocessing import LabelEncoder
@@ -103,8 +103,8 @@ start_time = time.time()
 
 #2. 모델구성
 model = Sequential()
-model.add(LSTM(256, input_shape=(15, 5),return_sequences=True))
-model.add(GRU(24))
+model.add(Conv1D(256, 2, input_shape=(15, 5)))
+model.add(Flatten())
 model.add(Dropout(0.6))
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
@@ -155,5 +155,9 @@ from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_predict)
 print('r2스코어 :', r2)
 
+# loss : [185779.234375, 185779.234375]
+# r2스코어 : -6.077835202043531
+
+#Conv1D
 # loss : [185779.234375, 185779.234375]
 # r2스코어 : -6.077835202043531

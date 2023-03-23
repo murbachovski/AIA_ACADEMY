@@ -1,7 +1,7 @@
 # from sklearn.datasets import fetch_covtype
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential, Model
-from tensorflow.keras.layers import Dense, Dropout, Input, Conv2D, MaxPooling2D, Flatten, LSTM, GRU
+from tensorflow.keras.layers import Dense, Dropout, Input, Conv2D, MaxPooling2D, Flatten, LSTM, GRU, Conv1D
 import numpy as np
 from sklearn.metrics import r2_score, accuracy_score
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
@@ -47,8 +47,8 @@ x_test = x_test.reshape(-1, 4, 2)
 
 #2. 모델 구성
 model = Sequential()
-model.add(LSTM(256, input_shape=(4, 2),return_sequences=True))
-model.add(GRU(24))
+model.add(Conv1D(256, 2, input_shape=(4, 2)))
+model.add(Flatten())
 model.add(Dropout(0.6))
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
@@ -90,4 +90,9 @@ print('acc :', acc)
 # acc : 0.7099236641221374
 
 # result : 0.617805540561676
+# acc : 0.3511450381679389
+
+
+#Conv1D
+# result : 0.6029714345932007
 # acc : 0.3511450381679389

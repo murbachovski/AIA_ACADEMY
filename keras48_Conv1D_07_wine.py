@@ -1,7 +1,7 @@
 from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.models import Sequential, Input, Model
-from tensorflow.python.keras.layers import Dense, Dropout, Flatten, Conv2D, LSTM
+from tensorflow.python.keras.layers import Dense, Dropout, Flatten, Conv2D, LSTM, Conv1D
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
                                                 #표준정보중심
@@ -38,7 +38,8 @@ print(np.unique(y, return_counts=True))
 
 #2. MODEL
 model = Sequential()
-model.add(LSTM(256, input_shape=(13, 1)))
+model.add(Conv1D(256, 2, input_shape=(13, 1)))
+model.add(Flatten())
 model.add(Dropout(0.6))
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
@@ -75,5 +76,10 @@ print('acc:', acc)
 
 # [0.32748353481292725, 0.9444444179534912]
 # loss: 0.32748353481292725
+# acc: 0.9444444179534912
+# acc: 0.9444444444444444
+
+#Conv1D
+# loss: 0.12292537093162537
 # acc: 0.9444444179534912
 # acc: 0.9444444444444444

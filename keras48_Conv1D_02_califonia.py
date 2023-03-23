@@ -1,7 +1,7 @@
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, LSTM
+from tensorflow.python.keras.layers import Dense, LSTM, Conv1D, Flatten
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
                                                 #표준정보중심
@@ -31,7 +31,8 @@ x_train = x_train.reshape(16512, 8, 1)
 x_test = x_test.reshape(4128, 8, 1)
 #2. MODEL
 model = Sequential()
-model.add(LSTM(1, input_shape=(8, 1)))
+model.add(Conv1D(256, 2, input_shape=(8, 1)))
+model.add(Flatten())
 model.add(Dense(6, activation='relu'))
 model.add(Dense(4, activation='relu'))
 model.add(Dense(1))
@@ -43,4 +44,5 @@ model.fit(x_train, y_train, epochs=10, batch_size=100)
 #4. PREDICT
 loss = model.evaluate(x_test, y_test)
 print('loss: ', loss)
-# loss:  1.2761210203170776
+# loss:  1.2713392972946167
+# loss:  0.5506695508956909 used Flatten
