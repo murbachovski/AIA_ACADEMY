@@ -25,12 +25,11 @@ def split_pred_x(x_predict, timesteps_pred):
 
 
 bbb = split_x(dataset, timesteps)
-print(bbb)
-print(bbb.shape) 
+# print(bbb)
+# print(bbb.shape) 
 ddd = split_pred_x(x_predict, timesteps_pred)
 # print(ddd)
 # print(ddd.shape)
-bbb = bbb.reshape(97, 4, 1, 1)
 
 x = bbb[:, :-1]
 y = bbb[:, -1]
@@ -42,10 +41,12 @@ print(x_predict.shape)
 
 #2. MODEL
 model = Sequential()
-model.add(LSTM(128, input_shape=(4, 1, 1), return_sequences=True))
-model.add(LSTM(64, return_sequences=True, activation='relu'))
-model.add(GRU(32, return_sequences=True, activation='relu'))
-model.add(GRU(16, return_sequences=True, activation='relu'))
+model.add(Dense(128, input_shape=(3,)))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32))
+model.add(Dense(64))
+model.add(Dense(32))
+model.add(Dense(16))
 model.add(Dense(1))
 
 #3. COMPILE
@@ -56,12 +57,10 @@ es = EarlyStopping(
     patience=100,
     restore_best_weights=True
 )
-model.fit(x, y, epochs=1000, callbacks=[es], batch_size=30)
+model.fit(x, y, epochs=100, batch_size=30)
 
 #4. PREDICT
 loss = model.evaluate(x, y)
 result = model.predict(x_predict)
-print('loss: ', loss, 'result: ', result)
-
-
-
+print('loss: ', loss)
+print('result: ', result)
