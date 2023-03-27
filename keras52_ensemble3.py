@@ -78,7 +78,7 @@ output3 = Dense(16, name='output3')(Dense144)
 
 #2-3 merge
 from tensorflow.keras.layers import concatenate, Concatenate # (소문자)함수, (대문자)클래스
-merge1 = concatenate([output1, output2, output3], name='mg1') #리스트 형태로 받아들임.
+merge1 = Concatenate()([output1, output2, output3]) #리스트 형태로 받아들임.
 merge2 = Dense(32, activation='relu', name='mg2')(merge1)
 merge3 = Dense(16, activation='relu', name='mg3')(merge2)
 hidden_output = Dense(1, name='last')(merge3)
