@@ -8,129 +8,182 @@
 #메일 제목: 김대진 [삼성 1차] 60,350.07원
 #메일 제목: 김대진 [삼성 2차] 60,350.07원
 #첨부 파일: keras53_samsung2_kdj_submit.py
-#첨부 파일: keras54_samsung4_kdj_submit.py
+#첨부 파일: keras53_samsung4_kdj_submit.py
 #가중치: _save/samsung/keras53_samsung2_kdj.h5/hdf5
 #가중치: _save/samsung/keras53_samsung4_kdj.h5/hdf5
 #오늘밤 23:59분 1차 23일(월) 23시59분 59초 / 28일(화) 23시 59분 59초
 
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder, RobustScaler
-from tensorflow.python.keras.models import Sequential, Model
-from tensorflow.python.keras.layers import Dense, Input, Dropout, LSTM, Bidirectional
+from tensorflow.python.keras.models import Sequential, Model, load_model, save_model
+from tensorflow.python.keras.layers import Dense, LSTM, Dropout, Conv1D, Input
+from sklearn.model_selection import train_test_split
+from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
+import time
+from sklearn.preprocessing import MinMaxScaler, RobustScaler, MaxAbsScaler, StandardScaler
+import matplotlib.pyplot as plt
 
 
 # DATA
-path = ('./_data/시험/')
-path_save = ('./_save/samsung/')
+path = './_data/시험/'
+dataset_s = pd.read_csv(path + '삼성전자 주가3.csv', thousands=',', encoding='utf-8')
+dataset_h = pd.read_csv(path + '현대자동차2.csv', thousands=',', encoding='utf-8')
 
-x1 = pd.read_csv(path + '삼성전자주가.csv', index_col=0)
-x2 = pd.read_csv(path + '현대자동차.csv', index_col=0)
-# print(x1, x2)
-# print(x1.shape, x2.shape) # (3260, 17) (3140, 17)
+# 이상치 적은 값 drop
+dataset_s = dataset_s.drop(['전일비', '금액(백만)'], axis=1)
+dataset_h = dataset_h.drop(['전일비', '금액(백만)'], axis=1)
+# print(dataset_s.head) # 앞 다섯개만 보기
+# print(dataset_h.head) # 앞 다섯개만 보기
+# print(dataset_s.info())
+dataset_s = dataset_s.fillna(0) # filena() 뭐하는 녀석이지?
+dataset_h = dataset_h.fillna(0)
+#print(dataset_s.head)
+#print(dataset_h.head)
 
-# ISNULL
-x1 = x1.dropna()
-x2 = x2.dropna()
-# print(x1, x2)
-# print(x1.shape, x2.shape) # (3257, 17) (3140, 17) #결측치가 있구나.
-x1 = x1[0 : 3140]
-x2 = x2[0 : 3140]
-# print(x1.shape) # (3140, 17) # x1, x2 x값을 맞춰주었다.
+# 액면분할 이후 데이터만 사용
+dataset_s = dataset_s.loc[dataset_s['일자'] >= '2018/05/04']
+dataset_h = dataset_h.loc[dataset_h['일자'] >= '2018/05/04']
 
-# x, y SPLIT
-x1 = x1.drop([x1.columns[4]], axis=1)
-x2 = x2.drop([x2.columns[4]], axis=1)
-y = x1[x1.columns[4]]
+# 오름차순 정렬
+dataset_s = dataset_s.sort_values(by=['일자'], axis=0, ascending=True)
+dataset_h = dataset_h.sort_values(by=['일자'], axis=0, ascending=True)
+#print(dataset_s.shape, dataset_h.shape) # (1206, 15) (1206, 15)
 
-# x1 = x1.astype(np.float32)
-# x2 = x2.astype(np.float32)
-# y = y.astype(np.float32)
+# 사용할 cols 지정
+#일자, 시가, 고가, 저가, 종가, 전일비, Unnamed: 6, 등락률, 거래량, 금액(백만), 신용비, 개인, 기관, 외인(수량), 외국계, 프로그램, 외인비
+feature_cols = ['시가', '고가', '저가', '기관', '거래량', '외국계', '종가']
+dataset_s = dataset_s[feature_cols]
+dataset_h = dataset_h[feature_cols]
 
-# print(x1, x2)
-# print(x1.shape, x2.shape, y.shape) # (3140, 16) (3140, 16) (3140,)
+# np.array
+dataset_s = np.array(dataset_s)
+dataset_h = np.array(dataset_h)
 
-######################################################### 등락률에 대해서 라벨인코더가 필요한 상황
-######################################################### 삼성과 현대의 x 크기가 다르다. 맞춰주어야 할거 같은데?
-######################################################### 일자도 라벨인코더 해주면 좋을거 같은데? (SCALER가 오류 나네)
+# def 시계열 함수 정의
+def split_xy(dataset, time_steps, y_column):
+    x, y = list(), list()
+    for i in range(len(dataset)):
+        x_end_number = i + time_steps
+        y_end_number = x_end_number + y_column -1
 
-# le = LabelEncoder() # 정의 핏 트랜스폼
-# le.fit(train_csv['type'])
-# aaa = le.transform(train_csv['type'])
-# train_csv['type'] = aaa
-# test_csv['type'] = le.transform(test_csv['type'])
+        if y_end_number > len(dataset):
+            break
+        tmp_x = dataset[i: x_end_number, : -1]
+        tmp_y = dataset[x_end_number -1 : y_end_number, -1]
+        x.append(tmp_x)
+        y.append(tmp_y)
+    return np.array(x), np.array(y)
+SIZE = 3
+COLSIZE = 1
+x1, y1 = split_xy(dataset_s, SIZE, COLSIZE)
+x2, y2 = split_xy(dataset_h, SIZE, COLSIZE)
+#print(x1.shape, y1.shape) # (1202, 3, 6) (1202, 3)
 
-# print(train_csv.shape, test_csv.shape) #(5497, 13) (1000, 12)
-# print(train_csv.columns)
-
-# print(x1)
-# print(type(x1)) 
-# print(x1.shape) 
-# print(np.unique(x1, return_counts=True))
-# print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-# print(x2)
-# print(type(x2)) 
-# print(x2.shape) 
-# print(np.unique(x2, return_counts=True))
-
-# TRAIN_TEST_SPLIT
-from sklearn.model_selection import train_test_split
-x1_train, x1_test = train_test_split(
+# TTS
+x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(
     x1,
-    train_size=0.7,
-    random_state=2222
-)
-x2_train, x2_test = train_test_split(
     x2,
-    train_size=0.7,
-    random_state=2222
-)
-y_train, y_test = train_test_split(
-    y,
-    train_size=0.7,
+    y1,
+    test_size=0.025,
+    shuffle=False,
     random_state=2222
 )
 
-# #SACLER
-# scaler = RobustScaler()
-# scaler.fit(x1_train)
-# x_train = scaler.transform(x1_train)
-# x_test = scaler.transform(x1_test)
+# SCALER
+scaler = RobustScaler()
+# print(x1_train.shape, x1_test.shape)
+# print(x2_train.shape, x2_test.shape)
+# print(y_train.shape, y_test.shape)
+# (1174, 3, 6) (31, 3, 6)
+# (1174, 3, 6) (31, 3, 6)
+# (1174, 1) (31, 1)
 
-print(x1_train.shape, x1_test.shape, x2_train.shape, x2_test.shape, y_train.shape, y_test.shape) # (2198, 16) (942, 16) (2198, 16) (942, 16) (2198,) (942,)
+x1_train = x1_train.reshape(1174*3, 6)
+x1_train = scaler.fit_transform(x1_train)
+x1_test = x1_test.reshape(31*3, 6)
+x1_test = scaler.transform(x1_test)
 
-# MODEL
-input1 = Input(shape=(17,))
-Dense1 = Dense(256, activation='relu', name='stock1')(input1)
-Dense2 = Dense(128, activation='relu', name='stock2')(Dense1)
-Dense3 = Dense(64, activation='relu', name='stock3')(Dense2)
-output1 = Dense(32, activation='relu', name='output1')(Dense3)
+x2_train = x2_train.reshape(1174*3, 6)
+x2_train = scaler.fit_transform(x2_train)
+x2_test = x2_test.reshape(31*3, 6)
+x2_test = scaler.transform(x2_test)
 
-# MODEL2
-input2 = Input(shape=(17,))
-Dense11 = Dense(256, name='weather1', activation='relu')(input2)
-Dense12 = Dense(128, name='weather2', activation='relu')(Dense11)
-Dense13 = Dense(64, name='weather3')(Dense12)
-Dense14 = Dense(32, name='weather4')(Dense13)
-output2 = Dense(16, name='output2')(Dense14)
+# Conv1D 넣기 위한 3차원화
+x1_train = x1_train.reshape(1174, 3, 6)
+x1_test = x1_test.reshape(31, 3, 6)
+x2_train = x2_train.reshape(1174, 3, 6)
+x2_test = x2_test.reshape(31, 3, 6)
+
+
+# 모델 구성
+input1 = Input(shape=(3, 6))
+
+conv1 = Conv1D(128, 2, activation='relu')(input1)
+lstm1 = LSTM(128, activation='relu')(conv1)
+dense1 = Dense(128, activation='relu')(lstm1)
+drop4 = Dropout(0.3)(dense1)
+dense2 = Dense(128, activation='relu')(drop4)
+drop5 = Dropout(0.3)(dense2)
+dense3 = Dense(64, activation='relu')(drop5)
+output1 = Dense(64, activation='relu')(dense3)
+
+# 모델2 구성
+input2 = Input(shape=(3, 6))
+conv2 = Conv1D(128, 2, activation='relu')(input2)
+lstm2 = LSTM(128, activation='relu')(conv2)
+drop1 = Dropout(0.3)(lstm2)
+dense4 = Dense(128, activation='relu')(drop1)
+drop2 = Dropout(0.3)(dense4)
+dense5 = Dense(128, activation='relu')(drop2)
+drop3 = Dropout(0.3)(dense5)
+output2 = Dense(64, activation='relu')(drop3)
 
 # MERGE
-from tensorflow.keras.layers import concatenate, Concatenate # (소문자)함수, (대문자)클래스
-merge1 = concatenate([output1, output2], name='mg1') #리스트 형태로 받아들임.
-merge2 = Dense(32, activation='relu', name='mg2')(merge1)
-merge3 = Dense(16, activation='relu', name='mg3')(merge2)
-last_output = Dense(1, name='last')(merge3)
+from tensorflow.python.keras.layers import concatenate
+merge1 = concatenate([output1, output2])
+merge2 = Dense(64)(merge1)
+merge3 = Dense(32, name='mg3')(merge2)
+last_output = Dense(1)(merge3)
 
-model = Model(inputs=[input1, input2], outputs=last_output)
-model.summary()
+model = Model(inputs=[input1, input2], outputs=[last_output])
+#model.summary()
 
-#3. COMPILE
+# COMPILE
 model.compile(loss = 'mse', optimizer='adam')
-x_train = [x1_train, x2_train]
-model.fit(x_train, y_train, epochs=10, batch_size=10)
+start_time = time.time()
+Es = EarlyStopping(
+    monitor='val_loss',
+    patience=200,
+    mode='min',
+    restore_best_weights=True
+)
+hist = model.fit([x1_train, x2_train], y_train, epochs=500, batch_size=150, callbacks=[Es], validation_split=0.025)
+end_time = time.time()
 
-#4. PREDICT
-x_test = [x1_test, x2_test]
-loss = model.evaluate(x_test, y_test)
-y_predict = model.predict(x_test)
-print('loss: ', loss)
+model.save('./_save/samsung/keras53_samsung2_kdj6.h5')
+#model = load_model('./_save/samsung/keras53_samsung2_kdj.h5')
+# PREDICT
+loss = model.evaluate([x1_test, x2_test], y_test)
+predict = model.predict([x1_test, x2_test])
+predict = np.round(predict, 2)
+print('loss: ', loss, 'predict: ', predict[-1:])
+print('걸린 시간: ', end_time - start_time)
+
+
+#6. PLT
+plt.plot(hist.history['loss'], label='loss', color='red')
+plt.plot(hist.history['val_loss'], label='val_loss', color='blue')
+plt.legend()
+plt.show()
+
+# 29일 종가 예상 : 28일 종가 = 62,900원 + 1.2%(800원) 니깐.. 반도체 시장이 좋다고 하네.. 시외가는?
+# # 시외가 많이 안 빠질테니... 현재로써는 16:07
+# 나스닥 상승시 63,000 ~ 63,700 정도 봅시다.
+# 나스닥 하락시 62,000 ~ 63,000
+# loss:  416959.75 predict:  [[63138.12]]  keras53_samsung2_kdj epochs=1000, batch_size=120  patience=500,
+# loss:  763280.0625 predict:  [[63959.15]] keras53_samsung2_kdj2 epochs=1000, batch_size=120 patience=800,
+# loss:  1531505.75 predict:  [[63983.46]] keras53_samsung2_kdj3.h5 epochs=1000, batch_size=120, patience=800
+# loss:  15699741.0 predict:  [[59572.71]] keras53_samsung2_kdj4.h5 이건 쓰레기
+# loss:  594788.625 predict:  [[62138.96]] keras53_samsung2_kdj5.h5 epochs=500, batch_size=200,  patience=200,
+# loss:  1373311.875 predict:  [[65342.52]] keras53_samsung2_kdj6.h epochs=500, batch_size=100, patience=200,
+
