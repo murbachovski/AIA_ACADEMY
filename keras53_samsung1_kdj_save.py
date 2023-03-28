@@ -160,7 +160,7 @@ Es = EarlyStopping(
 hist = model.fit([x1_train, x2_train], y_train, epochs=500, batch_size=150, callbacks=[Es], validation_split=0.025)
 end_time = time.time()
 
-model.save('./_save/samsung/keras53_samsung2_kdj6.h5')
+model.save('./_save/samsung/keras53_samsung2_kdj7.h5')
 #model = load_model('./_save/samsung/keras53_samsung2_kdj.h5')
 # PREDICT
 loss = model.evaluate([x1_test, x2_test], y_test)
@@ -185,5 +185,5 @@ plt.show()
 # loss:  1531505.75 predict:  [[63983.46]] keras53_samsung2_kdj3.h5 epochs=1000, batch_size=120, patience=800
 # loss:  15699741.0 predict:  [[59572.71]] keras53_samsung2_kdj4.h5 이건 쓰레기
 # loss:  594788.625 predict:  [[62138.96]] keras53_samsung2_kdj5.h5 epochs=500, batch_size=200,  patience=200,
-# loss:  1373311.875 predict:  [[65342.52]] keras53_samsung2_kdj6.h epochs=500, batch_size=100, patience=200,
+# loss:  267861.59375 predict:  [[63460.23]] keras53_samsung2_kdj6.h epochs=500, batch_size=150, patience=200,
 
