@@ -97,9 +97,9 @@ x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(
 
 # SCALER
 scaler = RobustScaler()
-print(x1_train.shape, x1_test.shape)
-print(x2_train.shape, x2_test.shape)
-print(y_train.shape, y_test.shape)
+# print(x1_train.shape, x1_test.shape)
+# print(x2_train.shape, x2_test.shape)
+# print(y_train.shape, y_test.shape)
 # (1173, 3, 6) (31, 3, 6)
 # (1173, 3, 6) (31, 3, 6)
 # (1173, 1) (31, 1)
@@ -120,7 +120,7 @@ x1_test = x1_test.reshape(31, 3, 6)
 x2_train = x2_train.reshape(1173, 3, 6)
 x2_test = x2_test.reshape(31, 3, 6)
 
-model = load_model('./_save/samsung/keras53_hyundai2_kdj.h5')
+model = load_model()
 # PREDICT
 loss = model.evaluate([x1_test, x2_test], y_test)
 predict = model.predict([x1_test, x2_test])

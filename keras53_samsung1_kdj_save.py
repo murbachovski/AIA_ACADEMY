@@ -6,7 +6,7 @@
 # 삼성전자 29일(수) 아침 시가 맞추기 (점수배점 0.7) y한칸 건너 뛰어서
 #메일 제출
 #메일 제목: 김대진 [삼성 1차] 60,350.07원
-#메일 제목: 김대진 [삼성 2차] 60,350.07원
+#메일 제목: 김대진 [현대 2차] 60,350.07원
 #첨부 파일: keras53_samsung2_kdj_submit.py
 #첨부 파일: keras53_samsung4_kdj_submit.py
 #가중치: _save/samsung/keras53_samsung2_kdj.h5/hdf5
@@ -186,4 +186,6 @@ plt.show()
 # loss:  15699741.0 predict:  [[59572.71]] keras53_samsung2_kdj4.h5 이건 쓰레기
 # loss:  594788.625 predict:  [[62138.96]] keras53_samsung2_kdj5.h5 epochs=500, batch_size=200,  patience=200,
 # loss:  267861.59375 predict:  [[63460.23]] keras53_samsung2_kdj6.h epochs=500, batch_size=150, patience=200,
+## 61,800,00원대로 제출했습니다.
+## 예상가격은 61,900.00원 입니다.
 

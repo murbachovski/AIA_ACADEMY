@@ -7,12 +7,9 @@
 # 삼성전자 28일(화) 종가 맞추기 (점수배점 0.3)
 # 삼성전자 29일(수) 아침 시가 맞추기 (점수배점 0.7) y한칸 건너 뛰어서
 #메일 제출
-#메일 제목: 김대진 [삼성 1차] 60,350.07원
 #메일 제목: 김대진 [삼성 2차] 60,350.07원
-#첨부 파일: keras53_samsung2_kdj_submit.py
-#첨부 파일: keras54_samsung4_kdj_submit.py
-#가중치: _save/samsung/keras53_samsung2_kdj.h5/hdf5
-#가중치: _save/samsung/keras53_samsung4_kdj.h5/hdf5
+#첨부 파일: keras53_samsung4_kdj_submit.py
+#가중치: _save/samsung/keras53_samsung4_kdj.h5
 #오늘밤 23:59분 1차 28일(화) 23시59분 59초 / 29일(수) 23시 59분 59초
 
 import numpy as np
@@ -38,7 +35,7 @@ dataset_h = dataset_h.drop(['전일비', '금액(백만)'], axis=1)
 # print(dataset_h.head) # 앞 다섯개만 보기
 # print(dataset_s.info())
 dataset_s = dataset_s.fillna(0) # filena() 뭐하는 녀석이지?
-dataset_h = dataset_h.fillna(0)
+dataset_h = dataset_h.fillna(0) # 이상치 0으로 맞춰줍니다.
 # print(dataset_s.head)
 # print(dataset_h.head)
 
@@ -157,14 +154,14 @@ model.compile(loss = 'mse', optimizer='adam')
 start_time = time.time()
 Es = EarlyStopping(
     monitor='val_loss',
-    patience=400,
+    patience=30,
     mode='min',
     restore_best_weights=True
 )
-hist = model.fit([x1_train, x2_train], y_train, epochs=300, batch_size=100, callbacks=[Es], validation_split=0.025)
+hist = model.fit([x1_train, x2_train], y_train, epochs=10000, batch_size=16, callbacks=[Es], validation_split=0.025)
 end_time = time.time()
 
-model.save('./_save/samsung/keras53_hyundai2_kdj.h5')
+model.save('./_save/samsung/keras53_samsung4_kdj6.h5')
 #model = load_model()
 # PREDICT
 loss = model.evaluate([x1_test, x2_test], y_test)
@@ -180,5 +177,11 @@ plt.plot(hist.history['val_loss'], label='val_loss', color='blue')
 plt.legend()
 plt.show()
 
-# loss:  572720640.0 predict:  [[152730.78]] 쓰레기가 나왔네.
-# loss:  298168768.0 predict:  [[160324.95]] 또 쓰레기가 나왔네.
+# 현대 자동차 30일 시가 예측 : 현재  시가: 175,800원 ~ 177,300 ~ 177,900원
+# 176,000원 ~ 178,000원 대로 뽑아보자
+# 177,500 ~ 178,000원 대로 뽑아야할 것 같은데 값이 잘 안 나온다.
+# loss:  18160996.0 predict:  [[175205.86]] 1
+# loss:  11033829.0 predict:  [[176898.55]] 2
+# loss:  11000035.0 predict:  [[176128.92]] 3
+# loss:  6941394.5 predict:  [[176271.73]] 4
+# loss:  16418010.0 predict:  [[175287.95]] 5
