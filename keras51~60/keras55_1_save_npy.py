@@ -19,7 +19,7 @@ test_datagen = ImageDataGenerator(
 xy_train = train_datagen.flow_from_directory(
     'd:/study_data/_data/brain/train/',
     target_size=(100, 100),             # 각각 다른 사이즈를 가진 이미지들을 200, 200으로 맞춰준다. 
-    batch_size=16,                       # 전체 데이터를 쓰려면 160(전체 데이터 갯수)이상을 넣어라
+    batch_size=5000,                       # 전체 데이터를 쓰려면 160(전체 데이터 갯수)이상을 넣어라
     class_mode='binary',
     color_mode='grayscale',
     # color_mode='rgba',
@@ -28,8 +28,9 @@ xy_train = train_datagen.flow_from_directory(
 xy_test = test_datagen.flow_from_directory(
     'd:/study_data/_data/brain/test/',
     target_size=(100, 100),             # 각각 다른 사이즈를 가진 이미지들을 200, 200으로 맞춰준다.
-    batch_size=12,
-    class_mode='binary',
+    batch_size=120,                      
+    class_mode='binary',                # y의 클래스
+    # 0, 1 => 1 0 , 0 1로 원핫인코딩 됨
     color_mode='grayscale',
     shuffle=True
 )                                       # Found 120 images belonging to 2 classes.
@@ -42,13 +43,22 @@ xy_test = test_datagen.flow_from_directory(
 # print(xy_train[0][1])   # [1. 0. 0. 0. 1.]
 print(xy_train[0][0].shape)   
 print(xy_train[0][1].shape)
+print(xy_test[0][0].shape)   
+print(xy_test[0][1].shape)
 
+path = 'd:/study_data/_save/_npy/'
+np.save(path + 'keras55_1_x_train.npy', arr=xy_train[0][0])
+np.save(path + 'keras55_1_x_test.npy', arr=xy_test[0][0])
+np.save(path + 'keras55_1_y_train.npy', arr=xy_train[0][1])
+np.save(path + 'keras55_1_y_test.npy', arr=xy_test[0][1])
+
+
+'''
 # print('###############################################################################')
 # # print(type(xy_train))                 # <class 'keras.preprocessing.image.DirectoryIterator'>
 # # print(type(xy_train[0]))              # <class 'tuple' = 바꿀 수 없다.> (첫번 째 batch)
 # # print(type(xy_train[0][0]))           # <class 'numpy.ndarray'>
 # # print(type(xy_train[0][1]))           # <class 'numpy.ndarray'>
-
 #현재 x는 (5, 200, 200, 1) 데이터가 32덩어리
 
 #2. MODEL
@@ -62,11 +72,11 @@ model.add(Dense(256, activation='relu'))
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(2, activation='softmax'))
 
 #3. COMPILE
 from tensorflow.python.keras.callbacks import EarlyStopping
-model.compile(loss = 'binary_crossentropy', optimizer='adam', metrics=['acc'])
+model.compile(loss = 'categorical_crossentropy', optimizer='adam', metrics=['acc'])
 # model.fit(xy_train[:][0], xy_train[:][1], epochs=10) # error
 # model.fit(xy_train[0][0], xy_train[0][1], epochs=10)   # 통배치 넣으면 가능하다.
 Es = EarlyStopping(
@@ -75,18 +85,6 @@ Es = EarlyStopping(
     mode='max',
     restore_best_weights=True
 )
-# hist = model.fit(xy_train[0][0],
-#         xy_train[0][1],
-#         batch_size=26,
-#         epochs=10,
-#         steps_per_epoch=1,
-#         validation_data=(xy_test[0][0], xy_test[0][1])
-#         )
-# hist = model.fit_generator(xy_train, epochs=200,
-#                     steps_per_epoch=1, # 전체 데이터/batch = 160/5 = 160/5 = 32
-#                     validation_data=xy_test,
-#                     # validation_steps=24 # validation_data/batch = 120/5 = 24 
-#                     )
 hist = model.fit(xy_train,
                 epochs=50,
                 steps_per_epoch=10, # 전체 데이터/batch = 160/5 = 160/5 = 32
@@ -115,3 +113,4 @@ plt.plot(range(len(hist.history['acc'])),hist.history['acc'],label='acc')
 plt.plot(range(len(hist.history['val_acc'])),hist.history['val_acc'],label='val_acc')
 plt.legend()
 plt.show()
+'''
