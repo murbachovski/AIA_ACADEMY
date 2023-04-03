@@ -12,7 +12,7 @@ import time
 
 path = 'd:/temp/'
 save_path = 'd:/temp/'
-
+stt = time.time()
 #1. 데이터 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 print(x_train.shape, y_train.shape) # (60000, 28, 28) (60000,)
@@ -125,30 +125,10 @@ acc = hist.history['acc']
 # print('acc : ', acc[-1])
 # print('val_acc : ', val_acc[-1])
 
+np.save(save_path + 'keras58_mnist_x_train.npy', arr=x_train)
+np.save(save_path + 'keras58_mnist_x_test.npy', arr=x_test)
+np.save(save_path + 'keras58_mnist_y_train.npy', arr=y_train)  
+np.save(save_path + 'keras58_mnist_y_test.npy', arr=y_test)
 
-
-ett = time.time()
-
-from sklearn.metrics import accuracy_score
-
-result = model.evaluate(x_test,y_test)
-print('result :', result)
-
-pred = np.argmax(model.predict(x_test), axis=1)
-y_test = np.argmax(y_test,axis=1)
-acc = accuracy_score(y_test, pred)
-print('acc:',acc)
-
-import matplotlib.pyplot as plt
-plt.figure(figsize=(9,6))
-plt.subplot(1, 2, 1)
-plt.plot(loss, label='loss')
-# plt.plot(val_loss, label='val_loss')
-plt.grid()
-plt.legend()
-plt.subplot(1, 2, 2)
-plt.plot(acc, label='acc')
-# plt.plot(val_acc, label='val_acc')
-plt.grid()
-plt.legend()
-plt.show()
+ett1 = time.time()
+print('이미지 증폭 시간 :', np.round(ett1-stt, 2))
