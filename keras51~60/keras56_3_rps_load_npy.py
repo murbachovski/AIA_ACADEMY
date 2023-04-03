@@ -63,7 +63,7 @@ plt.grid()
 plt.legend()
 plt.show()
 
-loss: 9.868523420664133e-07
-val_loss: 0.1739882081747055
-acc: 1.0
-val_acc: 1.0
+# loss: 9.868523420664133e-07
+# val_loss: 0.1739882081747055
+# acc: 1.0
+# val_acc: 1.0
