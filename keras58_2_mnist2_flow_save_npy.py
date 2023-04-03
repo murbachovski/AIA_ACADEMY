@@ -1,4 +1,4 @@
-from tensorflow.keras.datasets import fashion_mnist
+from tensorflow.keras.datasets import mnist
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 from tensorflow.python.keras.models import Sequential, Model
@@ -14,9 +14,9 @@ path = 'd:/temp/'
 save_path = 'd:/temp/'
 
 #1. 데이터 
-(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-print(x_train.shape, y_train.shape) 
-# print(x_test.shape, y_test.shape)
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+print(x_train.shape, y_train.shape) # (60000, 28, 28) (60000,)
+print(x_test.shape, y_test.shape)   # (10000, 28, 28) (10000,)
 
 np.random.seed(1111)
 
@@ -31,6 +31,11 @@ train_datagen = ImageDataGenerator(
     shear_range=0.7,
     fill_mode='nearest'
 )
+
+train_datagen2 = ImageDataGenerator(
+    rescale=1./1,
+)
+
 
 train_datagen2 = ImageDataGenerator(
     rescale=1./1,
@@ -69,10 +74,11 @@ x_test = x_test/255.
 xy_train = train_datagen2.flow(x_train, y_train,
                                batch_size = batch_size, shuffle=True)
 
-np.save(save_path + 'keras58_fashion_x_train.npy', arr=x_train)
-np.save(save_path + 'keras58_fashion_x_test.npy', arr=x_test)
-np.save(save_path + 'keras58_fashion_y_train.npy', arr=y_train)
-np.save(save_path + 'keras58_fashion_y_test.npy', arr=y_test)
+np.save(save_path + 'keras58_mnist_x_train.npy', arr=x_train)
+np.save(save_path + 'keras58_mnist_x_test.npy', arr=x_test)
+np.save(save_path + 'keras58_mnist_y_train.npy', arr=y_train)
+np.save(save_path + 'keras58_mnist_y_test.npy', arr=y_test)
+
 
 model = Sequential()
 model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
@@ -98,7 +104,7 @@ es = EarlyStopping(monitor='val_acc',
                    restore_best_weights=True,
                    )
 
-hist = model.fit_generator(xy_train, epochs=50,   #x데이터 y데이터 배치사이즈가 한 데이터에 있을때 fit 하는 방법
+hist = model.fit_generator(xy_train, epochs=10,   #x데이터 y데이터 배치사이즈가 한 데이터에 있을때 fit 하는 방법
                     steps_per_epoch=len(xy_train)/batch_size,    #전체데이터크기/batch = 160/5 = 32
                     # validation_split=0.1,
                     shuffle=True,
@@ -123,8 +129,6 @@ acc = hist.history['acc']
 
 ett = time.time()
 
-
-
 from sklearn.metrics import accuracy_score
 
 result = model.evaluate(x_test,y_test)
@@ -148,6 +152,3 @@ plt.plot(acc, label='acc')
 plt.grid()
 plt.legend()
 plt.show()
-
-# result : [0.3591008186340332, 0.871399998664856]
-# acc: 0.8714

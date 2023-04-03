@@ -60,14 +60,6 @@ end_time = time.time() - start_time
 
 print(augment_size, '개 증폭에 걸린시간 : ', round(end_time,2),  '초')
 
-
-
-
-
-
-
-
-
 # print(x_augmented)
 # print(x_augmented.shape) # (40000, 28, 28, 1)
 
