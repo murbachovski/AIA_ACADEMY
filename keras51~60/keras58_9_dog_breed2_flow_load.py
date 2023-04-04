@@ -21,7 +21,7 @@ model.add(Flatten())
 model.add(Dense(16, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(16, activation='relu'))
-model.add(Dense(16, activation='relu'))
+model.add(Dense(16, activation='relu')) 
 model.add(Dense(5, activation='softmax'))
 
 
