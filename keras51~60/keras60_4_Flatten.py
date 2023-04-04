@@ -8,12 +8,12 @@ docs = ['너무 재밋어요', '참 최고에요', '참 잘 만든 영화예요'
         '추천하고 싶은 영화입니다.', '한 번 더 보고 싶네요.', '글세요',
         '별로에요', '생각보다 지루해요', '연기가 어색해요',
         '재미없어요', '너무 재미없다', '참 재밋네요', '환희가 잘 생기긴 했어요',
-        '환희가 안해요'
+        '환희가 안해요', '나는 성호가 정말 재미없다 너무 정말'
         ]
-
+print(docs[-1])
 
 # 긍정1, 부정0
-labels = np.array([1,1,1,1,1,0,0,0,0,0,0,1,1,0])
+labels = np.array([1,1,1,1,1,0,0,0,0,0,0,1,1,0,0])
 
 # 수치화까지 작업. 펼치기 전까지
 token = Tokenizer()
@@ -50,24 +50,29 @@ word_size = len(token.word_index)
 
 #2. MODEL
 model = Sequential()
+# model.add(Embedding(28, 32)) # Flatten에 바로 붙이지 못한다.
 # model.add(Embedding(28, 32)) # input_length를 명시하지 않으면 알아서 최댓값으로 잡아준다.
 # model.add(Embedding(28, 32, 5)) # 안된다. ERROR ValueError: Could not interpret initializer identifier: 5
-# model.add(Embedding(28, 32, input_length=5))
-model.add(Embedding(input_dim=28, output_dim=32)) # 됩니다..
-
+model.add(Embedding(29, 32, input_length=5))
+# model.add(Embedding(input_dim=29, output_dim=32)) # 됩니다..
 # model.add(Embedding(input_dim=300, output_dim=10, input_length=5)) #단어 사전 갯수=28, output=32 anything, maxlen=5
-model.add(LSTM(32))
+# model.add(LSTM(32))
+model.add(Flatten())
 model.add(Dense(10))
 model.add(Dense(1, activation='sigmoid'))
-model.summary()
+# model.summary()
 
-# #3. COMPILE
-# model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-# model.fit(pad_x, labels, epochs=50, batch_size=8)
+#3. COMPILE
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(pad_x, labels, epochs=50, batch_size=8)
 
-# #4. PREDICT
-# acc = model.evaluate(pad_x, labels)[1]
-# print('acc: ', acc)
+#4. PREDICT
+acc = model.evaluate(pad_x, labels)[1]
+print('acc: ', acc)
+y_predict = model.predict(pad_x)[-1]
+if y_predict < 0.5:
+    y_predict = 0
+print('나는 성호가 정말 재미없다 너무 정말 긍정1, 부정0: ', y_predict)
 # # Dense_acc:  0.7857142686843872
 # # LSTM_acc:  0.9285714030265808
 # # Reshape_acc:  0.9285714030265808
