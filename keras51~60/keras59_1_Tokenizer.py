@@ -1,6 +1,6 @@
 from tensorflow.keras.preprocessing.text import Tokenizer
 import numpy as np
-
+from sklearn.preprocessing import OneHotEncoder
 text = '나는 진짜 매우 매우 맛있는 밥을 엄청 마구 마구 마구 먹었다.'
 # 수치화
 token = Tokenizer()
@@ -40,3 +40,39 @@ x = pd.get_dummies(np.array(x).reshape(11, )) #넘파이로 바꿔준다 => # 1�
 # TypeError: unhashable type: 'list'
 # 1. 넘파이로 바꿔준다. 2. 왜 리스트를 받지 못할까?
 print(x)
+#     1  2  3  4  5  6  7  8
+# 0   0  0  1  0  0  0  0  0
+# 1   0  0  0  1  0  0  0  0
+# 2   0  1  0  0  0  0  0  0
+# 3   0  1  0  0  0  0  0  0
+# 4   0  0  0  0  1  0  0  0
+# 5   0  0  0  0  0  1  0  0
+# 6   0  0  0  0  0  0  1  0
+# 7   1  0  0  0  0  0  0  0
+# 8   1  0  0  0  0  0  0  0
+# 9   1  0  0  0  0  0  0  0
+# 10  0  0  0  0  0  0  0  1
+print(x.shape) # (11, 8)
+
+######  3. sklearn_onehot  ######
+ohe = OneHotEncoder() # 2차원으로 받습니다.
+# x = ohe.fit_transform(np.array(x).reshape(-1, 1)).toarray()
+# print(x)
+# # [[0. 0. 1. 0. 0. 0. 0. 0.]
+# #  [0. 0. 0. 1. 0. 0. 0. 0.]
+# #  [0. 1. 0. 0. 0. 0. 0. 0.]
+# #  [0. 1. 0. 0. 0. 0. 0. 0.]
+# #  [0. 0. 0. 0. 1. 0. 0. 0.]
+# #  [0. 0. 0. 0. 0. 1. 0. 0.]
+# #  [0. 0. 0. 0. 0. 0. 1. 0.]
+# #  [1. 0. 0. 0. 0. 0. 0. 0.]
+# #  [1. 0. 0. 0. 0. 0. 0. 0.]
+# #  [1. 0. 0. 0. 0. 0. 0. 0.]
+# #  [0. 0. 0. 0. 0. 0. 0. 1.]]
+# print(x.shape) # (11, 8)
+
+# encoder = OneHotEncoder()
+# x = np.array(x).reshape(-1, 1)
+# x = encoder.fit_transform(x).toarray()
+# print(x)
+# 결론은 내가 편한거 쓰면 됩니다.
