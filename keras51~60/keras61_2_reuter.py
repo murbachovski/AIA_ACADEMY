@@ -50,13 +50,12 @@ model.summary()
 
 #3. COMPILE
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=10, batch_size=200)
+model.fit(x_train, y_train, epochs=100, batch_size=64)
 
 #4. PREDICT
-acc = model.evaluate(x_test, y_test)[1]
-y_predict = model.predict(x_test)
+acc = model.evaluate(x_train, y_train)[1]
 print('acc: ', acc)
-# acc:  0.04829292371869087
+
 
 
 
