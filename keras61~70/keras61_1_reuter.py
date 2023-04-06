@@ -36,7 +36,7 @@ print(x_train.shape) # (10105, 100)
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Embedding, Dropout, LSTM
 model = Sequential()
-model.add(Embedding(46, 100)) # 됩니다..
+model.add(Embedding(10000, 100)) # 됩니다..
 model.add(LSTM(32))
 model.add(Dense(128))
 model.add(Dropout(0.3))
