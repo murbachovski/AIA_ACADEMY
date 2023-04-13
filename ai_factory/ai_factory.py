@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.layers import Input, Dense, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.preprocessing import MaxAbsScaler, RobustScaler
@@ -30,7 +30,7 @@ test_data['type']=type_to_HP(test_data['type'])
 features = ['air_inflow','air_end_temp','out_pressure','motor_current','motor_rpm','motor_temp','motor_vibe']
 
 # Split data into train and validation sets
-x_train, x_val = train_test_split(data[features], train_size=0.8, random_state=640)
+x_train, x_val = train_test_split(data[features], train_size=0.8, random_state=2222)
 
 # Normalize data
 scaler = MaxAbsScaler()
@@ -40,15 +40,26 @@ x_val = scaler.transform(x_val)
 # Define Autoencoder model
 input_layer = Input(shape=(len(features),))
 encoder = Dense(4, activation='relu')(input_layer)
-decoder = Dense(len(features), activation='sigmoid')(encoder)
+hidden_layer1 = Dense(128, activation='relu')(encoder)
+dropout1 = Dropout(0.3)(hidden_layer1)
+hidden_layer2 = Dense(64, activation='relu')(dropout1)
+dropout2 = Dropout(0.3)(hidden_layer2)
+hidden_layer3 = Dense(32, activation='relu')(dropout2)
+decoder = Dense(len(features), activation='sigmoid')(hidden_layer1)
 autoencoder = Model(inputs=input_layer, outputs=decoder)
+
+# dropout1 = Dropout(0.3)
+# hidden_layer2 = Dense(64, activation='relu')(dropout1)
+# dropout2 = Dropout(0.3)
+# hidden_layer3 = Dense(32, activation='relu')(dropout2)
+# hidden_layer4 = Dense(16, activation='relu')(hidden_layer3)
 
 # Compile Autoencoder model
 autoencoder.compile(optimizer='adam', loss='mean_squared_error')
 
 # Train Autoencoder model
-es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=50)
-autoencoder.fit(x_train, x_train, epochs=5, batch_size=8, validation_data=(x_val, x_val), callbacks=[es])
+es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=100)
+autoencoder.fit(x_train, x_train, epochs=500, batch_size=32, validation_data=(x_val, x_val), callbacks=[es])
 
 # Predict anomalies in test data
 test_data = scaler.transform(test_data[features])
