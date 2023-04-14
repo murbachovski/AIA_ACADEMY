@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.layers import Input, Dense, Dropout
+from tensorflow.keras.layers import Input, Dense, Dropout, LSTM
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.preprocessing import MaxAbsScaler, RobustScaler
@@ -37,32 +37,34 @@ scaler = MaxAbsScaler()
 x_train = scaler.fit_transform(x_train)
 x_val = scaler.transform(x_val)
 
-# Define Autoencoder model
-input_layer = Input(shape=(len(features),))
-encoder = Dense(4, activation='relu')(input_layer)
-hidden_layer1 = Dense(128, activation='relu')(encoder)
-dropout1 = Dropout(0.3)(hidden_layer1)
-hidden_layer2 = Dense(64, activation='relu')(dropout1)
-dropout2 = Dropout(0.3)(hidden_layer2)
-hidden_layer3 = Dense(32, activation='relu')(dropout2)
-decoder = Dense(len(features), activation='sigmoid')(hidden_layer1)
-autoencoder = Model(inputs=input_layer, outputs=decoder)
+# Reshape input data for LSTM layer
+x_train = x_train.reshape(x_train.shape[0], 1, x_train.shape[1])
+x_val = x_val.reshape(x_val.shape[0], 1, x_val.shape[1])
 
-# dropout1 = Dropout(0.3)
-# hidden_layer2 = Dense(64, activation='relu')(dropout1)
-# dropout2 = Dropout(0.3)
-# hidden_layer3 = Dense(32, activation='relu')(dropout2)
-# hidden_layer4 = Dense(16, activation='relu')(hidden_layer3)
+# Define Autoencoder model with LSTM layer
+input_layer = Input(shape=(1, len(features)))
+lstm_layer1 = LSTM(128, activation='relu', return_sequences=True)(input_layer)
+dropout1 = Dropout(0.4)(lstm_layer1)
+lstm_layer2 = LSTM(64, activation='relu')(dropout1)
+dropout2 = Dropout(0.4)(lstm_layer2)
+dense_layer1 = Dense(32, activation='relu')(dropout2)
+dropout3 = Dropout(0.4)(dense_layer1)
+dense_layer2 = Dense(16, activation='relu')(dropout3)
+decoder = Dense(len(features), activation='sigmoid')(dense_layer2)
+autoencoder = Model(inputs=input_layer, outputs=decoder)
 
 # Compile Autoencoder model
 autoencoder.compile(optimizer='adam', loss='mean_squared_error')
 
 # Train Autoencoder model
-es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=1000)
-autoencoder.fit(x_train, x_train, epochs=100, batch_size=1000, validation_data=(x_val, x_val), callbacks=[es])
+es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
+autoencoder.fit(x_train.reshape(-1, 1, len(features)), x_train.reshape(-1, 1, len(features)), epochs=10, batch_size=64, validation_data=(x_val.reshape(-1, 1, len(features)), x_val.reshape(-1, 1, len(features))), callbacks=[es])
+
 
 # Predict anomalies in test data
+
 test_data = scaler.transform(test_data[features])
+test_data = test_data.reshape(test_data.shape[0], 1, test_data.shape[1])
 predictions = autoencoder.predict(test_data)
 mse = ((test_data - predictions) ** 2).mean(axis=1)
 threshold = mse.mean() + mse.std() * 2  # Set threshold based on mean and standard deviation of MSE
@@ -75,7 +77,7 @@ binary_predictions = [1 if x > threshold else 0 for x in mse]
 # f1_score = f1_score(test_data['type'], binary_predictions, average='macro')
 # print('F1 Score:', f1_score)
 
-# Save predictions to submission file
+# Save predictions to submission
 submission['label'] = pd.DataFrame({'Prediction': binary_predictions})
 
 #time
