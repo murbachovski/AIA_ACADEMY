@@ -5,6 +5,7 @@ import warnings
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, r2_score
 
 warnings.filterwarnings(action='ignore')
 
@@ -35,6 +36,7 @@ model_name_list = [
     'RandomForestClassifier',
 ]
 
+#2. MODEL
 for i, value in enumerate(data_list):
     x, y = value
     # print(x.shape, y.shape)
@@ -43,9 +45,16 @@ for i, value in enumerate(data_list):
 
     for j, value2 in enumerate(model_list):
         model = value2
+        #3. COMPILE
         model.fit(x,y)
+        #4. PREDICT
         results = model.score(x,y)
-        print(model_name_list[j], results)
+        print(model_name_list[j], 'model.score: ', results)
+        y_predict = model.predict(x)
+        acc = accuracy_score(y, y_predict)
+        print(model_name_list[j], 'accuracy_score : ', acc)
+
+
 # ==========================================
 # iris
 # LinearSVC 0.9666666666666667
