@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.datasets import fetch_california_housing
+from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import RobustScaler
 from sklearn.metrics import r2_score
@@ -10,7 +10,7 @@ from sklearn.utils import all_estimators
 import sklearn as sk
 print(sk.__version__)
 #1. DATA
-x, y = fetch_california_housing(return_X_y=True)
+x, y = load_digits(return_X_y=True)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,
@@ -27,7 +27,7 @@ x_test = scaler.transform(x_test)
 
 #2. MODEL
 # model = RandomForestRegressor(n_jobs=4)
-allAlgorithms = all_estimators(type_filter='regressor')
+allAlgorithms = all_estimators(type_filter='classifier')
 # allAlgorithms = all_estimators(type_filter='classifier')
 
 # print('allAlgorithms: ', allAlgorithms)
