@@ -58,6 +58,6 @@ model = RandomForestRegressor()
 scores = cross_val_score(model, x, y, cv=5, n_jobs=-1)
 # print(scores)
 
-print('acc: ', scores, '\n cross_val_socre평균: ', round(np.mean(scores), 4)) # mean 평균값
+print('acc: ', scores, '\n cross_val_score평균: ', round(np.mean(scores), 4)) # mean 평균값
 # acc:  [-0.69643655 -0.50214263 -0.35401489  0.07210441  0.07794956] 
 #  cross_val_socre평균:  -0.2805
