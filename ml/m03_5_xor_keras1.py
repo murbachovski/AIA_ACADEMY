@@ -25,3 +25,6 @@ print('model.score: ', results[1])
 
 acc = accuracy_score(y_data, np.round(y_predict))
 print('acc_score:', acc)
+
+# model.score:  0.75
+# acc_score: 0.75

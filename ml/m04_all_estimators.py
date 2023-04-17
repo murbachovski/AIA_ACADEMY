@@ -58,3 +58,17 @@ for (name, algorithm) in allAlgorithms:
         print('반장바보',name)
 print('==================================')
 print('bestModelIs:', max_name, max_r2)
+
+# ARDRegression 의 점수: 0.6094957099907541
+# AdaBoostRegressor 의 점수: 0.5571490205015354
+# BaggingRegressor 의 점수: 0.7878622519938756
+# BayesianRidge 의 점수: 0.610645809248539
+# CCA 의 점수: 0.5696592029040424
+# DecisionTreeRegressor 의 점수: 0.6022188161980564
+# DummyRegressor 의 점수: -5.030441452280598e-07
+# ElasticNet 의 점수: 0.1486118415043277
+# ElasticNetCV 의 점수: 0.6105770436914415
+# ExtraTreeRegressor 의 점수: 0.5032456862385151
+# ExtraTreesRegressor 의 점수: 0.8126674004938355
+# GammaRegressor 의 점수: -5.031214782569293e-07
+# all~ 메모리 부족으로 전부 다 출력되지는 않는다.

@@ -58,3 +58,18 @@ for (name, algorithm) in allAlgorithms:
         print('반장바보',name)
 print('==================================')
 print('bestModelIs:', max_name, max_r2)
+
+# for문으로 all~ 출력하는 것
+# AdaBoostClassifier 의 점수: 0.20555555555555555
+# BaggingClassifier 의 점수: 0.9083333333333333
+# BernoulliNB 의 점수: 0.8833333333333333
+# CalibratedClassifierCV 의 점수: 0.9583333333333334
+# 반장바보 CategoricalNB
+# 반장바보 ClassifierChain
+# 반장바보 ComplementNB
+# DecisionTreeClassifier 의 점수: 0.8555555555555555
+# DummyClassifier 의 점수: 0.06111111111111111
+# ExtraTreeClassifier 의 점수: 0.7972222222222223
+# ExtraTreesClassifier 의 점수: 0.9888888888888889
+# GaussianNB 의 점수: 0.8416666666666667
+# GaussianProcessClassifier 의 점수: 0.9583333333333334
