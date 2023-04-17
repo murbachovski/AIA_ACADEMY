@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.datasets import load_iris
-from sklearn.model_selection import cross_val_score, cross_val_predict, KFold
+from sklearn.model_selection import cross_val_score, cross_val_predict, KFold, StratifiedKFold
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
@@ -14,10 +14,11 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 n_splits = 5
-kfold = KFold(n_splits=n_splits, shuffle=True, random_state=337)
+# kfold = KFold(n_splits=n_splits, shuffle=True, random_state=337)
+kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=337)
 
 #2. MODEL
-model = RandomForestClassifier()
+model = SVC()
 
 #3. 4. COMPILE, PREDICT
 score = cross_val_score(model, x_train, y_train, cv=kfold)
