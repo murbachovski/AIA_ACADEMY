@@ -47,10 +47,13 @@ x_test = scaler.transform(x_test)
 x_train = x_train.reshape(7620, 8, 1)
 x_test = x_test.reshape(3266, 8, 1)
 
-n_splits = 5
+n_splits = 10
 kfold = KFold(n_splits=n_splits, shuffle=True, random_state=22) # cross_val_score내용들을 정리한 것.
 
 #2. MODEL
+from tensorflow.keras.layers import Dense, Bidirectional
+from tensorflow.keras.layers import SimpleRNN, LSTM, GRU
+from tensorflow.keras.models import Sequential
 model = RandomForestRegressor()
 
 #3. COMPILE, 훈련, 평가, 예측
