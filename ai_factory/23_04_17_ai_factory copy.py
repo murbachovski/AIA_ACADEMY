@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.neighbors import LocalOutlierFactor
 
-# 훈련 데이터 및 테스트 데이터 로드
-path='d:/study_data/_data/air/dataset/'
-save_path= 'd:/study_data/_save/air/'
+# Load train and test data
+path='./_data/ai_factory/'
+save_path= './_save/ai_factory/'
 train_data = pd.read_csv(path+'train_data.csv')
 test_data = pd.read_csv(path+'test_data.csv')
 submission = pd.read_csv(path+'answer_sample.csv')
@@ -27,17 +27,17 @@ features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'moto
 X = train_data[features]
 
 # 학습 데이터를 훈련 세트와 검증 세트로 나누기
-X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 5222)
+X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 3333)
 
 # 데이터 정규화
-scaler = MinMaxScaler()
+scaler = StandardScaler()
 train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # lof사용하여 이상치 탐지
 n_neighbors = 37
 contamination = 0.05
-lof = LocalOutlierFactor(n_neighbors=n_neighbors, contamination=contamination, leaf_size=21)
+lof = LocalOutlierFactor(n_neighbors=n_neighbors, contamination=contamination, leaf_size=100)
 y_pred_train_tuned = lof.fit_predict(X_train)
 
 # 이상치 탐지
