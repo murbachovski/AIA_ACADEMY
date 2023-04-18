@@ -4,7 +4,7 @@
 # 04. wine
 
 import numpy as np
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold, cross_val_score, StratifiedKFold, RandomizedSearchCV
 from sklearn.metrics import accuracy_score
@@ -28,7 +28,7 @@ parameters = [
 ]
 
 # 1. 데이터
-x,y = load_iris(return_X_y=True)
+x,y = load_breast_cancer(return_X_y=True)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y, shuffle=True, random_state=337, test_size=0.2, #stratify=y # stratify=y 사용함으로써 각 라벨값이 골고루 분배된다 
@@ -72,11 +72,11 @@ print('최적 튠ACC: ', accuracy_score(y_test, y_pred_best))
 print('걸린 시간: ', round(end_time - start_time, 2),'초')
 
 # RandomizedSearchCV
-# 최적의 매개변수 :  RandomForestClassifier(max_depth=12, n_estimators=200)
-# 최적의 파라미터 :  {'n_estimators': 200, 'max_depth': 12}
-# 최적의 인덱스 :  5
-# BEST SCORE :  0.9583333333333334
-# model 스코어 :  0.9666666666666667
-# ACC:  0.9666666666666667
-# 최적 튠ACC:  0.9666666666666667
-# 걸린 시간:  3.97 초
+# 최적의 매개변수 :  RandomForestClassifier(max_depth=10)
+# 최적의 파라미터 :  {'n_estimators': 100, 'max_depth': 10}
+# 최적의 인덱스 :  2
+# BEST SCORE :  0.9604395604395604
+# model 스코어 :  0.956140350877193
+# ACC:  0.956140350877193
+# 최적 튠ACC:  0.956140350877193
+# 걸린 시간:  5.15 초
