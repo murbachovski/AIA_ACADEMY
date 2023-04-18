@@ -51,7 +51,7 @@ x = train_csv.drop(['count'], axis = 1)
 y = train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
-    x,y, shuffle=True, random_state=337, test_size=0.2, #stratify=y # stratify=y 사용함으로써 각 라벨값이 골고루 분배된다 
+    x,y, shuffle=True, random_state=337, test_size=0.1, #stratify=y # stratify=y 사용함으로써 각 라벨값이 골고루 분배된다 
 )    
 
 scaler = MinMaxScaler()
@@ -62,7 +62,7 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
 n_splits = 5
-kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=337)
+kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
 
 #2. MODEL # 대문자 = class

@@ -3,6 +3,9 @@ import datetime
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.neighbors import LocalOutlierFactor
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold,cross_val_score, StratifiedKFold
+from sklearn.ensemble import RandomForestRegressor
 
 # Load train and test data
 path='./_data/ai_factory/'
@@ -35,13 +38,13 @@ train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
-n_neighbors = 38
-contamination = 0.045
+n_neighbors = 37
+contamination = 0.047
 lof = LocalOutlierFactor(n_neighbors=n_neighbors, contamination=contamination, leaf_size=100)
 y_pred_train_tuned = lof.fit_predict(X_train)
 
 # 
-test_data_lof = scaler.transform(test_data[features])
+test_data_lof = scaler.fit_transform(test_data[features])
 y_pred_test_lof = lof.fit_predict(test_data_lof)
 lof_predictions = [1 if x == -1 else 0 for x in y_pred_test_lof]
 
