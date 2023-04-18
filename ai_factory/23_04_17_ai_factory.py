@@ -38,8 +38,8 @@ train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
-n_neighbors = 37
-contamination = 0.047
+n_neighbors = 39
+contamination = 0.0472
 lof = LocalOutlierFactor(n_neighbors=n_neighbors, contamination=contamination, leaf_size=100)
 y_pred_train_tuned = lof.fit_predict(X_train)
 
@@ -54,6 +54,6 @@ print(submission.value_counts())
 date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
 
-submission.to_csv(save_path + date + 'submission.csv', index=False)
+submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
 
-#0.9510444147
+#0.9530071431
