@@ -1,6 +1,6 @@
 # 그물망처럼 찾겠다.
 # 파라미터 전체를 다 하겠다. / 모델 정의 부분이나 모델 훈련 부분에 있음
-
+import pandas as pd
 import numpy as np
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -66,3 +66,21 @@ print('최적 튠ACC: ', accuracy_score(y_test, y_pred_best))
 # 최적 튠ACC:  1.0
 
 print('걸린 시간: ', round(end_time - start_time, 2),'초')
+
+###############################################################################
+print('==============================================================================================================================================')
+print(pd.DataFrame(model.cv_results_).sort_values('rank_test_score', ascending=False)) # 오름차순이 = True = 디폴트다.
+
+print(pd.DataFrame(model.cv_results_).columns)
+# [46 rows x 17 columns]
+# Index(['mean_fit_time', 'std_fit_time', 'mean_score_time', 'std_score_time',
+#        'param_C', 'param_degree', 'param_kernel', 'param_gamma', 'params',
+#        'split0_test_score', 'split1_test_score', 'split2_test_score',
+#        'split3_test_score', 'split4_test_score', 'mean_test_score',
+#        'std_test_score', 'rank_test_score'],
+#       dtype='object')
+
+path = './temp/' # temp 만들어줘야 save 됩니다.
+pd.DataFrame(model.cv_results_).sort_values('rank_test_score', ascending=True)\
+    .to_csv(path + 'm10_GRSC3.csv')
+

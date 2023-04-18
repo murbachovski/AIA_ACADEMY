@@ -30,13 +30,13 @@ X = train_data[features]
 X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 3333)
 
 # 데이터 정규화
-scaler = StandardScaler()
+scaler = MinMaxScaler()
 train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # lof사용하여 이상치 탐지
-n_neighbors = 37
-contamination = 0.05
+n_neighbors = 38
+contamination = 0.045
 lof = LocalOutlierFactor(n_neighbors=n_neighbors, contamination=contamination, leaf_size=100)
 y_pred_train_tuned = lof.fit_predict(X_train)
 
@@ -52,3 +52,5 @@ date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
 
 submission.to_csv(save_path + date + 'submission.csv', index=False)
+
+#0.9510444147
