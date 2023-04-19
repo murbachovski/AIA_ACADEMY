@@ -17,10 +17,10 @@ warnings.filterwarnings(action='ignore')
 
 # Load datasets
 datasets = [
-    load_iris(return_X_y=True)
+    fetch_covtype(return_X_y=True)
 ]
 data_name = [
-    'iris'
+    'fetch_covtype'
 ]
 
 # Scalers to use

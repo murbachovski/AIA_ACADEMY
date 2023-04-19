@@ -8,17 +8,29 @@ from sklearn.metrics import accuracy_score
 from sklearn.utils import all_estimators
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler, MaxAbsScaler
-from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier, RandomForestRegressor
 from sklearn.svm import SVC
 from sklearn.experimental import enable_halving_search_cv
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, HalvingGridSearchCV
 
 warnings.filterwarnings(action='ignore')
+import pandas as pd
+#1. DATE
+path = ('./_data/kaggle_bike/')
+path_save = ('./_save/kaggle_bike/')
 
-# Load datasets
-datasets = [
-    load_iris(return_X_y=True)
-]
+#1-2. TRAIN
+train_csv = pd.read_csv(path + 'train.csv', index_col=0)
+
+#1-3. TEST
+test_csv =  pd.read_csv(path + 'test.csv', index_col=0)
+
+#1-4. ISNULL(결측치 처리)
+train_csv = train_csv.dropna()
+
+#1-5. (x, y DATA SPLIT)
+x = train_csv.drop(['count', 'casual', 'registered'], axis=1)
+y = train_csv['count']
 data_name = [
     'iris'
 ]
@@ -32,7 +44,7 @@ scaler_list = [
 
 # Models to use
 model_list = [
-    RandomForestClassifier(),
+    RandomForestRegressor(),
 ]
 
 # Hyperparameters for each model

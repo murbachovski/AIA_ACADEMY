@@ -8,6 +8,7 @@ from sklearn.model_selection import KFold,cross_val_score, StratifiedKFold
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.decomposition import PCA
 
+
 # Load train and test data
 path='./_data/ai_factory/'
 save_path= './_save/ai_factory/'
@@ -30,13 +31,18 @@ features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'moto
 # Prepare train and test data
 X = train_data[features]
 print(X.shape)
-pca = PCA(n_components=6)
+pca = PCA(n_components=3)
 X = pca.fit_transform(X)
 print(X.shape)
 
 # 
-X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 337)
+X_train, X_val = train_test_split(X, test_size= 0.9, random_state= 337)
 print(X_train.shape, X_val.shape)
+
+#
+pca = PCA(n_components=2)
+X_train = pca.fit_transform(X_train)
+X_val = pca.fit_transform(X_val)
 
 # 
 scaler = MinMaxScaler()
@@ -45,10 +51,10 @@ test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
 n_neighbors = 40
-contamination = 0.04591
+contamination = 0.04619000911111111110111100093431
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
-                         leaf_size=99,
+                         leaf_size=9,
                          algorithm='auto',
                          metric='chebyshev',
                          metric_params= None,

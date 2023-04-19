@@ -15,10 +15,27 @@ from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, HalvingGri
 
 warnings.filterwarnings(action='ignore')
 
-# Load datasets
-datasets = [
-    load_iris(return_X_y=True)
-]
+#1. DATA
+path = './_data/ddarung/' # path ./은 현재 위치
+path_save = './_save/ddarung/'
+# Column = Header
+
+import pandas as pd
+# TRAIN
+train_csv = pd.read_csv(path + "train.csv",
+                        index_col=0) 
+
+# TEST
+test_csv = pd.read_csv(path + "test.csv",
+                        index_col=0) 
+
+train_csv = train_csv.dropna()
+
+
+x = train_csv.drop(['count'], axis = 1)
+y = train_csv['count']
+
+
 data_name = [
     'iris'
 ]

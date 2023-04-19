@@ -17,10 +17,10 @@ warnings.filterwarnings(action='ignore')
 
 # Load datasets
 datasets = [
-    load_iris(return_X_y=True)
+    load_digits(return_X_y=True)
 ]
 data_name = [
-    'iris'
+    'load_digits'
 ]
 
 # Scalers to use

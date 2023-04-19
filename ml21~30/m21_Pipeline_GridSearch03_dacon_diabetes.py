@@ -11,9 +11,6 @@ from sklearn.neighbors import LocalOutlierFactor
 from sklearn.model_selection import GridSearchCV
 import pandas as pd
 
-#1. DATA
-
-
 # 1. 데이터
 filepath = ('./_save/MCP/keras27_4/')
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'

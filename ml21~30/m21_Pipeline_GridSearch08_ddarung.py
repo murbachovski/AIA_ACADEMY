@@ -12,9 +12,6 @@ from sklearn.model_selection import GridSearchCV
 import pandas as pd
 
 #1. DATA
-
-
-#1. DATA
 path = './_data/ddarung/' # path ./은 현재 위치
 path_save = './_save/ddarung/'
 # Column = Header

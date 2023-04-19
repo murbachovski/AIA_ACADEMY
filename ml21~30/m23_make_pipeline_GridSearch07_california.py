@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.datasets import load_iris, load_breast_cancer
 from sklearn.datasets import load_wine, load_digits, fetch_covtype
+from sklearn.datasets import fetch_california_housing
 
 import warnings
 from sklearn.model_selection import KFold, cross_val_score
@@ -8,7 +9,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.utils import all_estimators
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler, MaxAbsScaler
-from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier, RandomForestRegressor
 from sklearn.svm import SVC
 from sklearn.experimental import enable_halving_search_cv
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, HalvingGridSearchCV
@@ -17,10 +18,10 @@ warnings.filterwarnings(action='ignore')
 
 # Load datasets
 datasets = [
-    load_iris(return_X_y=True)
+    fetch_california_housing(return_X_y=True)
 ]
 data_name = [
-    'iris'
+    'fetch_california_housing'
 ]
 
 # Scalers to use
@@ -32,7 +33,7 @@ scaler_list = [
 
 # Models to use
 model_list = [
-    RandomForestClassifier(),
+    RandomForestRegressor(),
 ]
 
 # Hyperparameters for each model

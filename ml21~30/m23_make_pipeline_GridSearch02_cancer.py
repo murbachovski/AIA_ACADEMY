@@ -17,10 +17,10 @@ warnings.filterwarnings(action='ignore')
 
 # Load datasets
 datasets = [
-    load_iris(return_X_y=True)
+    load_breast_cancer(return_X_y=True)
 ]
 data_name = [
-    'iris'
+    'load_breast_cancer'
 ]
 
 # Scalers to use
