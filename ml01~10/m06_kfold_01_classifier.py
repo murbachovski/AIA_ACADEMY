@@ -22,13 +22,6 @@ data_name = [
     '디지트',
 ]
 
-scaler_list = [
-    RobustScaler(),
-    MinMaxScaler(),
-    MaxAbsScaler(),
-    StandardScaler()
-]
-
 n_splits = 5
 kfold = KFold(n_splits=n_splits, shuffle=True, random_state=22) # cross_val_score내용들을 정리한 것.
 
