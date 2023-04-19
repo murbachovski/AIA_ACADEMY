@@ -35,7 +35,7 @@ X = pca.fit_transform(X)
 print(X.shape)
 
 # 
-X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 7)
+X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 337)
 print(X_train.shape, X_val.shape)
 
 # 
@@ -55,7 +55,7 @@ lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          novelty=False,
                          p=3
                          )
-y_pred_train_tuned = lof.fit_predict(X_train)
+y_pred_train_tuned = lof.fit_predict(X_val)
 
 # 
 test_data_lof = scaler.fit_transform(test_data[features])

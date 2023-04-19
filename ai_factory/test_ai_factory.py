@@ -30,12 +30,12 @@ features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'moto
 # Prepare train and test data
 X = train_data[features]
 print(X.shape)
-pca = PCA(n_components=6)
+pca = PCA(n_components=5)
 X = pca.fit_transform(X)
 print(X.shape)
 
 # 
-X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 7)
+X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 337)
 print(X_train.shape, X_val.shape)
 
 # 
@@ -43,30 +43,20 @@ scaler = MinMaxScaler()
 train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
-# 
-n_neighbors = 38
-contamination = 0.04372
+#
+n_neighbors = 43
+contamination = 0.04705
+
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
                          leaf_size=99,
                          algorithm='auto',
-                         metric='chebyshev',
+                         metric='minkowski',
                          metric_params= None,
                          novelty=False,
-                         p=3
+                         p=10
                          )
-
-# param_grid = {'n_neighbors': [10, 20, 30, 38, 40, 50],
-#               'contamination': [0.01, 0.02, 0.03, 0.04, 0.04372, 0.05]}
-
-# lof = LocalOutlierFactor(algorithm='auto', leaf_size=99, metric='chebyshev', metric_params=None, novelty=False, p=3)
-# grid_search = GridSearchCV(lof, param_grid=param_grid, cv=5, scoring='neg_mean_squared_error')
-# grid_search.fit(X_train)
-
-# print('Best parameters: ', grid_search.best_params_)
-# print('Best score: ', -grid_search.best_score_)
-
-y_pred_train_tuned = lof.fit_predict(X_train)
+y_pred_train_tuned = lof.fit_predict(X_val)
 
 # 
 test_data_lof = scaler.fit_transform(test_data[features])
