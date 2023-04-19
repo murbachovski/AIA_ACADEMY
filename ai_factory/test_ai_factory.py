@@ -30,7 +30,7 @@ features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'moto
 # Prepare train and test data
 X = train_data[features]
 print(X.shape)
-pca = PCA(n_components=5)
+pca = PCA(n_components=6)
 X = pca.fit_transform(X)
 print(X.shape)
 
@@ -43,18 +43,17 @@ scaler = MinMaxScaler()
 train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
-#
-n_neighbors = 43
-contamination = 0.04705
-
+# 
+n_neighbors = 40
+contamination = 0.04591
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
                          leaf_size=99,
                          algorithm='auto',
-                         metric='minkowski',
+                         metric='chebyshev',
                          metric_params= None,
                          novelty=False,
-                         p=10
+                         p=3
                          )
 y_pred_train_tuned = lof.fit_predict(X_val)
 
