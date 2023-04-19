@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.utils import all_estimators
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler, MaxAbsScaler
-from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier, RandomForestRegressor
 from sklearn.svm import SVC
 from sklearn.experimental import enable_halving_search_cv
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, HalvingGridSearchCV
@@ -36,10 +36,6 @@ x = train_csv.drop(['count'], axis = 1)
 y = train_csv['count']
 
 
-data_name = [
-    'iris'
-]
-
 # Scalers to use
 scaler_list = [
     RobustScaler(),
@@ -49,7 +45,7 @@ scaler_list = [
 
 # Models to use
 model_list = [
-    RandomForestClassifier(),
+    RandomForestRegressor(),
 ]
 
 # Hyperparameters for each model
@@ -68,39 +64,42 @@ result_list = []
 n_splits = 5
 kfold = KFold(n_splits=n_splits, shuffle=True, random_state=22)
 
-# Loop through datasets
-for index, value in enumerate(datasets):
-    x, y = value
 
-    # Find best model/scaler combination for current dataset
-    max_score = 0
-    max_name = ''
-    for scaler in scaler_list:
-        for model in model_list:
-            for i, grid in enumerate(grid_list):
-                try:
-                    grid_cv = grid
-                    pipeline = make_pipeline(scaler, model)
+# Find best model/scaler combination for current dataset
+max_score = 0
+max_name = ''
+for scaler in scaler_list:
+    for model in model_list:
+        for i, grid in enumerate(grid_list):
+            try:
+                grid_cv = grid
+                pipeline = make_pipeline(scaler, model)
 
-                    scores = cross_val_score(pipeline, x, y, cv=kfold)
-                    results = round(np.mean(scores), 4)
-                    scaler_name = scaler.__class__.__name__
-                    model_name = model.__class__.__name__
+                scores = cross_val_score(pipeline, x, y, cv=kfold)
+                results = round(np.mean(scores), 4)
+                scaler_name = scaler.__class__.__name__
+                model_name = model.__class__.__name__
 
-                    if max_score < results:
-                        max_score = results
-                        max_name = f'{scaler_name} + {model_name} ({grid_names[i]})'
-                    print('~ing', data_name[index])
-                except:
-                    continue
-            
-            # Print best model/scaler combination for current dataset
-            print('=================', data_name[index], '=================')
-            print('bestModelIs:', max_name, max_score)
-            result_list.append((data_name[index], max_name, max_score))
+                if max_score < results:
+                    max_score = results
+                    max_name = f'{scaler_name} + {model_name} ({grid_names[i]})'
+            except:
+                continue
+        
+        # Print best model/scaler combination for current dataset
+        print('bestModelIs:', max_name, max_score)
+        result_list.append((max_name, max_score))
 
 # Print all results at the end
 print('===============================================')
 print('FINAL RESULTS:')
 for result in result_list:
-    print(f'{result[0]}) {result[1]} ({result[2]})')
+    print(f'{result[0]})')
+# bestModelIs: RobustScaler + RandomForestRegressor (RandomizedSearchCV) 0.7768
+# bestModelIs: MinMaxScaler + RandomForestRegressor (HalvingGridSearchCV) 0.7778
+# bestModelIs: MinMaxScaler + RandomForestRegressor (HalvingGridSearchCV) 0.7778
+# ===============================================
+# FINAL RESULTS:
+# RobustScaler + RandomForestRegressor (RandomizedSearchCV))
+# MinMaxScaler + RandomForestRegressor (HalvingGridSearchCV))
+# MinMaxScaler + RandomForestRegressor (HalvingGridSearchCV))

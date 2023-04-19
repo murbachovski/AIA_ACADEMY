@@ -50,16 +50,16 @@ train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
-n_neighbors = 40
-contamination = 0.04619000911111111110111100093431
+n_neighbors = 42
+contamination = 0.0459999
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
-                         leaf_size=9,
+                         leaf_size=99,
                          algorithm='auto',
                          metric='chebyshev',
                          metric_params= None,
                          novelty=False,
-                         p=3
+                         p=300
                          )
 y_pred_train_tuned = lof.fit_predict(X_val)
 

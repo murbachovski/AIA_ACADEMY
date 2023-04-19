@@ -31,6 +31,7 @@ train_csv = train_csv.dropna()
 #1-5. (x, y DATA SPLIT)
 x = train_csv.drop(['count', 'casual', 'registered'], axis=1)
 y = train_csv['count']
+
 data_name = [
     'iris'
 ]
@@ -63,36 +64,32 @@ result_list = []
 n_splits = 5
 kfold = KFold(n_splits=n_splits, shuffle=True, random_state=22)
 
-# Loop through datasets
-for index, value in enumerate(datasets):
-    x, y = value
+# Find best model/scaler combination for current dataset
+max_score = 0
+max_name = ''
+for scaler in scaler_list:
+    for model in model_list:
+        for i, grid in enumerate(grid_list):
+            try:
+                grid_cv = grid
+                pipeline = make_pipeline(scaler, model)
 
-    # Find best model/scaler combination for current dataset
-    max_score = 0
-    max_name = ''
-    for scaler in scaler_list:
-        for model in model_list:
-            for i, grid in enumerate(grid_list):
-                try:
-                    grid_cv = grid
-                    pipeline = make_pipeline(scaler, model)
+                scores = cross_val_score(pipeline, x, y, cv=kfold)
+                results = round(np.mean(scores), 4)
+                scaler_name = scaler.__class__.__name__
+                model_name = model.__class__.__name__
 
-                    scores = cross_val_score(pipeline, x, y, cv=kfold)
-                    results = round(np.mean(scores), 4)
-                    scaler_name = scaler.__class__.__name__
-                    model_name = model.__class__.__name__
-
-                    if max_score < results:
-                        max_score = results
-                        max_name = f'{scaler_name} + {model_name} ({grid_names[i]})'
-                    print('~ing', data_name[index])
-                except:
-                    continue
-            
-            # Print best model/scaler combination for current dataset
-            print('=================', data_name[index], '=================')
-            print('bestModelIs:', max_name, max_score)
-            result_list.append((data_name[index], max_name, max_score))
+                if max_score < results:
+                    max_score = results
+                    max_name = f'{scaler_name} + {model_name} ({grid_names[i]})'
+                print('~ing', data_name)
+            except:
+                continue
+        
+        # Print best model/scaler combination for current dataset
+        print('=================', data_name, '=================')
+        print('bestModelIs:', max_name, max_score)
+        result_list.append((data_name, max_name, max_score))
 
 # Print all results at the end
 print('===============================================')

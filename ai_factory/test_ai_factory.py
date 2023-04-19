@@ -36,7 +36,7 @@ X = pca.fit_transform(X)
 print(X.shape)
 
 # 
-X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 337)
+X_train, X_val = train_test_split(X, test_size= 0.9, random_state= 337)
 print(X_train.shape, X_val.shape)
 
 #
@@ -50,8 +50,8 @@ train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
-n_neighbors = 40
-contamination = 0.04591
+n_neighbors = 90
+contamination = 0.0419999
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
                          leaf_size=99,
@@ -59,31 +59,8 @@ lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          metric='chebyshev',
                          metric_params= None,
                          novelty=False,
-                         p=3,
+                         p=300
                          )
-
-
-from sklearn.model_selection import GridSearchCV
-
-# Define the parameter grid
-param_grid = {
-    'n_neighbors': [40],
-    'contamination': [0.04591],
-    'p': [1, 2, 3],
-    'metric' : ['chebyshev']
-}
-
-# Create the GridSearchCV object
-scoring = 100
-grid_search = GridSearchCV(lof, param_grid=param_grid, cv=5, scoring=scoring)
-
-# Fit the GridSearchCV object to the data
-grid_search.fit(X_train)
-
-# Print the best parameters and score
-print("Best parameters: ", grid_search.best_params_)
-print("Best score: ", grid_search.best_score_)
-
 y_pred_train_tuned = lof.fit_predict(X_val)
 
 # 
@@ -100,3 +77,9 @@ date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
 
 submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
+
+#0.9551928573
+#0.9551928573
+#0.9561993171
+#0.9570394969
+#0.9582241632
