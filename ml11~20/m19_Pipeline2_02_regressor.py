@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.utils import all_estimators
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler, MaxAbsScaler
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, AdaBoostRegressor
 from sklearn.svm import SVC
 
 warnings.filterwarnings(action='ignore')
@@ -32,9 +32,11 @@ scaler_list = [
     MaxAbsScaler()
 ]
 model_list = [
-    RandomForestClassifier(),
-    SVC()
+    RandomForestRegressor(),
+    AdaBoostRegressor()
 ]
+
+result_list = []
 
 n_splits = 5
 kfold = KFold(n_splits=n_splits, shuffle=True, random_state=22)
@@ -62,7 +64,13 @@ for index, value in enumerate(datasets):
                 print('~ing', data_name[index])
             except:
                 continue
-print('=================', data_name[index], '=================')
-print('=================', data_name[index], '=================')
-print('bestModelIs:', max_name, max_score)
-print('bestModelIs:', max_name, max_score)
+            
+        print('=================', data_name[index], '=================')
+        print('bestModelIs:', max_name, max_score)
+        result_list.append((data_name[index], max_name, max_score))
+
+# Print all results at the end
+print('===============================================')
+print('FINAL RESULTS:')
+for result in result_list:
+    print(f'{result[0]}: {result[1]} ({result[2]})')

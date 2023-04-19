@@ -1,11 +1,12 @@
 import pandas as pd
+import datetime
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.layers import Input, Dense, Dropout
-from tensorflow.keras.models import Model
-from tensorflow.keras.callbacks import EarlyStopping
-from sklearn.preprocessing import MaxAbsScaler, RobustScaler
-from sklearn.metrics import f1_score, make_scorer, accuracy_score
-
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold,cross_val_score, StratifiedKFold
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.decomposition import PCA
 
 # Load train and test data
 path='./_data/ai_factory/'
@@ -14,73 +15,64 @@ train_data = pd.read_csv(path+'train_data.csv')
 test_data = pd.read_csv(path+'test_data.csv')
 submission = pd.read_csv(path+'answer_sample.csv')
 
-# Combine train and test data
-data = pd.concat([train_data, test_data], axis=0)
-
-# Preprocess data
+# 
 def type_to_HP(type):
     HP=[30,20,10,50,30,30,30,30]
     gen=(HP[i] for i in type)
     return list(gen)
 train_data['type']=type_to_HP(train_data['type'])
 test_data['type']=type_to_HP(test_data['type'])
+# print(train_data.columns)
 
+# 
+features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'motor_rpm', 'motor_temp', 'motor_vibe']
 
-# Select subset of features for Autoencoder model
-features = ['air_inflow','air_end_temp','out_pressure','motor_current','motor_rpm','motor_temp','motor_vibe']
+# Prepare train and test data
+X = train_data[features]
+print(X.shape)
+pca = PCA(n_components=6)
+X = pca.fit_transform(X)
+print(X.shape)
 
-# Split data into train and validation sets
-x_train, x_val = train_test_split(data[features], train_size=0.8, random_state=2222)
+# 
+X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 7)
+print(X_train.shape, X_val.shape)
 
-# Normalize data
-scaler = MaxAbsScaler()
-x_train = scaler.fit_transform(x_train)
-x_val = scaler.transform(x_val)
+# 
+scaler = MinMaxScaler()
+train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
+test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
-# Define Autoencoder model
-input_layer = Input(shape=(len(features),))
-encoder = Dense(4, activation='relu')(input_layer)
-hidden_layer1 = Dense(128, activation='relu')(encoder)
-dropout1 = Dropout(0.3)(hidden_layer1)
-hidden_layer2 = Dense(64, activation='relu')(dropout1)
-dropout2 = Dropout(0.3)(hidden_layer2)
-hidden_layer3 = Dense(32, activation='relu')(dropout2)
-decoder = Dense(len(features), activation='sigmoid')(hidden_layer1)
-autoencoder = Model(inputs=input_layer, outputs=decoder)
+# 
+n_neighbors = 49
+contamination = 0.04580
+lof = LocalOutlierFactor(n_neighbors=n_neighbors,
+                         contamination=contamination,
+                         leaf_size=99,
+                         algorithm='auto',
+                         metric='chebyshev',
+                         metric_params= None,
+                         novelty=False,
+                         p=3
+                         )
+y_pred_train_tuned = lof.fit_predict(X_train)
 
-# dropout1 = Dropout(0.3)
-# hidden_layer2 = Dense(64, activation='relu')(dropout1)
-# dropout2 = Dropout(0.3)
-# hidden_layer3 = Dense(32, activation='relu')(dropout2)
-# hidden_layer4 = Dense(16, activation='relu')(hidden_layer3)
+# 
+test_data_lof = scaler.fit_transform(test_data[features])
+y_pred_test_lof = lof.fit_predict(test_data_lof)
+lof_predictions = [1 if x == -1 else 0 for x in y_pred_test_lof]
+#lof_predictions = [0 if x == -1 else 0 for x in y_pred_test_lof]
 
-# Compile Autoencoder model
-autoencoder.compile(optimizer='adam', loss='mean_squared_error')
-
-# Train Autoencoder model
-es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=100)
-autoencoder.fit(x_train, x_train, epochs=1000, batch_size=10, validation_data=(x_val, x_val), callbacks=[es])
-
-# Predict anomalies in test data
-test_data = scaler.transform(test_data[features])
-predictions = autoencoder.predict(test_data)
-mse = ((test_data - predictions) ** 2).mean(axis=1)
-threshold = mse.mean() + mse.std() * 2  # Set threshold based on mean and standard deviation of MSE
-
-# # Evaluate model performance
-binary_predictions = [1 if x > threshold else 0 for x in mse]
-# acc = accuracy_score(test_data['type'], binary_predictions)
-# print('Accuracy:', acc)
-
-# f1_score = f1_score(test_data['type'], binary_predictions, average='macro')
-# print('F1 Score:', f1_score)
-
-# Save predictions to submission file
-submission['label'] = pd.DataFrame({'Prediction': binary_predictions})
+submission['label'] = pd.DataFrame({'Prediction': lof_predictions})
+print(submission.value_counts())
 
 #time
-import datetime 
-date = datetime.datetime.now()  
-date = date.strftime("%m%d_%H%M")  
+date = datetime.datetime.now()
+date = date.strftime("%m%d_%H%M")
 
-submission.to_csv(save_path+'submit_air_'+date+ '.csv', index=False)
+submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
+
+#0.9551928573
+#0.9551928573
+#0.9561993171
+#0.9570394969
