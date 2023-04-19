@@ -44,8 +44,8 @@ train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
-n_neighbors = 49
-contamination = 0.04580
+n_neighbors = 38
+contamination = 0.04372
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
                          leaf_size=99,
@@ -55,6 +55,17 @@ lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          novelty=False,
                          p=3
                          )
+
+# param_grid = {'n_neighbors': [10, 20, 30, 38, 40, 50],
+#               'contamination': [0.01, 0.02, 0.03, 0.04, 0.04372, 0.05]}
+
+# lof = LocalOutlierFactor(algorithm='auto', leaf_size=99, metric='chebyshev', metric_params=None, novelty=False, p=3)
+# grid_search = GridSearchCV(lof, param_grid=param_grid, cv=5, scoring='neg_mean_squared_error')
+# grid_search.fit(X_train)
+
+# print('Best parameters: ', grid_search.best_params_)
+# print('Best score: ', -grid_search.best_score_)
+
 y_pred_train_tuned = lof.fit_predict(X_train)
 
 # 
@@ -76,3 +87,4 @@ submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
 #0.9551928573
 #0.9561993171
 #0.9570394969
+#0.9582241632

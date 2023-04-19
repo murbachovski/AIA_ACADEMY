@@ -44,8 +44,8 @@ train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
-n_neighbors = 49
-contamination = 0.04480
+n_neighbors = 40
+contamination = 0.04591
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
                          leaf_size=99,
@@ -76,3 +76,4 @@ submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
 #0.9551928573
 #0.9561993171
 #0.9570394969
+#0.9582241632

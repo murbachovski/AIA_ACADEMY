@@ -28,13 +28,14 @@ data_name = [
 ]
 
 scaler_list = [
-    RobustScaler(),
-    MinMaxScaler(),
-    MaxAbsScaler()
+    [('rs', RobustScaler())],
+    [('mms', MinMaxScaler())],
+    [('std', StandardScaler())],
+    [('mas', MaxAbsScaler())]
 ]
 model_list = [
-    RandomForestClassifier(),
-    SVC(),
+    [('rf', RandomForestClassifier())],
+    [('svc', SVC())],
 ]
 
 result_list = []
