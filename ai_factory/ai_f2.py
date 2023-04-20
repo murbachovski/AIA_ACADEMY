@@ -7,6 +7,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import KFold,cross_val_score, StratifiedKFold
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.decomposition import PCA
+import numpy as np
 
 # Load train and test data
 path='./_data/ai_factory/'
@@ -30,13 +31,18 @@ features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'moto
 # Prepare train and test data
 X = train_data[features]
 print(X.shape)
-pca = PCA(n_components=6)
+pca = PCA(n_components=2)
 X = pca.fit_transform(X)
 print(X.shape)
 
 # 
-X_train, X_val = train_test_split(X, train_size= 0.9, random_state= 7)
+X_train, X_val = train_test_split(X, test_size= 0.3, random_state= 337337)
 print(X_train.shape, X_val.shape)
+
+#
+pca = PCA(n_components=1)
+X_train = pca.fit_transform(X_train)
+X_val = pca.fit_transform(X_val)
 
 # 
 scaler = MinMaxScaler()
@@ -44,18 +50,17 @@ train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
 test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 
-n_neighbors = 49
-contamination = 0.04595
+n_neighbors = 42
+contamination = 0.0452341899
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
-                         leaf_size=99,
-                         algorithm='auto',
-                         metric='chebyshev',
+                         leaf_size=30,
+                         algorithm='kd_tree',
+                         metric='minkowski',
                          metric_params= None,
-                         novelty=False,
-                         p=3
+                         p=2
                          )
-y_pred_train_tuned = lof.fit_predict(X_train)
+y_pred_train_tuned = lof.fit_predict(X_val)
 
 # 
 test_data_lof = scaler.fit_transform(test_data[features])
@@ -76,3 +81,4 @@ submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
 #0.9551928573
 #0.9561993171
 #0.9570394969
+#0.9582241632
