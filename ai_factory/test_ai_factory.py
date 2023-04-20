@@ -4,7 +4,7 @@ from sklearn.cluster import DBSCAN
 import numpy as np
 import pandas as pd
 import datetime
-
+from sklearn.model_selection import train_test_split
 # Load train and test data
 path='./_data/ai_factory/'
 save_path= './_save/ai_factory/'
@@ -18,13 +18,17 @@ features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'moto
 # Prepare train and test data
 all_data = test_data[features]
 
+# 
+X_train, X_test = train_test_split(all_data, test_size= 0.9, random_state= 337)
+print(X_train.shape, X_test.shape)
+
 scaler = StandardScaler()
-all_data = scaler.fit_transform(all_data)
+X_test = scaler.fit_transform(X_test)
 
 pca = PCA(n_components=4, random_state=337)
-all_tf = pca.fit_transform(all_data)
-print(all_tf)
-print(all_data.shape)
+X_test = pca.fit_transform(X_test)
+print(X_test)
+print(X_test.shape)
 from sklearn.metrics import silhouette_samples, silhouette_score
 
 # sc_max = 0
@@ -49,9 +53,9 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 # # 최적의 매개변수 :  {'eps': 7, 'min_samples': 3}
 
 
-dbscan3 = DBSCAN(eps= 0.08, min_samples= 15, )
+dbscan3 = DBSCAN(eps= 15, min_samples= 50, metric='euclidean')
 # 0.08 / 15 = 350
-y_pred_test_lof = dbscan3.fit_predict(all_tf)
+y_pred_test_lof = dbscan3.fit_predict(X_test)
 print(np.unique(y_pred_test_lof, return_counts=True))       # (array([0, 1], dtype=int64), array([9836,   16], dtype=int64))
 print(np.unique(y_pred_test_lof[2463:], return_counts=True))
 print(y_pred_test_lof.shape)
