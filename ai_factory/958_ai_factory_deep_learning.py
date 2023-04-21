@@ -9,7 +9,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.decomposition import PCA
 import joblib
 import numpy as np
-
+from tensorflow.keras.models import Sequential, save_model, load_model
+from tensorflow.keras.layers import Dense,LeakyReLU,Dropout,Input
+from tensorflow.keras.callbacks import EarlyStopping as es
 # Load train and test data
 path='./_data/ai_factory/'
 save_path= './_save/ai_factory/'
@@ -27,7 +29,8 @@ test_data['type']=type_to_HP(test_data['type'])
 # print(train_data.columns)
 
 # 
-features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'motor_rpm', 'motor_temp', 'motor_vibe']
+features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'motor_rpm', 'motor_temp']
+features_y = ['air_inflow']
 
 # Prepare train and test data
 X = train_data[features]
@@ -37,7 +40,7 @@ X = pca.fit_transform(X)
 print(X.shape)
 
 # 
-X_train, X_val = train_test_split(X, test_size= 0.9, random_state= 337)
+X_train, X_val = train_test_split(X, test_size= 0.9, random_state= 111)
 print(X_train.shape, X_val.shape)
 
 #
@@ -58,11 +61,9 @@ lof = LocalOutlierFactor(n_neighbors = n_neighbors,
                          contamination=contamination,
                          algorithm='auto',
                          metric_params= None,
+                         metric='chebyshev',
                          novelty=False,
                          )
-y_pred_train_tuned = lof.fit_predict(X_val)
-
-# joblib.dump(lof, './_save/ai_factory/_model_ai_factory.joblib')
 
 # 
 test_data_lof = scaler.fit_transform(test_data[features])
@@ -93,20 +94,19 @@ num_zero = len(zero_data)
 num_one = len(one_data)
 
 from sklearn.utils import resample
-one_data = np.repeat(one_data, num_zero//num_one, axis=0)
+one_data = np.repeat(one_data, num_zero//num_one*1.5, axis=0)
 for_train=np.concatenate((zero_data,one_data),axis=0)
 x = for_train[:,:-1]
 y = for_train[:,-1]
 
 from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,train_size=0.9,stratify=y)
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.9, random_state=333, stratify=y
+                                               )
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 for_test=scaler.transform(for_test)
 
 # 2. model build
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense,LeakyReLU,Dropout,Input
 model=Sequential()
 model.add(Input(shape=x_train.shape[1:]))
 model.add(Dense(512,activation=LeakyReLU(0.15)))
@@ -122,10 +122,14 @@ model.add(Dropout(1/16))
 model.add(Dense(1,activation='sigmoid'))
 
 # 3. compile,training
-from tensorflow.keras.callbacks import EarlyStopping as es
 model.compile(loss='binary_crossentropy',optimizer='adam',metrics='acc')
 model.fit(x_train,y_train,validation_data=(x_test,y_test),epochs=10000,batch_size=len(x_train)//99
           ,callbacks=es(monitor='val_loss',mode='min',patience=20,verbose=True,restore_best_weights=True))
+
+# model.save('./_save/ai_f_model.h5')
+# model = load_model('./_save/ai_f_model.h5')
+# model.fit(x_train, y_train, epochs=500, validation_split=0.3, batch_size=200,
+#           callbacks=es(monitor='val_loss',mode='min',patience=200,verbose=True,restore_best_weights=True))
 
 # 4. predict,save
 print(x_train.shape,for_test.shape)
