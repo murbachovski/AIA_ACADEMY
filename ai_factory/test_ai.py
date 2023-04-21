@@ -30,14 +30,18 @@ test_data['type']=type_to_HP(test_data['type'])
 # print(train_data.columns)
 
 # 
-features = ['air_inflow']
+features_x = ['air_inflow']
+features_y = ['out_pressure']
 
 print(train_data)
-print(train_data.shape)
+print(train_data.shape) # (2463, 8)
 
-x = train_data[features]
-y = test_data[features]
+x = train_data[features_x]
+y = test_data[features_y]
+print(x.shape, y.shape) # (2463, 1) (7389, 1)
+y = y[:2463]
 
+#
 x_train, x_test, y_train, y_test = train_test_split(
     x,
     y,
@@ -45,10 +49,16 @@ x_train, x_test, y_train, y_test = train_test_split(
     shuffle=True,
     train_size=0.8
 )
+print(x_train.shape, x_test.shape)
+print(y_train.shape, y_test.shape)
 
 scaler = MinMaxScaler()
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
+
+scaler = MinMaxScaler()
+train_data_normalized = scaler.fit_transform(train_data.iloc[:, :-1])
+test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 # 2. model build
 model=Sequential()
@@ -67,7 +77,7 @@ model.add(Dense(1,activation='sigmoid'))
 
 # 3. compile,training
 model.compile(loss='binary_crossentropy',optimizer='adam',metrics='acc')
-model.fit(x_train,y_train,validation_data=(x_test,y_test),epochs=10000,batch_size=len(x_train)//99
+model.fit(x_train,y_train,validation_data=(x_test,y_test),epochs=10,batch_size= 200 #len(x_train)//99
           ,callbacks=es(monitor='val_loss',mode='min',patience=20,verbose=True,restore_best_weights=True))
 
 # 4. predict,save

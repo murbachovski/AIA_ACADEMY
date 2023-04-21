@@ -71,7 +71,7 @@ test_data_lof = scaler.fit_transform(test_data[features])
 y_pred_test_lof = lof.fit_predict(test_data_lof)
 lof_predictions = [1 if x == -1 else 0 for x in y_pred_test_lof]
 #lof_predictions = [0 if x == -1 else 0 for x in y_pred_test_lof]
-#
+####
 #time
 date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")

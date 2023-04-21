@@ -29,7 +29,7 @@ test_data['type']=type_to_HP(test_data['type'])
 # print(train_data.columns)
 
 # 
-features = ['air_inflow', 'air_end_temp', 'out_pressure', 'motor_current', 'motor_rpm', 'motor_temp']
+features = ['air_inflow', 'air_end_temp', 'motor_current', 'motor_rpm', 'motor_temp']
 features_y = ['air_inflow']
 
 # Prepare train and test data
@@ -94,13 +94,14 @@ num_zero = len(zero_data)
 num_one = len(one_data)
 
 from sklearn.utils import resample
-one_data = np.repeat(one_data, num_zero//num_one*1.5, axis=0)
+one_data = np.repeat(one_data, num_zero//num_one*1.3, axis=0)
 for_train=np.concatenate((zero_data,one_data),axis=0)
 x = for_train[:,:-1]
 y = for_train[:,-1]
 
+
 from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.9, random_state=333, stratify=y
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3, random_state=777, #stratify=y
                                                )
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
@@ -113,18 +114,18 @@ model.add(Dense(512,activation=LeakyReLU(0.15)))
 model.add(Dropout(1/16))
 model.add(Dense(512,activation=LeakyReLU(0.15)))
 model.add(Dropout(1/16))
-model.add(Dense(512,activation=LeakyReLU(0.15)))
+model.add(Dense(512,activation=LeakyReLU(0.3)))
 model.add(Dropout(1/16))
 model.add(Dense(512,activation=LeakyReLU(0.15)))
 model.add(Dropout(1/16))
-model.add(Dense(512,activation=LeakyReLU(0.15)))
+model.add(Dense(512,activation=LeakyReLU(0.3)))
 model.add(Dropout(1/16))
 model.add(Dense(1,activation='sigmoid'))
 
 # 3. compile,training
 model.compile(loss='binary_crossentropy',optimizer='adam',metrics='acc')
-model.fit(x_train,y_train,validation_data=(x_test,y_test),epochs=10000,batch_size=len(x_train)//99
-          ,callbacks=es(monitor='val_loss',mode='min',patience=20,verbose=True,restore_best_weights=True))
+model.fit(x_train,y_train,validation_data=(x_test,y_test),epochs=100,batch_size=200 #len(x_train)//99
+          ,callbacks=es(monitor='val_loss',mode='min',patience=10,verbose=True,restore_best_weights=True))
 
 # model.save('./_save/ai_f_model.h5')
 # model = load_model('./_save/ai_f_model.h5')
@@ -138,4 +139,5 @@ for_sub[for_sub.columns[-1]]=np.round(y_pred)
 import datetime
 now=datetime.datetime.now().strftime('%m월%d일%h시%M분')
 print(for_sub.value_counts())
+print(submission.value_counts())
 for_sub.to_csv(f'{save_path}{now}_submission.csv',index=False)
