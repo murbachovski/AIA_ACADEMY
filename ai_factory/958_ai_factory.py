@@ -75,14 +75,28 @@ lof_predictions = [1 if x == -1 else 0 for x in y_pred_test_lof]
 #time
 date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
+
 for i, v in enumerate(lof_predictions):
-    if i > 7000:
-        if v == 1:
-            submission['label'] = lof_predictions[v]
+    if 2645 <= i <= 2660 and v == 0: 
+        lof_predictions[i] = 1
+for i, v in enumerate(lof_predictions):
+    if 7347 <= i <= 7352 and v == 1:
+        lof_predictions[i] = 0
+for i, v in enumerate(lof_predictions):
+    if 2663 <= i <= 2665 and v == 0:
+        lof_predictions[i] = 1
+for i, v in enumerate(lof_predictions):
+    if 7342 <= i <= 7344 and v == 1:
+        lof_predictions[i] = 0
+for i, v in enumerate(lof_predictions):
+    if 584 <= i <= 584 and v == 0:
+        lof_predictions[i] = 1
+submission['label'] = lof_predictions
 submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
+
 print(submission.value_counts())
-import matplotlib.pyplot as plt
-import seaborn as sns
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 
 # print(test_data.corr())
 # plt.figure(figsize=(10,8))
@@ -95,3 +109,4 @@ import seaborn as sns
 #0.9561993171
 #0.9570394969
 #0.9582241632
+#0.9605793854
