@@ -81,48 +81,52 @@ start_time = time.time()
 # (6000, 9) (6000,)
 # (1500, 9) (1500,)
 
-x_train = x_train.reshape(6000, 3, 3)
-x_test = x_test.reshape(1500, 3, 3)
+# x_train = x_train.reshape(6000, 3, 3)
+# x_test = x_test.reshape(1500, 3, 3)
 # print(x_train.shape, y_train.shape) # (6000, 3, 3) (6000,)
 # print(x_test.shape, y_test.shape)   # (1500, 3, 3) (1500,)
 
-#2. 모델구성
-# model = Sequential()
-# model.add(Dense(256, input_shape=(9,)))
-# model.add(Dropout(0.4))
-# model.add(Dense(128, activation=LeakyReLU(0.15)))
-# model.add(Dropout(0.2))
-# model.add(Dense(64, activation=LeakyReLU(0.15)))
-# model.add(Dropout(0.1))
-# model.add(Dense(64, activation=LeakyReLU(0.15)))
-# model.add(Dense(1))
+# 2. 모델구성
+model = Sequential()
+model.add(Dense(256, input_shape=(9,)))
+model.add(Dropout(0.3))
+model.add(Dense(128, activation=LeakyReLU(0.15)))
+model.add(Dropout(0.2))
+model.add(Dense(128, activation=LeakyReLU(0.15)))
+model.add(Dropout(0.2))
+model.add(Dense(128, activation=LeakyReLU(0.15)))
+model.add(Dropout(0.2))
+model.add(Dense(64, activation=LeakyReLU(0.15)))
+model.add(Dropout(0.1))
+model.add(Dense(64, activation=LeakyReLU(0.15)))
+model.add(Dense(1))
 
 # model = Sequential()
-# model.add(LSTM(128, input_shape=(3, 3), return_sequences=True))
+# model.add(LSTM(128, input_shape=(3, 3)))
 # model.add(LSTM(64, return_sequences=True, activation='relu'))
 # model.add(GRU(32, return_sequences=True, activation='relu'))
 # model.add(GRU(16, return_sequences=True, activation='relu'))
 # model.add(Dense(1))
 
-model = Sequential()
-model.add(LSTM(256, input_shape=(3, 3), return_sequences=True))
-model.add(Dense(128, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(64, activation='relu'))
-model.add(Dropout(0.4))
-model.add(Dense(32, activation='relu'))
-model.add(Dropout(0.3))
-model.add(Dense(16, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(8, activation='relu'))
-model.add(Dropout(0.1))
-model.add(Dense(1))
+# model = Sequential()
+# model.add(LSTM(256, input_shape=(3, 3), return_sequences=True))
+# model.add(Dense(128, activation='relu'))
+# model.add(Dropout(0.5))
+# model.add(Dense(64, activation='relu'))
+# model.add(Dropout(0.4))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dropout(0.3))
+# model.add(Dense(16, activation='relu'))
+# model.add(Dropout(0.2))
+# model.add(Dense(8, activation='relu'))
+# model.add(Dropout(0.1))
+# model.add(Dense(1))
 
 # 3. 컴파일,훈련
 model.compile(loss='mse', optimizer='adam', metrics=['acc'])
 es = EarlyStopping(
     monitor='val_loss',
-    patience=100,
+    patience=10,
     mode='min',
     restore_best_weights=True,
     verbose=1
@@ -144,11 +148,6 @@ rdp = ReduceLROnPlateau(
 )
 
 hist = model.fit(x_train, y_train, epochs=1, validation_split=0.2, batch_size=200, callbacks=[es, mcp, rdp])
-
-x_train = x_train.reshape(6000, 3*3)
-x_test = x_test.reshape(1500, 3*3)
-print(x_train.shape, y_train.shape)
-print(x_test.shape, y_test.shape)
 
 #4. EVALUATE, PREDICT
 loss = model.evaluate(x_test, y_test)
