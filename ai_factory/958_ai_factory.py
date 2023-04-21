@@ -41,7 +41,7 @@ X_train, X_val = train_test_split(X, test_size= 0.9, random_state= 337)
 print(X_train.shape, X_val.shape)
 
 #
-pca = PCA(n_components=3, random_state=222)
+pca = PCA(n_components=3)
 X_train = pca.fit_transform(X_train)
 X_val = pca.fit_transform(X_val)
 
@@ -52,7 +52,7 @@ test_data_normalized = scaler.transform(test_data.iloc[:, :-1])
 
 
 n_neighbors = 42
-contamination = 0.0458888
+contamination = 0.04588888
 #n_neighbors데이터 포인트에 대한 LOF 점수를 계산할 때 고려할 이웃 수를 결정합니다. 값 이 높을수록 이상 n_neighbors값을 감지하는 능력이 향상될 수 있지만 정상 데이터 포인트를 이상값으로 잘못 식별할 위험도 증가합니다. 따라서 n_neighbors특정 문제 및 데이터를 기반으로 신중하게 조정해야 합니다.
 lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          contamination=contamination,
@@ -64,7 +64,7 @@ lof = LocalOutlierFactor(n_neighbors=n_neighbors,
                          )
 y_pred_train_tuned = lof.fit_predict(X_val)
 
-# joblib.dump(lof, './_save/ai_factory/_model_ai_factory.joblib')
+joblib.dump(lof, './_save/ai_factory/_model_ai_factory.joblib')
 
 # 
 test_data_lof = scaler.fit_transform(test_data[features])
@@ -74,7 +74,6 @@ lof_predictions = [1 if x == -1 else 0 for x in y_pred_test_lof]
 
 submission['label'] = pd.DataFrame({'Prediction': lof_predictions})
 print(submission.value_counts())
-print(submission['label'].value_counts())
 
 #time
 date = datetime.datetime.now()
