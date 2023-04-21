@@ -72,15 +72,15 @@ y_pred_test_lof = lof.fit_predict(test_data_lof)
 lof_predictions = [1 if x == -1 else 0 for x in y_pred_test_lof]
 #lof_predictions = [0 if x == -1 else 0 for x in y_pred_test_lof]
 
-submission['label'] = pd.DataFrame({'Prediction': lof_predictions})
-print(submission.value_counts())
-
 #time
 date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
-
+for i, v in enumerate(lof_predictions):
+    if i > 7000:
+        if v == 1:
+            submission['label'] = lof_predictions[v]
 submission.to_csv(save_path + date + '_REAL_LOF_submission.csv', index=False)
-
+print(submission.value_counts())
 import matplotlib.pyplot as plt
 import seaborn as sns
 
