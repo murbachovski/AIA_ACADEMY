@@ -75,3 +75,4 @@ gc.collect()
 submission = pd.read_csv('/content/sample_submission.csv')
 submission['Calories_Burned'] = y_train_orig
 submission.to_csv('/content/scale.csv', index = False)
+# 
