@@ -1,3 +1,15 @@
+import numpy as np
+from sklearn.datasets import load_wine
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold,cross_val_score, StratifiedKFold
+from sklearn.metrics import accuracy_score
+from sklearn.utils import all_estimators
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestRegressor
+import pandas as pd
+from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import MinMaxScaler
+import time
 import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
@@ -27,10 +39,6 @@ col = ['ID',
         'Age'
 ]
 
-# ED, BT, BPM, CB
-# CB, ED, BT, BPM
-
-
 # Weight_Status, Gender => NUMBER
 train_df['Weight_Status'] = train_df['Weight_Status'].map({'Normal Weight': 0, 'Overweight': 1, 'Obese': 2})
 train_df['Gender'] = train_df['Gender'].map({'M': 0, 'F': 1})
@@ -52,22 +60,27 @@ X_scaled = scaler.fit_transform(X)
 # train, valid SPLIT
 X_train, X_valid, y_train, y_valid = train_test_split(X_scaled, y, test_size=0.3, random_state=42)
 
-# model 13
-mlp = MLPRegressor(hidden_layer_sizes=(2000, 600,3),
-                   max_iter=750, # = epochs = 반복 횟수
-                   activation='relu',
-                   solver='lbfgs', # 모델 학습에 사용되는 최적화 알고리즘
-                   random_state=42,
-                   verbose=1,
-                   alpha=2,
-                   #batch_size=20,
-                   #tol=1e-6, # 성능향상에는 직접적으로 연관은 없겠구나 
-                   #epsilon = 1e-8,
-                   #early_stopping=True,
-                   #shuffle=True
-                   )
-# Valid 데이터 RMSE: 0.340
+n_splits = 5
+kfold = KFold(n_splits=n_splits, shuffle=True, random_state=22) # cross_val_score내용들을 정리한 것.
+
+
+#2. MODEL # 대문자 = class
+mlp = GridSearchCV(MLPRegressor(),
+                    # hidden_layer_sizes=(2000, 600,3),
+                    # max_iter=500, # = epochs = 반복 횟수
+                    # activation='relu',
+                    # solver='lbfgs', # 모델 학습에 사용되는 최적화 알고리즘
+                    # random_state=42,
+                    # alpha=2.5,
+                    verbose=1,
+                    refit=True,
+                    n_jobs=-1,
+                    cv=5
+                    )
+
+start_time = time.time()
 mlp.fit(X_train, y_train)
+end_time = time.time()
 
 # valid PREDICT
 y_pred_valid = mlp.predict(X_valid)
@@ -87,3 +100,15 @@ start_time = time.time()
 # SUBMIT
 sample_submission_df['Calories_Burned'] = y_pred_test
 sample_submission_df.to_csv(save_path + date + 'submission_MLP_Poly.csv', index=False)
+
+
+print("최적의 매개변수 : ", mlp.best_estimator_) 
+
+print("최적의 파라미터 : ", mlp.best_params_)
+
+print("최적의 인덱스 : ", mlp.best_index_)
+
+print("BEST SCORE : ", mlp.best_score_)
+print("model 스코어 : ", mlp.score(X_poly_test, y_pred_test))
+
+print('걸린 시간: ', round(end_time - start_time, 2),'초')
