@@ -53,20 +53,20 @@ X_scaled = scaler.fit_transform(X)
 X_train, X_valid, y_train, y_valid = train_test_split(X_scaled, y, test_size=0.3, random_state=42)
 
 # model 13
-mlp = MLPRegressor(hidden_layer_sizes=(512, 256,3),
-                   max_iter=600, # = epochs = 반복 횟수
+mlp = MLPRegressor(hidden_layer_sizes=(2000, 600,3),
+                   max_iter=500, # = epochs = 반복 횟수
                    activation='relu',
                    solver='lbfgs', # 모델 학습에 사용되는 최적화 알고리즘
-                   random_state=32,
+                   random_state=42,
                    verbose=1,
-                   alpha=3,
+                   alpha=2.5,
                    #batch_size=20,
                    #tol=1e-6, # 성능향상에는 직접적으로 연관은 없겠구나 
                    #epsilon = 1e-8,
                    #early_stopping=True,
                    #shuffle=True
                    )
-
+# Valid 데이터 RMSE: 0.349
 mlp.fit(X_train, y_train)
 
 # valid PREDICT
