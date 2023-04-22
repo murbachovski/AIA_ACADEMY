@@ -53,8 +53,8 @@ for k in range(1000000):
     x_test = scaler.transform(x_test)
     test_csv = scaler.transform(test_csv)
     def objective(trial, x_train, y_train, x_test, y_test, min_rmse):
-        alpha = trial.suggest_loguniform('alpha', 0.0001, 10)
-        n_restarts_optimizer  = trial.suggest_int('n_restarts_optimizer', 0, 10)
+        alpha = trial.suggest_loguniform('alpha', 0.0001, 1)
+        n_restarts_optimizer  = trial.suggest_int('n_restarts_optimizer', 3, 10)
         optimizer = trial.suggest_categorical('optimizer', ['fmin_l_bfgs_b', 'Powell', 'CG'])
 
         model = GaussianProcessRegressor(
@@ -70,7 +70,7 @@ for k in range(1000000):
         y_pred = model.predict(x_test)
         rmse = RMSE(y_test, y_pred)
         print('GPR RMSE : ', rmse)
-        if rmse < 0.3013:
+        if rmse < 0.30:
             submit_csv['Calories_Burned'] = model.predict(test_csv)
             date = datetime.datetime.now()
             date = date.strftime('%m%d_%H%M%S')
