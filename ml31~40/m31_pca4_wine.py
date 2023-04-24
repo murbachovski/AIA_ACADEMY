@@ -1,28 +1,24 @@
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_breast_cancer, load_diabetes
+from sklearn.datasets import load_wine
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 
 #1. DATA
 datasets = [
-    load_diabetes(),
-    load_breast_cancer()
+    load_wine()
 ]
-
+after = True
 for i, v in enumerate(datasets):
     x, y = v.data, v.target
-    print(x.shape, y.shape) # (442, 10) (442,)
-    if x.shape[1] == 10:
-        n_pca = 9
-        if x.shape[1] == 9:
-            n_pca = 8
-
+    print(x.shape, y.shape) # (178, 13) (178,)
+    if after == True:
+        n_pca = x.shape[1] - 1
         # MODEL
         pca = PCA(n_components=n_pca)
         x = pca.fit_transform(x)
-        
+        print(n_pca)
         x_train, x_test, y_train, y_test = train_test_split(
             x,
             y,
@@ -35,12 +31,41 @@ for i, v in enumerate(datasets):
         model.fit(x_train, y_train)
 
         # PREDICT
-        results = model.score(x_test, y_test)
-        print('model_name: ', model)
-        print("RESULTS :", results)
+        if after == True:
+            print('AFTER_PCA', model)
+            results = model.score(x_test, y_test)
+            print('model_name: ', model)
+            print("RESULTS :", results)
+    else:
+        n_pca = x.shape[1]
+        # MODEL
+        pca = PCA(n_components=n_pca)
+        x = pca.fit_transform(x)
+        print(n_pca)
+        x_train, x_test, y_train, y_test = train_test_split(
+            x,
+            y,
+            train_size=0.8,
+            random_state=123
+        )
+        model = RandomForestRegressor(random_state=123, n_jobs=-1)
 
-    # BEFORE PCA 
-    # RESULTS : 0.47283290964179814
+        # COMPILE
+        model.fit(x_train, y_train)
 
-    # AFTER PCA
-    # RESULTS : 0.4598408858866415
+        # PREDICT
+        if after == False:
+            print('BEFORE_PCA', model)
+            results = model.score(x_test, y_test)
+            print('model_name: ', model)
+            print("RESULTS :", results)
+    
+# 13
+# BEFORE_PCA RandomForestRegressor(n_jobs=-1, random_state=123)
+# model_name:  RandomForestRegressor(n_jobs=-1, random_state=123)
+# RESULTS : 0.7326769230769231
+
+# 12
+# AFTER_PCA RandomForestRegressor(n_jobs=-1, random_state=123)
+# model_name:  RandomForestRegressor(n_jobs=-1, random_state=123)
+# RESULTS : 0.732646153846154

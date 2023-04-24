@@ -1,28 +1,26 @@
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_breast_cancer, load_diabetes
+from sklearn.datasets import load_breast_cancer
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 
 #1. DATA
 datasets = [
-    load_diabetes(),
     load_breast_cancer()
 ]
-
+after = False
 for i, v in enumerate(datasets):
     x, y = v.data, v.target
-    print(x.shape, y.shape) # (442, 10) (442,)
-    if x.shape[1] == 10:
-        n_pca = 9
-        if x.shape[1] == 9:
-            n_pca = 8
-
+    print(x.shape, y.shape) # (569, 30) (569,)
+    if after == True:
+        n_pca = x.shape[1] - 1
+    else:
+        n_pca = x.shape[1]
         # MODEL
         pca = PCA(n_components=n_pca)
         x = pca.fit_transform(x)
-        
+        print(n_pca)
         x_train, x_test, y_train, y_test = train_test_split(
             x,
             y,
@@ -38,9 +36,13 @@ for i, v in enumerate(datasets):
         results = model.score(x_test, y_test)
         print('model_name: ', model)
         print("RESULTS :", results)
+    
+# BEFORE PCA 
+# 30
+# model_name:  RandomForestRegressor(n_jobs=-1, random_state=123)
+# RESULTS : 0.8699226862679585
 
-    # BEFORE PCA 
-    # RESULTS : 0.47283290964179814
-
-    # AFTER PCA
-    # RESULTS : 0.4598408858866415
+# AFTER PCA -1
+#   29
+# model_name:  RandomForestRegressor(n_jobs=-1, random_state=123)
+# RESULTS : 0.8695684597393919
