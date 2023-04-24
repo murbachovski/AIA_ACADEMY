@@ -1,0 +1,48 @@
+{
+    "columns": [
+        "Exercise_Duration",
+        "Body_Temperature(F)",
+        "BPM",
+        "Height(Feet)",
+        "Height(Remainder_Inches)",
+        "Weight(lb)",
+        "Weight_Status",
+        "Gender",
+        "Age"
+    ],
+    "rows": 7500,
+    "cols": 9,
+    "target_is_numeric": true,
+    "columns_info": {
+        "Exercise_Duration": [
+            "scale"
+        ],
+        "Body_Temperature(F)": [
+            "scale"
+        ],
+        "BPM": [
+            "scale"
+        ],
+        "Height(Feet)": [
+            "scale"
+        ],
+        "Height(Remainder_Inches)": [
+            "scale"
+        ],
+        "Weight(lb)": [
+            "scale"
+        ],
+        "Weight_Status": [],
+        "Gender": [
+            "scale"
+        ],
+        "Age": [
+            "scale"
+        ]
+    },
+    "target_info": [
+        "scale"
+    ],
+    "n_features": 9,
+    "is_sample_weighted": false
+}

@@ -1,0 +1,77 @@
+{
+    "new_features": [
+        {
+            "feature1": "BPM",
+            "feature2": "Exercise_Duration",
+            "operation": "multiply",
+            "score": 0.0611717455
+        },
+        {
+            "feature1": "BPM",
+            "feature2": "Exercise_Duration",
+            "operation": "sum",
+            "score": 0.0703933205
+        },
+        {
+            "feature1": "Weight_Status",
+            "feature2": "Exercise_Duration",
+            "operation": "sum",
+            "score": 0.0842969658
+        },
+        {
+            "feature1": "Exercise_Duration",
+            "feature2": "Gender",
+            "operation": "diff",
+            "score": 0.0866398327
+        },
+        {
+            "feature1": "Exercise_Duration",
+            "feature2": "Body_Temperature(F)",
+            "operation": "ratio",
+            "score": 0.0899456819
+        },
+        {
+            "feature1": "Body_Temperature(F)",
+            "feature2": "Exercise_Duration",
+            "operation": "ratio",
+            "score": 0.0899456819
+        },
+        {
+            "feature1": "Height(Feet)",
+            "feature2": "Exercise_Duration",
+            "operation": "sum",
+            "score": 0.0903205715
+        },
+        {
+            "feature1": "Body_Temperature(F)",
+            "feature2": "Exercise_Duration",
+            "operation": "sum",
+            "score": 0.0910251886
+        },
+        {
+            "feature1": "Body_Temperature(F)",
+            "feature2": "Exercise_Duration",
+            "operation": "multiply",
+            "score": 0.0910520613
+        },
+        {
+            "feature1": "Exercise_Duration",
+            "feature2": "Body_Temperature(F)",
+            "operation": "diff",
+            "score": 0.0910715736
+        }
+    ],
+    "new_columns": [
+        "BPM_multiply_Exercise_Duration",
+        "BPM_sum_Exercise_Duration",
+        "Weight_Status_sum_Exercise_Duration",
+        "Exercise_Duration_diff_Gender",
+        "Exercise_Duration_ratio_Body_Temperature(F)",
+        "Body_Temperature(F)_ratio_Exercise_Duration",
+        "Height(Feet)_sum_Exercise_Duration",
+        "Body_Temperature(F)_sum_Exercise_Duration",
+        "Body_Temperature(F)_multiply_Exercise_Duration",
+        "Exercise_Duration_diff_Body_Temperature(F)"
+    ],
+    "ml_task": "regression"
+}

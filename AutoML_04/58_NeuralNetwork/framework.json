@@ -1,0 +1,1261 @@
+{
+    "uid": "7f238682-72d4-49d0-80c5-022df4d8a488",
+    "name": "58_NeuralNetwork",
+    "preprocessing": [
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.34144880094372,
+                        1.4115357849161192,
+                        9.583278276170349,
+                        0.5559601292313366,
+                        3.5030441505906906,
+                        33.25583535919381,
+                        0.49999288883832027,
+                        16.910710119351602
+                    ],
+                    "mean": [
+                        15.496888888888888,
+                        104.03182222222223,
+                        95.464,
+                        5.249037037037037,
+                        5.711555555555556,
+                        165.3821185185185,
+                        0.5026666666666667,
+                        42.59866666666667
+                    ],
+                    "var": [
+                        69.57976809876543,
+                        1.992433272098765,
+                        91.83922251851854,
+                        0.30909166529492454,
+                        12.271318320987653,
+                        1105.9505854378053,
+                        0.24999288888888888,
+                        285.9721167407407
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.67578266398601
+                ],
+                "mean": [
+                    89.23422222222223
+                ],
+                "var": [
+                    3928.2537325432095
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.369476877910383,
+                        1.4179213241314241,
+                        9.585865035137898,
+                        0.554693652398307,
+                        3.489363295574825,
+                        33.286072211337604,
+                        0.49999859533410373,
+                        16.930953217906577
+                    ],
+                    "mean": [
+                        15.491111111111111,
+                        104.0318074074074,
+                        95.49748148148149,
+                        5.25037037037037,
+                        5.719703703703703,
+                        165.47997037037035,
+                        0.5011851851851852,
+                        42.647851851851854
+                    ],
+                    "var": [
+                        70.04814320987654,
+                        2.010500881426611,
+                        91.8888084718793,
+                        0.30768504801097385,
+                        12.175656208504803,
+                        1107.9626032583815,
+                        0.2499985953360768,
+                        286.65717686694103
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.85446156846567
+                ],
+                "mean": [
+                    89.36177777777777
+                ],
+                "var": [
+                    3950.683339061728
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.355186523240187,
+                        1.4122397116769203,
+                        9.57829409854043,
+                        0.5585421745653372,
+                        3.4994150685040957,
+                        33.40520299505035,
+                        0.49999207675478047,
+                        16.8804397552896
+                    ],
+                    "mean": [
+                        15.523703703703704,
+                        104.03774814814815,
+                        95.52829629629629,
+                        5.246518518518519,
+                        5.7327407407407405,
+                        165.34401481481484,
+                        0.5028148148148148,
+                        42.65303703703704
+                    ],
+                    "var": [
+                        69.80914183813444,
+                        1.9944210032373109,
+                        91.74371783813443,
+                        0.3119693607681756,
+                        12.245905821673524,
+                        1115.9075871405212,
+                        0.2499920768175583,
+                        284.9492463319616
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.7799072544327
+                ],
+                "mean": [
+                    89.52829629629629
+                ],
+                "var": [
+                    3941.3167548751717
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.3703282647253,
+                        1.4150437452946087,
+                        9.588192491771286,
+                        0.5560208224579891,
+                        3.484853972532643,
+                        33.244628883891224,
+                        0.49999964883389586,
+                        16.914693882414852
+                    ],
+                    "mean": [
+                        15.474666666666666,
+                        104.0302962962963,
+                        95.43466666666667,
+                        5.252740740740741,
+                        5.711555555555556,
+                        165.5444888888889,
+                        0.5005925925925926,
+                        42.68222222222222
+                    ],
+                    "var": [
+                        70.06239525925926,
+                        2.0023488010973933,
+                        91.93343525925926,
+                        0.3091591550068587,
+                        12.144207209876543,
+                        1105.2053496276544,
+                        0.24999964883401918,
+                        286.10686913580247
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.9868816896634
+                ],
+                "mean": [
+                    89.19511111111112
+                ],
+                "var": [
+                    3967.347264987654
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.359457823992601,
+                        1.414938982334976,
+                        9.610653929324764,
+                        0.5580865015478125,
+                        3.5018148663264155,
+                        33.263268595639005,
+                        0.4999883894399549,
+                        16.844921511209037
+                    ],
+                    "mean": [
+                        15.476,
+                        104.02651851851851,
+                        95.4757037037037,
+                        5.248444444444444,
+                        5.716444444444445,
+                        165.35472592592595,
+                        0.5034074074074074,
+                        42.64385185185185
+                    ],
+                    "var": [
+                        69.88053511111113,
+                        2.002052323731138,
+                        92.36466894924554,
+                        0.31146054320987654,
+                        12.262707358024691,
+                        1106.445037665624,
+                        0.24998838957475997,
+                        283.7513807187929
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.86814193469525
+                ],
+                "mean": [
+                    89.23911111111111
+                ],
+                "var": [
+                    3952.4032703209878
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.349369447619353,
+                        1.4134986611121025,
+                        9.570358807469221,
+                        0.5574761862328608,
+                        3.5025161247865193,
+                        33.31283960496243,
+                        0.49999207675478047,
+                        16.896929366742686
+                    ],
+                    "mean": [
+                        15.533777777777777,
+                        104.03758518518518,
+                        95.544,
+                        5.245925925925926,
+                        5.712592592592593,
+                        165.1625185185185,
+                        0.5028148148148148,
+                        42.666222222222224
+                    ],
+                    "var": [
+                        69.7119701728395,
+                        1.9979784649657062,
+                        91.5917677037037,
+                        0.31077969821673523,
+                        12.267619204389575,
+                        1109.7452825459534,
+                        0.2499920768175583,
+                        285.50622202469134
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.85668697279677
+                ],
+                "mean": [
+                    89.68562962962963
+                ],
+                "var": [
+                    3950.963097196159
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.343935535762828,
+                        1.408674070237371,
+                        9.562485146280725,
+                        0.5554938434860387,
+                        3.5021982232680275,
+                        33.36622602799455,
+                        0.49999207675478047,
+                        16.867637730630715
+                    ],
+                    "mean": [
+                        15.517185185185186,
+                        104.03802962962962,
+                        95.51688888888889,
+                        5.249185185185185,
+                        5.711555555555556,
+                        165.320237037037,
+                        0.5028148148148148,
+                        42.575407407407404
+                    ],
+                    "var": [
+                        69.62126022496571,
+                        1.9843626361591218,
+                        91.44112217283951,
+                        0.3085734101508916,
+                        12.265392395061728,
+                        1113.3050393512208,
+                        0.24999207681755828,
+                        284.51720261179696
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.665379896779385
+                ],
+                "mean": [
+                    89.41214814814815
+                ],
+                "var": [
+                    3926.9498376076817
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.355574679515808,
+                        1.412996172611038,
+                        9.583144209978558,
+                        0.5562265380141628,
+                        3.484053168381582,
+                        33.28781646576966,
+                        0.49997311313169157,
+                        16.81756472863775
+                    ],
+                    "mean": [
+                        15.498814814814814,
+                        104.03103703703704,
+                        95.5037037037037,
+                        5.249037037037037,
+                        5.705037037037037,
+                        165.18368888888887,
+                        0.5051851851851852,
+                        42.44592592592593
+                    ],
+                    "var": [
+                        69.8156282249657,
+                        1.9965581838134425,
+                        91.83665294924555,
+                        0.30938796159122084,
+                        12.138626480109739,
+                        1108.0787250587655,
+                        0.24997311385459525,
+                        282.83048340192045
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.68618454917585
+                ],
+                "mean": [
+                    89.20666666666666
+                ],
+                "var": [
+                    3929.557733333333
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.368477945366472,
+                        1.411124921406125,
+                        9.610561301907548,
+                        0.5572226641062709,
+                        3.501214121377203,
+                        33.30081319875262,
+                        0.4999851630171753,
+                        16.850041813415615
+                    ],
+                    "mean": [
+                        15.51437037037037,
+                        104.03623703703704,
+                        95.5005925925926,
+                        5.248296296296297,
+                        5.714518518518519,
+                        165.33592592592592,
+                        0.5038518518518519,
+                        42.72281481481482
+                    ],
+                    "var": [
+                        70.03142312208506,
+                        1.9912735438134426,
+                        92.36288853772291,
+                        0.31049709739368997,
+                        12.25850032373114,
+                        1108.9441596982167,
+                        0.2499851632373114,
+                        283.92390911385456
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.99446116335945
+                ],
+                "mean": [
+                    89.55718518518519
+                ],
+                "var": [
+                    3968.302137262003
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        },
+        {
+            "scale": [
+                {
+                    "scale": [
+                        8.333867335647694,
+                        1.409462462908616,
+                        9.593483683479386,
+                        0.5564914783104038,
+                        3.5021208263820474,
+                        33.33396444332921,
+                        0.5,
+                        16.90460735793428
+                    ],
+                    "mean": [
+                        15.485481481481482,
+                        104.03465185185183,
+                        95.516,
+                        5.248444444444444,
+                        5.740296296296297,
+                        165.50417777777778,
+                        0.5,
+                        42.724
+                    ],
+                    "var": [
+                        69.45334476817558,
+                        1.986584434348422,
+                        92.03492918518519,
+                        0.30968276543209866,
+                        12.264850282578875,
+                        1111.153185509136,
+                        0.25,
+                        285.7657499259259
+                    ],
+                    "n_samples_seen": 6750,
+                    "n_features_in": 8,
+                    "columns": [
+                        "Exercise_Duration",
+                        "Body_Temperature(F)",
+                        "BPM",
+                        "Height(Feet)",
+                        "Height(Remainder_Inches)",
+                        "Weight(lb)",
+                        "Gender",
+                        "Age"
+                    ],
+                    "scale_method": "scale_normal"
+                }
+            ],
+            "scale_y": {
+                "scale": [
+                    62.75800114512204
+                ],
+                "mean": [
+                    89.31451851851853
+                ],
+                "var": [
+                    3938.5667077311386
+                ],
+                "n_samples_seen": 6750,
+                "n_features_in": 1,
+                "columns": [
+                    "target"
+                ],
+                "scale_method": "scale_normal"
+            },
+            "ml_task": "regression",
+            "params": {
+                "columns_preprocessing": {
+                    "Exercise_Duration": [
+                        "scale_normal"
+                    ],
+                    "Body_Temperature(F)": [
+                        "scale_normal"
+                    ],
+                    "BPM": [
+                        "scale_normal"
+                    ],
+                    "Height(Feet)": [
+                        "scale_normal"
+                    ],
+                    "Height(Remainder_Inches)": [
+                        "scale_normal"
+                    ],
+                    "Weight(lb)": [
+                        "scale_normal"
+                    ],
+                    "Gender": [
+                        "scale_normal"
+                    ],
+                    "Age": [
+                        "scale_normal"
+                    ]
+                },
+                "target_preprocessing": [
+                    "na_exclude",
+                    "scale_normal"
+                ],
+                "ml_task": "regression"
+            }
+        }
+    ],
+    "learners": [
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "921361ca-dd35-49ea-b84e-a7f1daae7659",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_0"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "03f864f5-2b7a-4a94-a474-d6da41b25ea0",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_1"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "0da3411e-4060-4028-bd61-376c5dd532c0",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_2"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "ab1e7fe5-17c7-4208-b3bd-b165cc5946a4",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_3"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "5f2f69b5-a046-4464-bc3d-6f97e00025eb",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_4"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "fcc58a3d-4b17-4b1f-9f34-1014a28acf15",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_5"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "694ea5d8-0e61-4ff7-af02-587ba0c74db4",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_6"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "4eb1ea2d-e909-4fbd-aea8-8aa86ac5f1a8",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_7"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "a0f8d944-0b41-41fb-9f8b-1131905bebc1",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_8"
+        },
+        {
+            "library_version": "1.2.1",
+            "algorithm_name": "Neural Network",
+            "algorithm_short_name": "Neural Network",
+            "uid": "fd579b46-bdcc-472b-aaa1-00647e9caeff",
+            "params": {
+                "model_type": "Neural Network",
+                "ml_task": "regression",
+                "n_jobs": -1,
+                "seed": 1237,
+                "dense_1_size": 64,
+                "dense_2_size": 32,
+                "learning_rate": 0.08,
+                "explain_level": 0
+            },
+            "name": "learner_fold_9"
+        }
+    ],
+    "params": {
+        "additional": {
+            "max_rows_limit": null,
+            "max_cols_limit": null
+        },
+        "preprocessing": {
+            "columns_preprocessing": {
+                "Exercise_Duration": [
+                    "scale_normal"
+                ],
+                "Body_Temperature(F)": [
+                    "scale_normal"
+                ],
+                "BPM": [
+                    "scale_normal"
+                ],
+                "Height(Feet)": [
+                    "scale_normal"
+                ],
+                "Height(Remainder_Inches)": [
+                    "scale_normal"
+                ],
+                "Weight(lb)": [
+                    "scale_normal"
+                ],
+                "Gender": [
+                    "scale_normal"
+                ],
+                "Age": [
+                    "scale_normal"
+                ]
+            },
+            "target_preprocessing": [
+                "na_exclude",
+                "scale_normal"
+            ],
+            "ml_task": "regression"
+        },
+        "validation_strategy": {
+            "validation_type": "kfold",
+            "shuffle": true,
+            "X_path": "AutoML_2\\X.data",
+            "y_path": "AutoML_2\\y.data",
+            "results_path": "AutoML_2",
+            "k_folds": 10
+        },
+        "learner": {
+            "model_type": "Neural Network",
+            "ml_task": "regression",
+            "n_jobs": -1,
+            "seed": 1237,
+            "dense_1_size": 64,
+            "dense_2_size": 32,
+            "learning_rate": 0.08,
+            "explain_level": 0
+        },
+        "automl_random_state": 1234,
+        "ml_task": "regression",
+        "explain_level": 0,
+        "name": "58_NeuralNetwork",
+        "status": "initialized",
+        "final_loss": null,
+        "train_time": null,
+        "data_type": "original",
+        "max_time_for_learner": 60
+    },
+    "saved": [
+        "58_NeuralNetwork\\learner_fold_0.neural_network",
+        "58_NeuralNetwork\\learner_fold_1.neural_network",
+        "58_NeuralNetwork\\learner_fold_2.neural_network",
+        "58_NeuralNetwork\\learner_fold_3.neural_network",
+        "58_NeuralNetwork\\learner_fold_4.neural_network",
+        "58_NeuralNetwork\\learner_fold_5.neural_network",
+        "58_NeuralNetwork\\learner_fold_6.neural_network",
+        "58_NeuralNetwork\\learner_fold_7.neural_network",
+        "58_NeuralNetwork\\learner_fold_8.neural_network",
+        "58_NeuralNetwork\\learner_fold_9.neural_network"
+    ],
+    "predictions_fname": "58_NeuralNetwork\\predictions_out_of_folds.csv",
+    "metric_name": "mae",
+    "final_loss": 1.0505753817831334,
+    "train_time": 21.279358863830566,
+    "is_stacked": false
+}
