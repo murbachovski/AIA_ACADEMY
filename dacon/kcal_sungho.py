@@ -25,7 +25,7 @@ submit_csv = pd.read_csv(path + 'sample_submission.csv', index_col=0)
 
 x = train_csv.drop(['Calories_Burned'], axis=1)
 y = train_csv['Calories_Burned']
-validation_indices = np.load('AutoML_04/split_validation_indices.npy')
+# validation_indices = np.load('AutoML_04/split_validation_indices.npy')
 
 
 
@@ -45,8 +45,8 @@ test_csv = test_csv.drop(['Height(Feet)', 'Height(Remainder_Inches)'], axis=1)
 scaler = MaxAbsScaler()
 x = pd.DataFrame(scaler.fit_transform(x))
 test_csv = pd.DataFrame(scaler.transform(test_csv))
-validation_indices = np.load('AutoML_04/split_validation_indices.npy')
-train_indicdes = np.load('AutoML_04/split_train_indices.npy')
+validation_indices = np.load('./_data/dacon_kcal/split_validation_indices.npy')
+# train_indicdes = np.load('AutoML_04/split_train_indices.npy')
 # x = x.iloc[train_indicdes]
 # y = y.iloc[train_indicdes]
 
@@ -77,7 +77,7 @@ for i in range(10000):
             y_pred = np.round(model.predict(x_test))
             rmse = RMSE(y_test, y_pred)
             print('GPR RMSE : ', rmse)
-            if rmse < 0.15:
+            if rmse < 0.16:
                 submit_csv['Calories_Burned'] = np.round(model.predict(test_csv))
                 date = datetime.datetime.now()
                 date = date.strftime('%m%d_%H%M%S')
