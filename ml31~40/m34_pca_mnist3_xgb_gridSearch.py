@@ -49,3 +49,18 @@ for i in range(len(n_c_list)):
     
     y_pred = np.argmax(model.predict(x_test), axis=1)
     print(f'PCA {pca_list[i]} pred acc :', accuracy_score(np.argmax(y_test, axis=1), y_pred))
+
+# PCA 0.95 test acc : 0.5456428527832031
+# PCA 0.95 pred acc : 0.5456428571428571
+# 2800/2800 [==============================] - 14s 5ms/step - loss: 6.1899 - acc: 0.3915 - val_loss: 1.4354 - val_acc: 0.5030
+# 438/438 [==============================] - 2s 5ms/step - loss: 1.4265 - acc: 0.5082
+# PCA 0.99 test acc : 0.5082142949104309
+# PCA 0.99 pred acc : 0.5082142857142857
+# 2800/2800 [==============================] - 15s 5ms/step - loss: 3.2225 - acc: 0.5029 - val_loss: 1.1200 - val_acc: 0.6458
+# 438/438 [==============================] - 2s 5ms/step - loss: 1.1416 - acc: 0.6364
+# PCA 0.999 test acc : 0.6364285945892334
+# PCA 0.999 pred acc : 0.6364285714285715
+# 2800/2800 [==============================] - 14s 5ms/step - loss: 3.3525 - acc: 0.5646 - val_loss: 0.9479 - val_acc: 0.7071
+# 438/438 [==============================] - 2s 5ms/step - loss: 0.9488 - acc: 0.6994
+# PCA 1.0 test acc : 0.6993571519851685
+# PCA 1.0 pred acc : 0.6993571428571429
