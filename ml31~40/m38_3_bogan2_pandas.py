@@ -75,16 +75,30 @@ data.columns = ['x1', 'x2', 'x3', 'x4']
 
 # 2-3 특정 값 - ffill, bfill
 # print('============결측치 처리 ffill, bfill=========')
-data4 = data.fillna(method='ffill')
+# data4 = data.fillna(method='ffill')
 # print(data4)
-data5 = data.fillna(method='backfill')
+# data5 = data.fillna(method='backfill')
 # print(data5)
 
 # 2-4. 특정 값 - 임의 값으로 채우기
 # print('============결측치 처리 임의의 값으로 채우기=========')
 # data6 = data.fillna(77)
-data6 = data.fillna(value=777) # 위와 동일하다.
-print(data6)
+# data6 = data.fillna(value=777) # 위와 동일하다.
+# print(data6)
 
+#######################특정 칼럼만 !!!!!!!! ######################
+# 1. x1컬럼에 평균값을 넣고
+means = data['x1'].mean()
+data['x1'] = data['x1'].fillna(means)
+# print(data)
 
+# 2. x2컬럼에 중위값을 넣고
+midean = data['x2'].median()
+data['x2'] = data['x2'].fillna(midean)
+# print(data)
 
+# 3. x4컬럼에 ffill한후 / 제일 위에 남은 행에 777777로 채우기
+data['x4'] = data['x4'].fillna(method='ffill')
+data['x4'] = data['x4'].fillna(value=77)
+
+print(data)
