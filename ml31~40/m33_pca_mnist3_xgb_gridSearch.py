@@ -4,9 +4,9 @@
 # m33_2 결과 뛰어넘기
 
 parameters = [
-    {'n_estimators':[100, 200, 300], 'learning_rate':[0.1, 0.3, 0.001, 0.01],
+    {'n_estimators':[1], 'learning_rate':[0.1, 0.3, 0.001, 0.01],
      'max_depth':[4, 5, 6]},
-    {'n_estimators':[90, 100, 110], 'learning_rate':[0.1, 0.001, 0.01],
+    {'n_estimators':[1], 'learning_rate':[0.1, 0.001, 0.01],
      'max_depth':[4, 5, 6], 'colsample_bytree':[0.6, 0.9, 1]},
     {'n_estimators':[90, 110], 'learning_rate':[0.1, 0.001, 0.01],
      'max_depth':[4, 5, 6], 'colsample_bytree':[0.6, 0.9, 1],
@@ -41,14 +41,15 @@ for i in range(len(n_c_list)):
     x_p = pca.fit_transform(x.astype('float32'))
     x_train, x_test, y_train, y_test = train_test_split(x_p, y, train_size=0.8, shuffle=True, random_state=123)
 
-    model = GridSearchCV(XGBClassifier(tree_method='gpu_hist', predictor='gpu_predictor', gpu_id=0), parameters, cv=5, refit=True, n_jobs=-1)
+    model = GridSearchCV(XGBClassifier(tree_method='gpu_hist', predictor='gpu_predictor', gpu_id=0), parameters, cv=5, refit=True, n_jobs=-1,
+                         verbose=1)
     model.fit(x_train, y_train)
     
-    acc = model.evaluate(x_test, y_test)
+    acc = model.score(x_test, y_test)
     print(f'PCA {pca_list[i]} test acc : {acc}')
     
     y_pred = np.argmax(model.predict(x_test), axis=1)
-    print(f'PCA {pca_list[i]} pred acc :', accuracy_score(np.argmax(y_test, axis=1), y_pred))
+    print(f'PCA {pca_list[i]} pred acc :', accuracy_score(y_test), y_pred)
 
 # PCA 0.95 test acc : 0.5456428527832031
 # PCA 0.95 pred acc : 0.5456428571428571

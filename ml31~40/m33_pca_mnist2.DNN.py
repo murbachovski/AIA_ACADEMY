@@ -18,6 +18,7 @@ x = x.reshape(x.shape[0], -1)
 
 for i in range(len(n_c_list)):
     pca = PCA(n_components=n_c_list[i])
+    print(n_c_list[i])
     x_p = pca.fit_transform(x.astype('float32'))
     x_train, x_test, y_train, y_test = train_test_split(x_p, y, train_size=0.8, shuffle=True, random_state=123)
 
@@ -27,7 +28,7 @@ for i in range(len(n_c_list)):
     model.add(Dense(10, activation='softmax'))
     
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics='acc')
-    model.fit(x_train, y_train, epochs=1, batch_size=16, validation_split=0.2)
+    model.fit(x_train, y_train, epochs=1, batch_size=5000, validation_split=0.2)
     
     acc = model.evaluate(x_test, y_test)[1]
     print(f'PCA {pca_list[i]} test acc : {acc}')
