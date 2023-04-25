@@ -22,6 +22,7 @@ from xgboost import XGBRegressor
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
+from sklearn.decomposition import PCA
 
 imputer_switch = True
 
@@ -35,11 +36,16 @@ submission = pd.read_csv(path + 'sample_submission.csv', index_col=0)
 # drop_cols = ['Alley', 'PoolQC', 'Fence', 'MiscFeature']
 # test_csv.drop(drop_cols, axis = 1, inplace =True)
 
+le = LabelEncoder()
+for i in train_csv.columns:
+    if train_csv[i].dtype=='object':
+        train_csv[i] = le.fit_transform(train_csv[i])
+        test_csv[i] = le.fit_transform(test_csv[i])
 
 x = train_csv.drop(['SalePrice'], axis = 1)
 y = train_csv['SalePrice']
 
-if imputer_switch == True:
+if imputer_switch == False:
     imputer = IterativeImputer(estimator=XGBRegressor())
     x = imputer.fit_transform(x)
 
@@ -56,7 +62,7 @@ results = model.score(x_test, y_test)
 print('results: ', results)
 
 # 결측치 처리 전
-# results:  0.7930421636665577
+# results:  0.8997374099941793
 
 # 결측치 처리 후
-# results:  0.7927142976659465
+# results:  0.8975155942026471
