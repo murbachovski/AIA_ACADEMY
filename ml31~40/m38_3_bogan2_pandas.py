@@ -87,6 +87,9 @@ data.columns = ['x1', 'x2', 'x3', 'x4']
 # print(data6)
 
 #######################특정 칼럼만 !!!!!!!! ######################
+
+print(data)
+
 # 1. x1컬럼에 평균값을 넣고
 means = data['x1'].mean()
 data['x1'] = data['x1'].fillna(means)
