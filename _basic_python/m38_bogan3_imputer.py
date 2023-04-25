@@ -88,20 +88,40 @@ data.columns = ['x1', 'x2', 'x3', 'x4']
 
 #######################특정 칼럼만 !!!!!!!! ######################
 
-print(data)
+# print(data)
 
 # 1. x1컬럼에 평균값을 넣고
-means = data['x1'].mean()
-data['x1'] = data['x1'].fillna(means)
+# means = data['x1'].mean()
+# data['x1'] = data['x1'].fillna(means)
 # print(data)
 
 # 2. x2컬럼에 중위값을 넣고
-midean = data['x2'].median()
-data['x2'] = data['x2'].fillna(midean)
+# midean = data['x2'].median()
+# data['x2'] = data['x2'].fillna(midean)
 # print(data)
 
 # 3. x4컬럼에 ffill한후 / 제일 위에 남은 행에 777777로 채우기
-data['x4'] = data['x4'].fillna(method='ffill')
-data['x4'] = data['x4'].fillna(value=77)
+# data['x4'] = data['x4'].fillna(method='ffill')
+# data['x4'] = data['x4'].fillna(value=77)
 
 print(data)
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import SimpleImputer, KNNImputer, IterativeImputer
+from sklearn.tree import DecisionTreeRegressor
+from xgboost import XGBRegressor
+# imputer = SimpleImputer()                         # 디폴트는 평균!!!!!!!! 
+# imputer = SimpleImputer(strategy='mean')          # 평균 
+# imputer = SimpleImputer(strategy='median')        # 중위 
+# imputer = SimpleImputer(strategy='most_frequent') # 최빈값 // 갯수가 같을 경우 가장 작은 값  
+# imputer = SimpleImputer(strategy='constant', fill_value=777)        # 0 들어간다.         
+# imputer = SimpleImputer(strategy='constant', fill_value=777)        # 0 들어간다.         
+# imputer = KNNImputer() 
+imputer = IterativeImputer(estimator=XGBRegressor())
+
+data2 = imputer.fit_transform(data)
+print(data2)
+# [[ 2.          2.          2.          6.        ]
+#  [ 6.5         4.          4.          4.        ]
+#  [ 6.          4.66666667  6.          6.        ]
+#  [ 8.          8.          8.          8.        ]
+#  [10.          4.66666667 10.          6.        ]]
