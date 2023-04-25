@@ -13,7 +13,7 @@ data_lsit = [
     load_breast_cancer(return_X_y=True),
     load_wine(return_X_y=True),
     load_digits(return_X_y=True),
-    fetch_covtype(return_X_y=True)
+    # fetch_covtype(return_X_y=True)
 ]
 
 data_name_list = [
@@ -21,7 +21,7 @@ data_name_list = [
     'load_breast_cancer',
     'load_wine',
     'load_digits',
-    'fetch_covtype'
+    # 'fetch_covtype'
 ]
 
 print("===========시작==============")
