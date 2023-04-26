@@ -14,7 +14,7 @@ test_csv = pd.read_csv(path + 'test.csv', index_col=0)
 
 x = train_csv.drop(['count'], axis = 1)
 y = train_csv['count']
-
+#
 imputer = IterativeImputer(estimator=XGBRegressor())
 x = imputer.fit_transform(x)
 
