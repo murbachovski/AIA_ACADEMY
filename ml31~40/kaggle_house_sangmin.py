@@ -28,9 +28,9 @@ for i in train_csv.columns:
 x = train_csv.drop(['SalePrice'], axis=1)
 y = train_csv['SalePrice']
 bogan = [x.fillna(0),
-        train_csv.fillna(method='ffill'),
-        train_csv.fillna(method='bfill'),
-        train_csv.fillna(value = 77)
+        x.fillna(method='ffill'),
+        x.fillna(method='bfill'),
+        x.fillna(value = 77)
         ]
 bogan_test = [test_csv.fillna(0),
             test_csv.fillna(method='ffill'),
@@ -42,28 +42,28 @@ print(x.shape)
 print(test_csv.shape)
 for j in bogan:
     x = j
-    for k in bogan_test:
-        test_csv = k
-        print(x.shape)
-        print(test_csv.shape)
-        x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=123, shuffle=True)
-        # 2. 모델구성
-        model = RandomForestRegressor(random_state=123)
+for k in bogan_test:
+    test_csv = k
+    print(x.shape)
+    print(test_csv.shape)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=123, shuffle=True)
+    # 2. 모델구성
+    model = RandomForestRegressor(random_state=123)
 
-        #3. 훈련
-        model.fit(x_train,y_train)
+    #3. 훈련
+    model.fit(x_train,y_train)
 
-        # 4. 평가, 예측
-        loss = model.score(x_test, y_test)
-        print('loss : ', loss)
+    # 4. 평가, 예측
+    loss = model.score(x_test, y_test)
+    print('loss : ', loss)
 
-        y_predict = model.predict(x_test)
+    y_predict = model.predict(x_test)
 
-        from sklearn.metrics import r2_score
-        r2 = r2_score(y_test, y_predict)
-        print('r2 : ', r2)
+    from sklearn.metrics import r2_score
+    r2 = r2_score(y_test, y_predict)
+    print('r2 : ', r2)
 
-            # #4. 평가,예측
-        submittion = model.predict(test_csv)
-        submission['SalePrice'] = submission
-        submission.to_csv('./_save/kaggle_house/submit.csv')
+        # #4. 평가,예측
+    submittion = model.predict(test_csv)
+    submission['SalePrice'] = submission
+    submission.to_csv('./_save/kaggle_house/submit.csv')
