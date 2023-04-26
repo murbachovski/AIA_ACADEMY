@@ -29,10 +29,18 @@ def outliers(data_out):
     upper_bound = quartile_3 + (iqr * 1.5) 
     return np.where((data_out>upper_bound) | (data_out<lower_bound))
 outliers_loc = outliers(x)
-print('이상치의 위치 : ', list((outliers_loc[0], outliers_loc[1])))
+print('이상치의 위치 : ', list((outliers_loc)))
+x[outliers_loc] = 99999999999
+# import matplotlib.pyplot as plt
+# plt.boxplot(x)
+# plt.show()
 
-# x = 
+xgb = XGBRegressor()
+xgb.fit(x, y)
+results = xgb.score(x,y)
+y_submit = xgb.predict(test_csv)
+print(results)
 
-import matplotlib.pyplot as plt
-plt.boxplot(x)
-plt.show()
+submission = pd.read_csv(path + 'sampleSubmission.csv', index_col=0)
+submission['count'] = y_submit
+submission.to_csv(path_save + 'dacon_kaggle_submit.csv')
