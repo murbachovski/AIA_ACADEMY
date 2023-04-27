@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import KFold, StratifiedKFold
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler, RobustScaler # RobustScaler는
 from xgboost import XGBClassifier, XGBRegressor
 
 
-x, y = load_breast_cancer(return_X_y=True)
+x, y = fetch_california_housing(return_X_y=True)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,

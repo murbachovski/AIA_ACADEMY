@@ -30,10 +30,12 @@ def outliers(data_out):
     return np.where((data_out>upper_bound) | (data_out<lower_bound))
 outliers_loc = outliers(x)
 print('이상치의 위치 : ', list((outliers_loc)))
-x[outliers_loc] = 99999999999
-# import matplotlib.pyplot as plt
-# plt.boxplot(x)
-# plt.show()
+x[outliers_loc] = np.nan
+print(x[outliers_loc])
+
+import matplotlib.pyplot as plt
+plt.boxplot(x)
+plt.show()
 
 xgb = XGBRegressor()
 xgb.fit(x, y)
