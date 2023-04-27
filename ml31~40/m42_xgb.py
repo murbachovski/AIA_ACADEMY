@@ -40,15 +40,17 @@ parameters = {
 }
 
 # 2. MODEL
-xgb = XGBClassifier(random_state = 337)
-model = GridSearchCV(xgb, parameters, cv=kfold, n_jobs=-1)
+model = XGBClassifier(random_state = 337)
 
 # 3. COMPILE
-model.fit(x_train, y_train)
+model.fit(x_train, y_train,
+          eval_set=[(x_test, y_test)],
+          early_stopping_rounds=10
+          )
 
 # 4. PREDICT
-print('BEST PARAMETERS: ', model.best_params_)
-print('BEST SCORE: ', model.best_score_)
+# print('BEST PARAMETERS: ', model.best_params_)
+# print('BEST SCORE: ', model.best_score_)
 
 results = model.score(x_test, y_test)
 print('FINISH SCORE: ', results)
