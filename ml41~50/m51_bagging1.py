@@ -19,9 +19,11 @@ x_test = scaler.transform(x_test)
 # 2. MODEL
 from sklearn.ensemble import RandomForestClassifier, BaggingClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
 
+aaa = LogisticRegression()
 
-model = BaggingClassifier(BaggingClassifier(),
+model = BaggingClassifier(aaa,
                           n_estimators=10,
                           n_jobs=-1,
                           random_state=1253,
