@@ -1,6 +1,9 @@
 import pandas as pd
 import os
+<<<<<<< HEAD
 import pandas as pd
+=======
+>>>>>>> a526836f88b561deb0d98adf05c3c4cb5b7349aa
 
 # Set directory where CSV files are located
 csv_dir = './_data/ai_factory/social/TRAIN'
@@ -24,4 +27,8 @@ for file in os.listdir(csv_dir):
 combined_df = pd.concat(df_list)
 
 # Save combined dataframe to CSV file
+<<<<<<< HEAD
 combined_df.to_csv('./_data/ai_factory/social/train_all.csv', index=False)
+=======
+combined_df.to_csv('./_data/ai_factory/social/train_all.csv', index=False)
+>>>>>>> a526836f88b561deb0d98adf05c3c4cb5b7349aa
