@@ -42,7 +42,12 @@ for filename in test_input_files:
 #print(li) #[7728 rows x 4 columns] * 17개
 # print(len(li)) #17개
 
+<<<<<<< HEAD
 test_dataset = pd.concat(li, axis=0, ignore_index=True) #인덱스 제거
+=======
+test_dataset = pd.concat(li, axis=0,
+                          ignore_index=True) #인덱스 제거
+>>>>>>> cfa223f78034514fe9498cd50d76ef58af182770
 #print(test_dataset) #[131376 rows x 4 columns]
 
 ###################################측정소 라벨인코더##########################################
@@ -79,12 +84,21 @@ test_dataset = test_dataset.drop(['일시'], axis = 1)
 ###str -> int
 #train_dataset['Month'] = train_dataset['Month'].astype('int32')
 #train_dataset['Month'] = pd.to_numeric(train_dataset['Month'])
+<<<<<<< HEAD
 train_dataset['Month'] = pd.to_numeric(train_dataset['Month']).astype('int8') #인트를 마음대로 조절할수있다는 장점이 있음
 train_dataset['hour'] = pd.to_numeric(train_dataset['hour']).astype('int8')
 #즉, 메모리가 줄어들게 할 수있음.
 
 test_dataset['Month'] = pd.to_numeric(test_dataset['Month']).astype('int8') #인트를 마음대로 조절할수있다는 장점이 있음
 test_dataset['hour'] = pd.to_numeric(test_dataset['hour']).astype('int8')
+=======
+train_dataset['Month'] = pd.to_numeric(train_dataset['Month']).astype('int16') #인트를 마음대로 조절할수있다는 장점이 있음
+train_dataset['hour'] = pd.to_numeric(train_dataset['hour']).astype('int16')
+#즉, 메모리가 줄어들게 할 수있음.
+
+test_dataset['Month'] = pd.to_numeric(test_dataset['Month']).astype('int16') #인트를 마음대로 조절할수있다는 장점이 있음
+test_dataset['hour'] = pd.to_numeric(test_dataset['hour']).astype('int16')
+>>>>>>> cfa223f78034514fe9498cd50d76ef58af182770
 
 # print(train_dataset.info())
 # Data columns (total 5 columns):
