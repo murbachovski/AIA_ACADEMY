@@ -2,17 +2,17 @@ from bayes_opt import BayesianOptimization
 from lightgbm import LGBMRegressor, LGBMClassifier
 import numpy as np
 
-from sklearn.datasets import load_diabetes, load_breast_cancer, load_iris
+from sklearn.datasets import load_diabetes, load_breast_cancer, load_iris, fetch_california_housing
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 import warnings
 warnings.filterwarnings(action='ignore')
 import time
-from xgboost import XGBClassifier
+from xgboost import XGBClassifier, XGBRegressor
 
 # 1. DATA
-x, y = load_iris(return_X_y=True)
+x, y = fetch_california_housing(return_X_y=True)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, random_state=337, train_size=0.8
@@ -45,7 +45,7 @@ def lgb_hamsu(learning_rate):
         'learning_rate' : learning_rate,
     }
 
-    model = XGBClassifier(**params)
+    model = XGBRegressor(**params)
     model.fit(x_train, y_train, 
             eval_metric='rmse',
             verbose=1,
