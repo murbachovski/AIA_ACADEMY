@@ -2,15 +2,15 @@ from bayes_opt import BayesianOptimization
 from lightgbm import LGBMRegressor
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_diabetes
+from sklearn.datasets import load_diabetes, load_iris, load_digits
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 import warnings
 warnings.filterwarnings(action='ignore')
 import time
-from sklearn.metrics import mean_squared_error
-
+from sklearn.metrics import mean_squared_error, accuracy_score
+from catboost import CatBoostClassifier, CatBoostRegressor
 
 # 1. DATA
 x, y = load_diabetes(return_X_y=True)
@@ -28,11 +28,11 @@ from hyperopt import  hp, fmin, Trials, STATUS_OK, tpe
 # 2. MODEL
 search_space = {
                 'learning_rate' : hp.uniform('learning_rate', 0.001, 1),
-                'max_depth' : hp.quniform('max_depth', 3, 16, 1),
-                'num_leaves' : hp.quniform('num_leaves', 24, 64, 1),
+                'depth' : hp.quniform('max_depth', 3, 16, 1),
+                # 'num_leaves' : hp.quniform('num_leaves', 24, 64, 1),
                 # 'min_child_samples' : hp.quniform('min_child_samples', 10, 200),
                 # 'min_child_weight' : hp.quniform(1, 50, 1),
-                'subsample' : hp.uniform('subsample', 0.5, 1),
+                # 'subsample' : hp.uniform('subsample', 0.5, 1),
                 # 'colsample_bytree' : hp.uniform('colsample_bytree', 0.5, 1),
                 # 'max_bin' : hp.quniform('max_bin', 10, 500, 1),
                 # 'reg_lambda': hp.uniform('reg_lambda', 0.001, 10),
@@ -45,27 +45,27 @@ search_space = {
 
 def lgb_hamsu(search_space):
     params = {
-        'n_estimators' : 1000,
+        'n_estimators' : 2,
         'learning_rate' : search_space['learning_rate'],
-        'max_depth' : int(search_space['max_depth']), # 무적권 정수형
-        'num_leaves' : int(search_space['num_leaves']),
+        'depth' : int(search_space['depth']), # 무적권 정수형
+        # 'num_leaves' : int(search_space['num_leaves']),
         # 'min_child_samples' : int(round(min_child_samples)),
         # 'min_child_weight' : min_child_weight,
-        'subsample' : search_space['subsample'], # Dropout과 비슷한 녀석 0~1 사이의 값
+        # 'subsample' : search_space['subsample'], # Dropout과 비슷한 녀석 0~1 사이의 값
         # 'colsample_bytree' : colsample_bytree,
         # 'max_bin' : max(int(round(max_bin)), 10), # 무적권 10이상
         # 'reg_lambda': max(reg_lambda, 0), # 무적권 양수만 나오게 하기 위해서
         # 'reg_alpha' : reg_alpha
     }
 
-    model = LGBMRegressor(**params)
+    model = CatBoostClassifier(**params)
     model.fit(x_train, y_train, eval_set=[(x_train, y_train), (x_test, y_test)],
-            eval_metric='rmse',
+            # eval_metric='rmse',
             verbose=0,
             early_stopping_rounds=5
               )
     y_predict = model.predict(x_test)
-    results = r2_score(y_test, y_predict)
+    results = accuracy_score(y_test, y_predict)
     return results
 
 trial_val = Trials()    # hist를 보기위해
@@ -79,15 +79,19 @@ best = fmin(
     rstate=np.random.default_rng(seed=10)
 )
 
-# print(best)
-# {'learning_rate': 0.9977379781054226, 'max_depth': 6.0, 'num_leaves': 59.0, 'subsample': 0.5140875373715172}
 trial_val_all = pd.DataFrame(trial_val)
 print(trial_val_all)
-print(trial_val_all)
+print(best)
 
+# 41      2   41  None  {'loss': 0.7222222222222222, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:55.114 2023-05-03 09:46:55.332     
+# 42      2   42  None               {'loss': 0.575, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:55.349 2023-05-03 09:46:55.483     
+# 43      2   43  None  {'loss': 0.6972222222222222, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:55.497 2023-05-03 09:46:55.680     
+# 44      2   44  None  {'loss': 0.7333333333333333, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:55.686 2023-05-03 09:46:56.220     
+# 45      2   45  None  {'loss': 0.5166666666666667, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:56.226 2023-05-03 09:46:56.338     
+# 46      2   46  None  {'loss': 0.7833333333333333, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:56.359 2023-05-03 09:46:58.119     
+# 47      2   47  None  {'loss': 0.7055555555555556, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:58.132 2023-05-03 09:46:58.271     
+# 48      2   48  None  {'loss': 0.6277777777777778, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:58.289 2023-05-03 09:46:58.445     
+# 49      2   49  None  {'loss': 0.7472222222222222, 'status': 'ok'}  ...  None       0 2023-05-03 09:46:58.451 2023-05-03 09:46:58.584     
 
-# start_time = time.time()
-# lgb_bo.maximize(init_points=5, n_iter=100)
-# end_time = time.time()
-# print(end_time - start_time)
-# print(lgb_bo.max)
+# [50 rows x 10 columns]
+# {'learning_rate': 0.011197452675898, 'max_depth': 3.0}
