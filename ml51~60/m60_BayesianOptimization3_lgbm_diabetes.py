@@ -76,6 +76,7 @@ def lgb_hamsu(max_depth, num_leaves, min_child_samples, min_child_weight, subsam
 lgb_bo = BayesianOptimization(f=lgb_hamsu,
                               pbounds=bayesian_params,
                               random_state=337,
+                              
                               )
 start_time = time.time()
 lgb_bo.maximize(init_points=5, n_iter=100)
