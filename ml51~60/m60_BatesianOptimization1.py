@@ -12,3 +12,6 @@ optimizer = BayesianOptimization(
     pbounds = param_bounds,
     random_state=337
 )
+
+optimizer.maximize(init_points=2,
+                   n_iter=20)
