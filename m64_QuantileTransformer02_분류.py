@@ -21,6 +21,16 @@ data_list = [
     load_wine()
 ]
 
+sc_list = [
+    StandardScaler(),
+    RobustScaler(),
+    MinMaxScaler(),
+    MaxAbsScaler(),
+    QuantileTransformer(),
+    PowerTransformer(),
+    PowerTransformer(method='yeo-johnson')
+]
+
 for data in data_list:
     x, y = data
 
@@ -32,15 +42,6 @@ for data in data_list:
         random_state=337,
         # stratify=y
     )
-    sc_list = [
-        StandardScaler(),
-        RobustScaler(),
-        MinMaxScaler(),
-        MaxAbsScaler(),
-        QuantileTransformer(),
-        PowerTransformer(),
-        PowerTransformer(method='yeo-johnson')
-    ]
     for scaler in sc_list:
         x_train = scaler.fit_transform(x_train)
         x_test = scaler.transform(x_test)
