@@ -3,12 +3,26 @@ tf.set_random_seed(1253)
 
 
 # 1. DATA
-x = [1, 2, 3]
-y = [1, 2, 3]
+x = [1, 2, 3, 4, 5]
+y = [2,4,6,8,10]
 
-w = tf.Variable(111, dtype=tf.float32)
-b = tf.Variable(100, dtype=tf.float32) # bias = 통상 0입니다.
+# w = tf.Variable(111, dtype=tf.float32)
+# b = tf.Variable(100, dtype=tf.float32) # bias = 통상 0입니다.
 
+w = tf.Variable(tf.random_normal([1]), dtype=tf.float32)
+b = tf.Variable(tf.random_normal([1]), dtype=tf.float32)
+
+# w = tf.random_normal([1])
+# b = tf.random_normal([1])
+
+# sess = tf.compat.v1.Session()
+# sess.run(tf.global_variables_initializer())
+# print('W의 초기값: ',sess.run(w)) # W의 초기값:  [0.88917273]
+
+# 위와 동일한 코드이다.
+# with tf.compat.v1.Session() as sess:
+#     sess.run(tf.global_variables_initializer())
+#     print('W의 초기값: ',sess.run(w)) # W의 초기값:  [0.88917273]
 
 # 2. MODEL
 # y = wx + b 
