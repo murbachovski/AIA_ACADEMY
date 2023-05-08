@@ -6,24 +6,6 @@ from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 import time
 from sklearn.metrics import mean_absolute_error,r2_score
-<<<<<<< HEAD
-from sklearn.ensemble import RandomForestClassifier, BaggingClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.linear_model import LogisticRegression
-import os
-from sklearn.experimental import enable_iterative_imputer
-from sklearn.impute import IterativeImputer
-from xgboost import XGBRegressor
-import pandas as pd
-from sklearn.ensemble import VotingRegressor #투표
-
-#3대장.
-from xgboost import XGBRegressor
-from lightgbm import LGBMRegressor #연산할 필요 없는 것들을 빼버림, 잘나오는 곳 한쪽으로만 감.
-from catboost import CatBoostRegressor
-
-=======
->>>>>>> cfa223f78034514fe9498cd50d76ef58af182770
 # / // \ \\ 전부 같다. 예외) 텍스트에서 \하면 줄 바꿈 예약이됨. \\ 두개는 가능.
 #1-1경로 생성.
 path = './_data/ai_factory/social/'
@@ -100,19 +82,6 @@ test_dataset['hour'] = pd.to_numeric(test_dataset['hour']).astype('int16')
 train_dataset = train_dataset.dropna()
 # print(train_dataset.info()) 580546 
 
-<<<<<<< HEAD
-# imputer = IterativeImputer(estimator=XGBRegressor(
-#                        tree_method='gpu_hist',
-#                        predictor='gpu_predictor',
-#                        gpu_id=0,n_estimators=100,learning_rate=0.3,
-#                        max_depth=6
-# ))
-
-# train_dataset.columns = imputer.fit_transform(train_dataset.columns)
-# print(train_dataset.columns)
-
-=======
->>>>>>> cfa223f78034514fe9498cd50d76ef58af182770
 # 파생 feature -> 주말, 평일 이런거를 다른 feature를 예측. 여기 데이터는 계절으로 파생feature
 ############################제출용 x_submit 준비################################
 x_submit = test_dataset[test_dataset.isna().any(axis=1)]
@@ -127,46 +96,6 @@ x = train_dataset.drop(['PM2.5'], axis = 1)
 #print(x, '\n', y )
 
 x_train, x_test, y_train, y_test = train_test_split(
-<<<<<<< HEAD
-    x, y, shuffle= True, train_size= 0.99, random_state=369
-) #셔플을 true로 준이유는 날짜가 셔플되는게 아님.
-
-# parameter = {'n_estimators' :100,  
-#               'learning_rate' : 0.3,
-#               'max_depth': 3,        
-#               'gamma': 0,
-#               'min_child_weight': 1, 
-#               'subsample': 0.5,
-#               'colsample_bytree': 1,
-#               'colsample_bylevel': 1., 
-#               'colsample_bynode': 1,
-#               'reg_lambda': 1,
-#               'random_state': 369,
-#               'n_job' : -1
-# }
-
-#2. 모델
-xgb = XGBRegressor()
-lg = LGBMRegressor()
-cat = CatBoostRegressor(verbose=0) #verbose 디폴트 1 
-
-model = VotingRegressor(
-    estimators=[('XGB', xgb), ('LG', lg), ('CAT', cat)],
-                #voting='soft', #디폴트는 하드, 성능은 소프트가 더 좋음.
-)
-
-# #3. 컴파일, 훈련
-# model.set_params(
-#     **parameter,
-#     eval_metric='mae',
-#     early_stopping_rounds=200,
-# ) #-> keras컴파일
-
-start = time.time()
-model.fit(x_train, y_train,
-        #   eval_set = [(x_train, y_train), (x_test, y_test)],
-        #   verbose = 1
-=======
     x, y, shuffle= True, train_size= 0.75, random_state=369
 ) #셔플을 true로 준이유는 날짜가 셔플되는게 아님.
 
@@ -197,7 +126,6 @@ start = time.time()
 model.fit(x_train, y_train,
           eval_set = [(x_train, y_train), (x_test, y_test)],
           verbose = 1
->>>>>>> cfa223f78034514fe9498cd50d76ef58af182770
           )
 end = time.time()
 print("걸린 시간 : ", round(end -start, 2), "초")
@@ -223,11 +151,7 @@ answer_sample_csv = pd.read_csv(path + 'answer_sample.csv',
 
 # print(answer_sample_csv)
 # print(answer_sample_csv.info())
-<<<<<<< HEAD
-answer_sample_csv['PM2.5'] = np.round(y_submit, 3)
-=======
 answer_sample_csv['PM2.5'] = y_submit
->>>>>>> cfa223f78034514fe9498cd50d76ef58af182770
 # print(answer_sample_csv)
 answer_sample_csv.to_csv(path_save + 'm50_factory2_submit.csv', index=None)
 
