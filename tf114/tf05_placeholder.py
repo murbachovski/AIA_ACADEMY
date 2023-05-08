@@ -17,3 +17,11 @@ b = tf.compat.v1.placeholder(tf.float32)
 add_node = a + b
 
 print(sess.run(add_node, feed_dict={a:3, b:4.5}))
+print(sess.run(add_node, feed_dict={a:[1,3], b:[2,4]}))
+
+add_and_triple = add_node * 3
+print(add_and_triple)
+
+print(sess.run(add_and_triple, feed_dict={a:7, b:3}))
+
+
