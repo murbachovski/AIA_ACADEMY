@@ -1,7 +1,6 @@
 import tensorflow as tf
 tf.set_random_seed(1253)
 
-
 # 1. DATA
 x = tf.placeholder(tf.float32, shape=[None])
 y = tf.placeholder(tf.float32, shape=[None])
@@ -26,7 +25,7 @@ with tf.compat.v1.Session() as sess:
         # sess.run(train)
         _, loss_val, w_val, b_val = sess.run([train, loss, w, b],
                                              feed_dict={x:[1,2,3,4,5], y:[2,4,6,8,10]})
-        if step %90 == 0:
+        if step %99 == 0:
             # print(step, sess.run(loss), sess.run(w), sess.run(b))
             print(step, loss_val, w_val, b_val)
 
