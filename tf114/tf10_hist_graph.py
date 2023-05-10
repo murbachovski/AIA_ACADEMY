@@ -61,3 +61,4 @@ print(w_val_list)
 # plt.xlabel('weight')
 # plt.ylabel('loss')
 # plt.show()
+# 복습
