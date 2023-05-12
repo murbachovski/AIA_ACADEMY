@@ -31,10 +31,9 @@ for step in range(21):
 
     w_history.append(w_v)
     loss_history.append(loss_v)
-
-predicted_values = sess.run(hypothesis, feed_dict={x: x_train})
-r2 = r2_score(y_train, predicted_values)
-mae = mean_absolute_error(y_train, predicted_values)
+y_pred = sess.run(hypothesis, feed_dict={x: x_train}) 
+r2 = r2_score(y_train, y_pred)
+mae = mean_absolute_error(y_train, y_pred)
 
 print("R2 Score:", r2)
 print("MAE:", mae)
