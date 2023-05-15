@@ -2,10 +2,12 @@ import tensorflow as tf
 import numpy as np
 from sklearn.metrics import r2_score, mean_absolute_error
 import warnings
-
+warnings.filterwarnings(action='ignore')
 
 x_train = [1, 2, 3]  # Input data
 y_train = [1, 2, 3]  # Output data
+x_test = [4,5,6]
+y_test = [4,5,6]
 x = tf.compat.v1.placeholder(tf.float32)
 y = tf.compat.v1.placeholder(tf.float32)
 
@@ -31,9 +33,11 @@ for step in range(21):
 
     w_history.append(w_v)
     loss_history.append(loss_v)
-y_pred = sess.run(hypothesis, feed_dict={x: x_train}) 
-r2 = r2_score(y_train, y_pred)
-mae = mean_absolute_error(y_train, y_pred)
+
+y_predict = x_test * w_v
+
+r2 = r2_score(y_predict, y_test)
+mae = mean_absolute_error(y_predict, y_test)
 
 print("R2 Score:", r2)
 print("MAE:", mae)
