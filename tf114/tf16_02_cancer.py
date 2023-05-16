@@ -10,6 +10,8 @@ tf.compat.v1.set_random_seed(1253)
 x, y = load_breast_cancer(return_X_y=True)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=1253)
 
+y_train = np.reshape(y_train, (-1, 1))
+
 xp = tf.compat.v1.placeholder(tf.float32, shape=[None, x.shape[1]])
 yp = tf.compat.v1.placeholder(tf.float32, shape=[None, 1])
 
@@ -29,9 +31,9 @@ sess = tf.compat.v1.Session()
 sess.run(tf.compat.v1.global_variables_initializer())
 epochs = 2001
 for step in range(epochs):
-    sess.run([loss, train], feed_dict={xp: x_train, yp: y_train})
+    val_loss = sess.run([loss, train], feed_dict={xp: x_train, yp: y_train})
     if step % 20 == 0:
-        print(step)
+        print(step, val_loss[0])
 
 # 4. PREDICT
 y_pred = sess.run(tf.round(hypothesis), feed_dict={xp: x_test})
