@@ -2,8 +2,8 @@ import tensorflow as tf
 import numpy as np
 from sklearn.metrics import accuracy_score
 
-tf.set_r
-andom_seed(337)
+tf.set_random_seed(337)
+
 x_data = np.array([
     [0,0],
     [0,1], 
