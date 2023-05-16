@@ -2,8 +2,8 @@ import tensorflow as tf
 import numpy as np
 from sklearn.metrics import accuracy_score
 
-tf.set_random_seed(337)
-
+tf.set_r
+andom_seed(337)
 x_data = np.array([
     [0,0],
     [0,1], 
@@ -32,12 +32,12 @@ layer1 = tf.compat.v1.matmul(x, w1) + b1
 # model.add(Dense(7))
 w2 = tf.compat.v1.Variable(tf.compat.v1.random_normal([10, 7]), name='weight2')
 b2 = tf.compat.v1.Variable(tf.compat.v1.zeros([7]), name='bias2')
-layer2 = tf.compat.v1.matmul(layer1, w2)+ b2
+layer2 = tf.compat.v1.sigmoid(tf.compat.v1.matmul(layer1, w2)+ b2)
 
 # model.add(Dense(1, activation='sigmoid'))
-w3 = tf.compat.v1.Variable(tf.compat.v1.random_normal([10, 1]), name='weight3')
+w3 = tf.compat.v1.Variable(tf.compat.v1.random_normal([7, 1]), name='weight3')
 b3 = tf.compat.v1.Variable(tf.compat.v1.zeros([1]), name='bias3')
-hypothesis = tf.sigmoid(tf.compat.v1.matmul(layer2, w3)+ b3) # 마지막에 sigmoid
+hypothesis = tf.compat.v1.sigmoid(tf.compat.v1.matmul(layer2, w3)+ b3) # 마지막에 sigmoid
 # 0 0 0 0 0 0 0 0 0 0
    # 0 0 0 0 0 0 0
 
