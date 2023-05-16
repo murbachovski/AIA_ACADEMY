@@ -18,19 +18,33 @@ y_data = np.array([
     [0]
 ], dtype=np.float32)
 ##########################################################MAKE IT#########################################
+
+#2. MODEL
+# model.add(Desne(10, input_shape=(2,)))
 x = tf.compat.v1.placeholder(tf.float32, shape=[None, 2])
 y = tf.compat.v1.placeholder(tf.float32, shape=[None, 1])
 
-w = tf.compat.v1.Variable(tf.compat.v1.random_normal([2, 1]), name='weight')
-b = tf.compat.v1.Variable(tf.compat.v1.zeros([1]), name='bias')
+# model.add(Dense(10))
+w1 = tf.compat.v1.Variable(tf.compat.v1.random_normal([2, 10]), name='weight1')
+b1 = tf.compat.v1.Variable(tf.compat.v1.zeros([10]), name='bias1')
+layer1 = tf.compat.v1.matmul(x, w1) + b1
 
-# 2. MODEL
-hypothesis = tf.compat.v1.sigmoid(tf.compat.v1.matmul(x, w) + b)
+# model.add(Dense(7))
+w2 = tf.compat.v1.Variable(tf.compat.v1.random_normal([10, 7]), name='weight2')
+b2 = tf.compat.v1.Variable(tf.compat.v1.zeros([7]), name='bias2')
+layer2 = tf.compat.v1.matmul(layer1, w2)+ b2
+
+# model.add(Dense(1, activation='sigmoid'))
+w3 = tf.compat.v1.Variable(tf.compat.v1.random_normal([10, 1]), name='weight3')
+b3 = tf.compat.v1.Variable(tf.compat.v1.zeros([1]), name='bias3')
+hypothesis = tf.sigmoid(tf.compat.v1.matmul(layer2, w3)+ b3) # 마지막에 sigmoid
+# 0 0 0 0 0 0 0 0 0 0
+   # 0 0 0 0 0 0 0
 
 # 3-1. COMPILE
 cost = -tf.reduce_mean(y*tf.log(hypothesis) + (1-y)*tf.log(1-hypothesis))
 
-train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
+train = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
 # 3-2. PREDICT
 predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32)
