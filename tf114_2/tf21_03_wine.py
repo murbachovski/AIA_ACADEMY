@@ -14,7 +14,9 @@ print(x.shape, y.shape)
 
 # Convert labels to one-hot encoded format
 y_one_hot = np.zeros((y.shape[0], 3))
+print(y_one_hot)
 y_one_hot[np.arange(y.shape[0]), y] = 1
+print(y_one_hot)
 
 # 2. MODEL
 x_input = tf.compat.v1.placeholder(tf.float32, shape=[None, 13])

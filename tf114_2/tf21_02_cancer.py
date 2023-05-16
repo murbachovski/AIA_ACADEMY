@@ -31,10 +31,10 @@ layer2 = tf.compat.v1.sigmoid(tf.compat.v1.matmul(layer1, w2) + b2)
 w3 = tf.compat.v1.Variable(tf.compat.v1.random_normal([128, 2]), name='weight3')
 b3 = tf.compat.v1.Variable(tf.compat.v1.zeros([2]), name='bias3')
 logits = tf.compat.v1.matmul(layer2, w3) + b3
-hypothesis = tf.nn.softmax(logits)
+hypothesis = tf.nn.sigmoid(logits)
 
 # 3-1. COMPILE
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_input, logits=logits))
+cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=y_input, logits=logits))
 train = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
 # 3-2. PREDICT
@@ -54,4 +54,4 @@ with tf.compat.v1.Session() as sess:
     print("예측값:", h, end='\n')
     print("모델값:", p)
     print("ACC: ", a)
-# ACC:  0.797891
+# ACC:  0.65905094
