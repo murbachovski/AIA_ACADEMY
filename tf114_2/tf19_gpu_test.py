@@ -1,6 +1,6 @@
 import tensorflow as tf
-tf.compat.v1.disable_eager_execution()  # 즉시모드 안해 1.0
-# tf.compat.v1.enable_eager_execution()   # 즉시모드 해 2.0
+# tf.compat.v1.disable_eager_execution()  # 즉시모드 안해 1.0
+tf.compat.v1.enable_eager_execution()   # 즉시모드 해 2.0
 
 print(tf.__version__)
 print(tf.executing_eagerly())
