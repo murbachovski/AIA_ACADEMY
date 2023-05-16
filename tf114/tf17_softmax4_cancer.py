@@ -1,22 +1,22 @@
 import tensorflow as tf
 import numpy as np
 from sklearn.metrics import accuracy_score
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_iris, load_diabetes, load_wine, load_breast_cancer
 import pandas as pd
 import warnings
 
 tf.compat.v1.set_random_seed(337)
 
-x, y = load_iris(return_X_y=True)
+x, y = load_breast_cancer(return_X_y=True)
 print(x.shape, y.shape)
-# (150, 4) (150,)
+# (569, 30) (569,)
 y_onehot = pd.get_dummies(y)
 
 # 2. MODEL
-x_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[None, 4])
-y_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[None, 3])
-w = tf.compat.v1.Variable(tf.random_normal([4, 3]))
-b = tf.compat.v1.Variable(tf.zeros([3]), name='bias')
+x_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[None, 30])
+y_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[None, 2])
+w = tf.compat.v1.Variable(tf.random_normal([30, 2]))
+b = tf.compat.v1.Variable(tf.zeros([2]), name='bias')
 
 logits = tf.compat.v1.matmul(x_placeholder, w) + b
 hypothesis = tf.nn.softmax(logits)
@@ -40,4 +40,4 @@ y_pred = sess.run(tf.argmax(hypothesis, axis=1), feed_dict={x_placeholder: x})
 
 acc = accuracy_score(y, y_pred)
 print("accuracy_score:", acc)
-# accuracy_score: 0.4066666666666667
+# accuracy_score: 0.8875219683655536
