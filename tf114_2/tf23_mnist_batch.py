@@ -3,7 +3,7 @@ import keras
 import tensorflow as tf
 from keras.utils.np_utils import to_categorical
 import tensorflow as tf
-import numpy
+import numpy as np
 from sklearn.metrics import accuracy_score
 
 tf.random.set_random_seed(337)
@@ -56,16 +56,32 @@ train = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.1).minimize(
 sess = tf.compat.v1.Session()
 sess.run(tf.compat.v1.global_variables_initializer())
 
-epochs = 2001
+batch_size = 100
+
+epochs = 100
+total_batch = int(len(x_train)/batch_size) # 60000/100 = 600
 for step in range(epochs):
-    cost_val, _, w_val, b_val = sess.run([train, loss], feed_dict={x:x_train, y:y_train})
-    if step % 200 == 0:
+    avg_cost = 0
+    for i in range(int(total_batch)):       # 100개씩 600번 돌려
+        start = i * batch_size              # 0, 100, 200 ... 59900
+        end = start + batch_size            # 100, 200, 300 ... 60000
+        
+        # x_train[:100], y_train[:100]
+
+        cost_val, _, w_val, b_val = sess.run([train, loss], feed_dict={x:x_train[start:end], y:y_train[start:end]})
+        cost_val += cost_val / total_batch
+    print("EPOCHS:", step + 1, 'LOSS: {:.9f}'.format(avg_cost))
+
+    if step % 20 == 0:
         print(step, cost_val)
+
+print("DONE")
 
 # 4. PREDICT
 y_predict = sess.run(tf.argmax(hypothesis, axis=1), feed_dict={x:x_test})
 y_predict_arg = sess.run(tf.argmax(y_predict, 1))
 
-acc = accuracy_score(y, y_predict)
+y_test_arg = np.argmax(y_test,1)
+ 
+acc = accuracy_score(y_predict_arg, y_test_arg)
 print("accuracy_score:", acc)
-# accuracy_score: 0.6741573033707865
