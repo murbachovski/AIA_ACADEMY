@@ -15,8 +15,8 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 #2. MODEL
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 
 model = Sequential()
 model.add(Dense(64, input_dim=8))
@@ -27,12 +27,16 @@ model.add(Dense(1))
 
 #3. COMPILE
 # model.compile(loss = 'mse', optimizer='adam', metrics=['acc'])
-from tensorflow.python.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam
 learning_rate = 0.1
 optimizer = Adam(learning_rate=learning_rate)
 
 model.compile(loss = 'mse', optimizer=optimizer)
-model.fit(x_train, y_train, epochs=100, batch_size=32)
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min', verbose=1)
+rlr = ReduceLROnPlateau(monitor='val_loss', mode='min', patience='10', verbose=1, factor=0.5)
+model.fit(x_train, y_train, epochs=200, batch_size=32, verbose=1, validation_batch_size=0.2, callbacks=[es, rlr])
+
 
 #4. PREDICT
 results = model.evaluate(x_test, y_test)
