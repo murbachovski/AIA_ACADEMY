@@ -46,7 +46,11 @@ def create_hyperparameter():
 hyperparameters = create_hyperparameter()
 print(hyperparameters)
 
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+keras_model = KerasClassifier(build_fn=build_model, verbose=1)
+
 from sklearn.model_selection import GridSearchCV
-model1 = build_model()
-model = GridSearchCV(model1, hyperparameters, cv=3)
+
+# model1 = build_model()
+model = GridSearchCV(keras_model, hyperparameters, cv=3)
 model.fit(x_train, y_train, epochs=3)
