@@ -12,6 +12,8 @@ tf.random.set_seed(337)
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 print(x_train.shape, y_train.shape)
 print(x_test.shape, y_test.shape)
+# (50000, 32, 32, 3) (50000, 1)
+# (10000, 32, 32, 3) (10000, 1)
 
 x_train = x_train.reshape(50000, 32, 32, 3)
 x_test = x_test.reshape(10000, 32, 32, 3)
@@ -34,7 +36,7 @@ model.add(Conv2D(33, 2))
 # model.add(Flatten())
 model.add(GlobalAveragePooling2D())
 model.add(Dense(32))
-model.add(Dense(100, activation='softmax'))
+model.add(Dense(10, activation='softmax'))
 
 model.summary()
 
