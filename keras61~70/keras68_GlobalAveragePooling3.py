@@ -1,4 +1,4 @@
-from keras.datasets import cifar100
+from keras.datasets import cifar10
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
 from tensorflow.keras.layers import GlobalAveragePooling2D # 메모리 터질때 효율적이다.
@@ -9,7 +9,7 @@ import tensorflow as tf
 tf.random.set_seed(337)
 
 # 1. DATA
-(x_train, y_train), (x_test, y_test) = cifar100.load_data()
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
 print(x_train.shape, y_train.shape)
 print(x_test.shape, y_test.shape)
 
