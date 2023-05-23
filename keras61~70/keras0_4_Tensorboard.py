@@ -55,13 +55,17 @@ rlr = ReduceLROnPlateau(
     factor=0.8
 )
 tb = TensorBoard(
-    log_dir=('./')
+             log_dir='./',
+             histogram_freq=0,
+             write_graph=True,
+             write_images=True,
+             
 )
 
 
 import time
 start = time.time()
-hist = model.fit(x_train, y_train, epochs=3, batch_size=128, validation_split=0.2, callbacks=[es, rlr])
+hist = model.fit(x_train, y_train, epochs=3, batch_size=128, validation_split=0.2, callbacks=[es, rlr, tb])
 end = time.time()
 print('걸린 시간: ', end - start, 2)
 
