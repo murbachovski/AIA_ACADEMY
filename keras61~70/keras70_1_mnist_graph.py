@@ -31,8 +31,8 @@ model.add(Conv2D(64, (2,2), padding='same', input_shape=(28,28,1)))
 model.add(MaxPooling2D()) #중첩하지 않게 제일 큰 놈을 가져온다. 기본 값은 (2,2)
 model.add(Conv2D(filters=64, kernel_size=(2,2), padding='valid', activation='relu'))
 model.add(Conv2D(32, 2)) # 2 => (2,2) 귀찮아서 줄여서 쓸 수 있다.
-# model.add(Flatten())
-model.add(GlobalAveragePooling2D())
+model.add(Flatten())
+# model.add(GlobalAveragePooling2D())
 model.add(Dense(10, activation='softmax'))
 
 model.summary()
@@ -51,6 +51,13 @@ print('loss: ', results[0], 'acc: ', results[1])
 
 model.save('./keras70_1_mnist_graph.h5')
 
+print(hist)
+
+print(hist.history)
+import joblib
+joblib.dump(hist.history, './keras70_1_history.dat')
+
+'''
 ########################## 시각화 #####################
 import matplotlib.pyplot as plt
 plt.figure(figsize=(2,2))
@@ -74,3 +81,4 @@ plt.xlabel('epochs')
 plt.legend(['acc', 'val_acc'])
 
 plt.show()
+'''

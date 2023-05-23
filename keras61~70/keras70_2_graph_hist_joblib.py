@@ -1,12 +1,12 @@
 from keras.datasets import mnist
-from tensorflow.python.keras.models import Sequential, load_model
+from tensorflow.python.keras.models import Sequential, save_model, load_model
 from tensorflow.python.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
 from tensorflow.keras.layers import GlobalAveragePooling2D
 import numpy as np
 from tensorflow.keras.utils import to_categorical
-from sklearn.preprocessing import MinMaxScaler, RobustScaler
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import joblib
 
 tf.random.set_seed(337)
 
@@ -19,41 +19,38 @@ x_test = x_test.reshape(10000, 28, 28, 1)
 y_train = to_categorical(y_train) 
 y_test = to_categorical(y_test)
 
-model = load_model('./keras70_1_mnist_graph.h5')
 
-# 2. MODEL
-model.summary()
+# Load the training history
+# history = joblib.load('./keras70_1_mnist_graph.h5')
 
-# 3. COMPILE
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
 
-# 4. TRAIN
-hist = model.fit(x_train, y_train, epochs=3, batch_size=128, validation_split=0.2)
-
-# Save the training history
-loss = hist.history['loss']
-val_loss = hist.history['val_loss']
-acc = hist.history['acc']
-val_acc = hist.history['val_acc']
+import joblib
+try:
+    hist = joblib.load('./keras70_1_history.dat')
+except EOFError:
+    print('###############EOFError 발생####################')
 
 # Plot the training history
-plt.figure(figsize=(12, 4))
+########################## 시각화 ##################### 
+import matplotlib.pyplot as plt
+plt.figure(figsize=(2,2))
 
-plt.subplot(1, 2, 1)
-plt.plot(loss, marker='.', c='red', label='loss')
-plt.plot(val_loss, marker='.', c='blue', label='val_loss')
-plt.title('Loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
+plt.subplot(2,1,1)
+plt.plot(hist['loss'], marker='.', c='red', label='loss')
+plt.plot(hist['val_loss'], marker='.', c='blue', label='val_loss')
+plt.grid()
+plt.title('loss')
+plt.ylabel('loss')
+plt.xlabel('epochs')
+plt.legend(loc='upper right')
 
-plt.subplot(1, 2, 2)
-plt.plot(acc, marker='.', c='red', label='acc')
-plt.plot(val_acc, marker='.', c='blue', label='val_acc')
-plt.title('Accuracy')
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.legend()
+plt.subplot(2,1,2)
+plt.plot(hist['acc'], marker='.', c='red', label='acc')
+plt.plot(hist['val_acc'], marker='.', c='blue', label='val_acc')
+plt.grid()
+plt.title('acc')
+plt.ylabel('acc')
+plt.xlabel('epochs')
+plt.legend(['acc', 'val_acc'])
 
-plt.tight_layout()
 plt.show()
