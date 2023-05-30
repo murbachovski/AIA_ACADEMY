@@ -52,7 +52,7 @@ autoencoder.summary()
 #3. COMPILE, FIT
 autoencoder.compile(optimizer = 'adam', loss = 'mse')
 
-autoencoder.fit(x_train, x_train, epochs= 30, batch_size = 128, validation_split=0.2) # x로 x를 훈련
+autoencoder.fit(x_train, x_train, epochs= 1, batch_size = 128) # x로 x를 훈련
 
 # AutoEncoder에서 
 
