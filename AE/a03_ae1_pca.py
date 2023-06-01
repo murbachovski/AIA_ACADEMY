@@ -34,7 +34,7 @@ from tensorflow.keras.layers import Dense, Input
 # 함수형..!
 def autoencoder(hidden_layer_size,):
     model = Sequential()
-    model.add(Dense(units=hidden_layer_size, input_shpae=(784,)))
+    model.add(Dense(units=hidden_layer_size, input_shape=(784,)))
     model.add(Dense(784, activation='relu'))    
     return model
 
@@ -47,7 +47,7 @@ model = autoencoder(hidden_layer_size=713)
 
 # 컴파일 훈련
 model.compile(optimizer = 'adam', loss= 'mse')
-model.fit(x_train, x_train, epochss=10, batch_size=128)
+model.fit(x_train, x_train, epochs=10, batch_size=128)
 
 # 평가, 예측
 decoded_imgs = autoencoder.predict(x_test_noised)
