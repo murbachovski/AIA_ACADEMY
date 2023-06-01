@@ -58,7 +58,7 @@ model.summary()
 
 # Compile and train the model
 model.compile(optimizer='adam', loss='mse')
-model.fit(x_data_noised, x_data, epochs=100, batch_size=64)
+model.fit(x_data_noised, x_data, epochs=1000, batch_size=64)
 
 # Select one image
 index = 0
@@ -84,7 +84,7 @@ axes[1].imshow(noisy_image.reshape(100, 100, 3), cmap='gray')
 axes[1].set_title('Noisy')
 axes[1].axis('off')
 
-axes[2].imshow(x_data[index].reshape(100, 100, 3), cmap='pink_r')
+axes[2].imshow(denoised_image.reshape(100, 100, 3))
 axes[2].set_title('Denoised')
 axes[2].axis('off')
 
