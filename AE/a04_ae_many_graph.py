@@ -25,48 +25,54 @@ def autoencoder(hidden_layer_size):
     model.add(Dense(784, activation='relu'))    
     return model
 
-# model = autoencoder(hidden_layer_size=154)
-# model = autoencoder(hidden_layer_size=331)
-# model = autoencoder(hidden_layer_size=486)
-model = autoencoder(hidden_layer_size=713)
+model1 = autoencoder(hidden_layer_size=1)
+model32 = autoencoder(hidden_layer_size=32)
+model64 = autoencoder(hidden_layer_size=64)
+model154 = autoencoder(hidden_layer_size=154)
+model331 = autoencoder(hidden_layer_size=331)
+# model486 = autoencoder(hidden_layer_size=486)
+# model713 = autoencoder(hidden_layer_size=713)
 
 # 컴파일 훈련
-model.compile(optimizer='adam', loss='mse')
-model.fit(x_train, x_train, epochs=10, batch_size=128)  # Fixed typo here
+model1.compile(optimizer='adam', loss='mse')
+model1.fit(x_train, x_train, epochs=10, batch_size=128)  # Fixed typo here
+# 컴파일 훈련
+model32.compile(optimizer='adam', loss='mse')
+model32.fit(x_train, x_train, epochs=10, batch_size=128) 
+# 컴파일 훈련
+model64.compile(optimizer='adam', loss='mse')
+model64.fit(x_train, x_train, epochs=10, batch_size=128) 
+# 컴파일 훈련
+model154.compile(optimizer='adam', loss='mse')
+model154.fit(x_train, x_train, epochs=10, batch_size=128) 
+# 컴파일 훈련
+model331.compile(optimizer='adam', loss='mse')
+model331.fit(x_train, x_train, epochs=10, batch_size=128) 
 
 # 평가, 예측
-decoded_imgs = model.predict(x_test_noised)
+decoded_imgs1 = model1.predict(x_test_noised)
+# 평가, 예측
+decoded_imgs32 = model32.predict(x_test_noised)
+# 평가, 예측
+decoded_imgs64 = model64.predict(x_test_noised)
+# 평가, 예측
+decoded_imgs154 = model154.predict(x_test_noised)
+# 평가, 예측
+decoded_imgs331 = model331.predict(x_test_noised)
 
 ######################################################################################
 
 from matplotlib import pyplot as plt
 import random
-fig, ((ax1, ax2, ax3, ax4, ax5), (ax6, ax7, ax8, ax9, ax10),
-      (ax11, ax12, ax13, ax14, ax15)) = \
-      plt.subplots(3, 5, figsize=(20, 7))  # Fixed typo here
 
-random_images = random.sample(range(decoded_imgs.shape[0]), 5)
+fig, axes = plt.subplots(7, 5, figsize=(15, 15))  # Fixed typo here
 
-for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
-    ax.imshow(x_test[random_images[i]].reshape(28, 28), cmap='gray')
-    if i == 0:
-        ax.set_ylabel("INPUT", size=20)
-        ax.grid(False)
-        ax.set_xticks([])
-        ax.set_yticks([])
-        
-for i, ax in enumerate([ax6, ax7, ax8, ax9, ax10]):
-    ax.imshow(x_test_noised[random_images[i]].reshape(28, 28), cmap='gray')  # Show noisy images
-    if i == 0:
-        ax.set_ylabel("NOISE", size=20)
-        ax.grid(False)
-        ax.set_xticks([])
-        ax.set_yticks([])
-        
-for i, ax in enumerate([ax11, ax12, ax13, ax14, ax15]):
-    ax.imshow(decoded_imgs[random_images[i]].reshape(28, 28), cmap='gray')  # Show reconstructed images
-    if i == 0:
-        ax.set_ylabel("OUTPUT", size=20)
+random_images = random.sample(range(decoded_imgs1.shape[0]), 5)
+outputs = [x_test, decoded_imgs1, decoded_imgs32, decoded_imgs64, decoded_imgs154, decoded_imgs331]
+
+for row_num, row in enumerate(axes):
+    for col_num, ax in enumerate(row):
+        ax.imshow(x_test[random_images[row_num]].reshape(28, 28), cmap='gray')
         ax.grid(False)
         ax.set_xticks([])
         ax.set_yticks([])
